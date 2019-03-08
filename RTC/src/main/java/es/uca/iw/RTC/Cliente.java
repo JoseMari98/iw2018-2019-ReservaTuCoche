@@ -1,6 +1,6 @@
 package es.uca.iw.RTC;
 
-public class Usuario {
+public class Cliente {
     int hola;
     int adios;
     int pepito;
