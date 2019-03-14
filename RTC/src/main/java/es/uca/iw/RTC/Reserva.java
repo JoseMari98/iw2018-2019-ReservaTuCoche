@@ -3,13 +3,13 @@ package es.uca.iw.RTC;
 import java.util.Date;
 
 public class Reserva {
-    private Cliente _Cliente;
+    private Usuario _Usuario;
     private Vehiculo _Vehiculo;
     private Date _FechaInicio, _FechaFin;
 
     //Getters
-    public Cliente get_Cliente() {
-        return _Cliente;
+    public Usuario get_Usuario() {
+        return _Usuario;
     }
 
     public Date get_FechaFin() {
@@ -25,8 +25,8 @@ public class Reserva {
     }
 
     //Setters
-    public void set_Cliente(Cliente Cliente) {
-        this._Cliente = Cliente;
+    public void set_Usuario(Usuario Usuario) {
+        this._Usuario = Usuario;
     }
 
     public void set_FechaFin(Date FechaFin) {

@@ -2,7 +2,7 @@ package es.uca.iw.RTC;
 
 import java.util.Set;
 
-public class Cliente {
+public class Usuario {
     private int _iId;
     private String _sDni, _sNombre, _sApellido1, _sApellido2, _sTelefono;
     private Set<Reserva> _Reservas;
