@@ -25,20 +25,20 @@ public class Reserva {
     }
 
     //Setters
-    public void set_Cliente(Cliente _Cliente) {
-        this._Cliente = _Cliente;
+    public void set_Cliente(Cliente Cliente) {
+        this._Cliente = Cliente;
     }
 
-    public void set_FechaFin(Date _FechaFin) {
-        this._FechaFin = _FechaFin;
+    public void set_FechaFin(Date FechaFin) {
+        this._FechaFin = FechaFin;
     }
 
-    public void set_FechaInicio(Date _FechaInicio) {
-        this._FechaInicio = _FechaInicio;
+    public void set_FechaInicio(Date FechaInicio) {
+        this._FechaInicio = FechaInicio;
     }
 
-    public void set_Vehiculo(Vehiculo _Vehiculo) {
-        this._Vehiculo = _Vehiculo;
+    public void set_Vehiculo(Vehiculo Vehiculo) {
+        this._Vehiculo = Vehiculo;
     }
 
 }

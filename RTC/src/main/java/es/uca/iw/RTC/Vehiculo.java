@@ -33,27 +33,27 @@ public class Vehiculo {
     }
 
     //Setters
-    public void set_Id(int iId) {
-        this._iId = iId;
+    public void set_Id(int Id) {
+        this._iId = Id;
     }
 
     public void set_Reservas(Set<Reserva> Reservas) {
         this._Reservas = Reservas;
     }
 
-    public void set_Precio(int iPrecio) {
-        this._iPrecio = iPrecio;
+    public void set_Precio(int Precio) {
+        this._iPrecio = Precio;
     }
 
-    public void set_Marca(String sMarca) {
-        this._sMarca = sMarca;
+    public void set_Marca(String Marca) {
+        this._sMarca = Marca;
     }
 
-    public void set_Matricula(String sMatricula) {
-        this._sMatricula = sMatricula;
+    public void set_Matricula(String Matricula) {
+        this._sMatricula = Matricula;
     }
 
-    public void set_Modelo(String sModelo) {
-        this._sModelo = sModelo;
+    public void set_Modelo(String Modelo) {
+        this._sModelo = Modelo;
     }
 }
