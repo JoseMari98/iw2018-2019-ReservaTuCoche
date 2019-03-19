@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Usuario {
     private int _iId;
-    private String _sDni, _sNombre, _sApellido1, _sApellido2, _sTelefono;
+    private String _sDni, _sNombre, _sApellido1, _sApellido2, _sTelefono, _sEmail, _sContrasena;
     private Set<Reserva> _Reservas;
 
     //Getters
@@ -36,6 +36,14 @@ public class Usuario {
         return _sTelefono;
     }
 
+    public String get_Contrasena() {
+        return _sContrasena;
+    }
+
+    public String get_Email() {
+        return _sEmail;
+    }
+
     //Setters
     public void set_Id(int Id) {
         this._iId = Id;
@@ -65,4 +73,11 @@ public class Usuario {
         this._sTelefono = Telefono;
     }
 
+    public void set_Email(String Email) {
+        this._sEmail = Email;
+    }
+
+    public void set_Contrasena(String Contrasena) {
+        this._sContrasena = Contrasena;
+    }
 }
