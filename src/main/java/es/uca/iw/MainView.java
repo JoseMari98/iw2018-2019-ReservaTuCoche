@@ -12,7 +12,7 @@ import com.vaadin.flow.server.PWA;
 @Route("")
 @PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base")
 public class MainView extends VerticalLayout {
-
+//
     public MainView() {
         Button button = new Button("Click me",
                 event -> Notification.show("Clicked!"));
