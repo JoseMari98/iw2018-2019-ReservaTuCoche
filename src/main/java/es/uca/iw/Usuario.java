@@ -1,83 +1,84 @@
 package es.uca.iw;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class Usuario {
-    private int _iId;
-    private String _sDni, _sNombre, _sApellido1, _sApellido2, _sTelefono, _sEmail, _sContrasena;
-    private Set<Reserva> _Reservas;
+    private int id;
+    private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", contrasena = "";
+    private ArrayList<Reserva> reservas = new ArrayList<>();
 
     //Getters
-    public int get_Id() {
-        return _iId;
+    public int getId() {
+        return id;
     }
 
-    public Set<Reserva> get_Reservas() {
-        return _Reservas;
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
     }
 
-    public String get_Apellido1() {
-        return _sApellido1;
+    public String getApellido1() {
+        return apellido1;
     }
 
-    public String get_Apellido2() {
-        return _sApellido2;
+    public String getApellido2() {
+        return apellido2;
     }
 
-    public String get_Dni() {
-        return _sDni;
+    public String getDni() {
+        return dni;
     }
 
-    public String get_Nombre() {
-        return _sNombre;
+    public String getNombre() {
+        return nombre;
     }
 
-    public String get_Telefono() {
-        return _sTelefono;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public String get_Contrasena() {
-        return _sContrasena;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public String get_Email() {
-        return _sEmail;
+    public String getEmail() {
+        return email;
     }
 
     //Setters
-    public void set_Id(int Id) {
-        this._iId = Id;
+    public void setId(int Id) {
+        this.id = Id;
     }
 
-    public void set_Reservas(Set<Reserva> Reservas) {
-        this._Reservas = Reservas;
+    public void setReservas(ArrayList<Reserva> Reservas) {
+        this.reservas = Reservas;
     }
 
-    public void set_Apellido1(String Apellido1) {
-        this._sApellido1 = Apellido1;
+    public void setApellido1(String Apellido1) {
+        this.apellido1 = Apellido1;
     }
 
-    public void set_Apellido2(String Apellido2) {
-        this._sApellido2 = Apellido2;
+    public void setApellido2(String Apellido2) {
+        this.apellido2 = Apellido2;
     }
 
-    public void set_Dni(String Dni) {
-        this._sDni = Dni;
+    public void setDni(String Dni) {
+        this.dni = Dni;
     }
 
-    public void set_Nombre(String Nombre) {
-        this._sNombre = Nombre;
+    public void setNombre(String Nombre) {
+        this.nombre = Nombre;
     }
 
-    public void set_Telefono(String Telefono) {
-        this._sTelefono = Telefono;
+    public void setTelefono(String Telefono) {
+        this.telefono = Telefono;
     }
 
-    public void set_Email(String Email) {
-        this._sEmail = Email;
+    public void setEmail(String Email) {
+        this.email = Email;
     }
 
-    public void set_Contrasena(String Contrasena) {
-        this._sContrasena = Contrasena;
+    public void setContrasena(String Contrasena) {
+        this.contrasena = Contrasena;
     }
 }
