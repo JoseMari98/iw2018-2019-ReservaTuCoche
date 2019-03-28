@@ -10,6 +10,6 @@ public class VehiculoGestionView extends VerticalLayout {
     private VehiculoForm form = new VehiculoForm();
 
     public VehiculoGestionView() {
-        //filterText
+
     }
 }
