@@ -8,20 +8,19 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 
 @Route("cocheform")
-public class CocheForm extends FormLayout {
+public class VehiculoForm extends FormLayout {
     private TextField matricula = new TextField("Matricula");
-    private ComboBox<CocheMarca> marca = new ComboBox<>("Marca");
-    private ComboBox<CocheModelo> modelo = new ComboBox<>("Modelo");
+    private ComboBox<VehiculoMarca> marca = new ComboBox<>("Marca");
+    private ComboBox<VehiculoModelo> modelo = new ComboBox<>("Modelo");
     private NumberField precio = new NumberField("Precio");
     private Button save = new Button("Save");
     //private Button delete = new Button("Delete");
 
-    public CocheForm() {
-        marca.setItems(CocheMarca.values());
-        modelo.setItems(CocheModelo.values());
+    public VehiculoForm() {
+        marca.setItems(VehiculoMarca.values());
+        modelo.setItems(VehiculoModelo.values());
 
         HorizontalLayout buttons = new HorizontalLayout(save);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

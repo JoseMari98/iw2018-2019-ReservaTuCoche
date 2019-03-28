@@ -1,5 +1,5 @@
 package es.uca.iw;
 
-public enum CocheModelo {
+public enum VehiculoModelo {
     Deportivo, Familiar, Compacto
 }
