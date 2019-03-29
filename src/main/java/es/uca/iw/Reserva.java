@@ -1,8 +1,13 @@
 package es.uca.iw;
 
+import javax.persistence.Entity;
 import java.util.Date;
 
+@Entity
 public class Reserva {
+    //@Id
+    //@GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     private Usuario usuario;
     private Vehiculo vehiculo;
     private Date fechaInicio, fechaFin;

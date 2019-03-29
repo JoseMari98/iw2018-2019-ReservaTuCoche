@@ -7,9 +7,8 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.Route;
 
-@Route("cocheform")
+
 public class VehiculoForm extends FormLayout {
     private TextField matricula = new TextField("Matricula");
     private ComboBox<VehiculoMarca> marca = new ComboBox<>("Marca");

@@ -1,11 +1,18 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.polymertemplate.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Set;
 import java.io.Serializable;
 
+@Entity
 public class Vehiculo implements Serializable, Cloneable {
+    //@Id
+    //@GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private double precio;
     private String matricula = "", marca = "", modelo = "";

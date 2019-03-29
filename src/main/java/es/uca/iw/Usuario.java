@@ -1,9 +1,13 @@
 package es.uca.iw;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.Set;
 
+@Entity
 public class Usuario {
+    //@Id
+    //@GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", contrasena = "";
     private ArrayList<Reserva> reservas = new ArrayList<>();
