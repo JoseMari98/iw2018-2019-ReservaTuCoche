@@ -1,5 +1,8 @@
 package es.uca.iw;
 
-public enum VehiculoMarca {
+import javax.persistence.Entity;
+
+@Entity
+public enum VehiculoMarca { //habria que cambiar por clase
     Audi, BMW, Mercedes, Renault, SEAT, Citroen, Chevrolet, Ford, Hyundai, KIA, OPEL, Peugeot, Toyota, Volkswagen, Volvo
 }

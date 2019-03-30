@@ -1,24 +1,26 @@
 package es.uca.iw;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Usuario {
-    //@Id
-    //@GeneratedValue(strategy= GenerationType.AUTO)
+    @Id //esto sirve para decir cual es el id
+    @GeneratedValue(strategy= GenerationType.AUTO) //esto para que se genere aleatorio
     private int id;
     private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", contrasena = "";
-    private ArrayList<Reserva> reservas = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
+    private Set<Reserva> reservaSet = new HashSet<>();
 
     //Getters
     public int getId() {
         return id;
     }
 
-    public ArrayList<Reserva> getReservas() {
-        return reservas;
+    public Set<Reserva> getReservas() {
+        return reservaSet;
     }
 
     public String getApellido1() {
@@ -54,8 +56,8 @@ public class Usuario {
         this.id = Id;
     }
 
-    public void setReservas(ArrayList<Reserva> Reservas) {
-        this.reservas = Reservas;
+    public void setReservas(Set<Reserva> Reservas) {
+        this.reservaSet = Reservas;
     }
 
     public void setApellido1(String Apellido1) {

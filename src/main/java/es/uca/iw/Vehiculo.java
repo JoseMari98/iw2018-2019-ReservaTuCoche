@@ -1,37 +1,41 @@
 package es.uca.iw;
 
-import com.vaadin.flow.component.polymertemplate.Id;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 public class Vehiculo implements Serializable, Cloneable {
-    //@Id
-    //@GeneratedValue(strategy= GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    @OneToMany(mappedBy = "vehiculo")
+    private Set<Reserva> reservaSet = new HashSet<>();
     private double precio;
-    private String matricula = "", marca = "", modelo = "";
-    private ArrayList<Reserva> reservas;
+    private String matricula = "";
+    private VehiculoMarca marca;
+    private VehiculoModelo modelo;
 
+    public void rata(){
+
+    }
     //Getters
     public Long getId() {
         return id;
     }
 
-    public ArrayList<Reserva> getReservas() {
-        return reservas;
+    public Set<Reserva> getReservas() {
+        return reservaSet;
     }
 
     public double getPrecio() {
         return precio;
     }
 
-    public String getMarca() {
+    public VehiculoMarca getMarca() {
         return marca;
     }
 
@@ -39,7 +43,7 @@ public class Vehiculo implements Serializable, Cloneable {
         return matricula;
     }
 
-    public String getModelo() {
+    public VehiculoModelo getModelo() {
         return modelo;
     }
 
@@ -48,15 +52,15 @@ public class Vehiculo implements Serializable, Cloneable {
         this.id = Id;
     }
 
-    public void setReservas(ArrayList<Reserva> Reservas) {
-        this.reservas = Reservas;
+    public void setReservas(Set<Reserva> Reservas) {
+        this.reservaSet = Reservas;
     }
 
     public void setPrecio(int Precio) {
         this.precio = Precio;
     }
 
-    public void setMarca(String Marca) {
+    public void setMarca(VehiculoMarca Marca) {
         this.marca = Marca;
     }
 
@@ -64,7 +68,7 @@ public class Vehiculo implements Serializable, Cloneable {
         this.matricula = Matricula;
     }
 
-    public void setModelo(String Modelo) {
+    public void setModelo(VehiculoModelo Modelo) {
         this.modelo = Modelo;
     }
 
