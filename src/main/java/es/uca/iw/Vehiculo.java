@@ -16,7 +16,9 @@ public class Vehiculo implements Serializable, Cloneable {
     private Set<Reserva> reservaSet = new HashSet<>();
     private double precio;
     private String matricula = "";
+    @OneToOne
     private VehiculoMarca marca;
+    @OneToOne
     private VehiculoModelo modelo;
 
     public void rata(){

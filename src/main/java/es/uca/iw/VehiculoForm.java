@@ -18,8 +18,8 @@ public class VehiculoForm extends FormLayout {
     //private Button delete = new Button("Delete");
 
     public VehiculoForm() {
-        marca.setItems(VehiculoMarca.values());
-        modelo.setItems(VehiculoModelo.values());
+        //marca.setItems(VehiculoMarca.values());
+        //modelo.setItems(VehiculoModelo.values()); hay que sacar los valores de la base de datos
 
         HorizontalLayout buttons = new HorizontalLayout(save);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

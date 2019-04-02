@@ -8,9 +8,9 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @ManyToOne
+    @OneToOne
     private Usuario usuario;
-    @ManyToOne
+    @OneToOne
     private Vehiculo vehiculo;
     private Date fechaInicio, fechaFin;
 
@@ -31,6 +31,10 @@ public class Reserva {
         return vehiculo;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     //Setters
     public void setUsuario(Usuario Usuario) {
         this.usuario = Usuario;
@@ -48,4 +52,32 @@ public class Reserva {
         this.vehiculo = Vehiculo;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

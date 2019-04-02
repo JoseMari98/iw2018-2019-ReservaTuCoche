@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+//@Entity
 public class Usuario {
-    @Id //esto sirve para decir cual es el id
-    @GeneratedValue(strategy= GenerationType.AUTO) //esto para que se genere aleatorio
+    //@Id //esto sirve para decir cual es el id
+    //@GeneratedValue(strategy= GenerationType.AUTO) //esto para que se genere aleatorio
     private int id;
     private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", contrasena = "";
-    @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
+    //@OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
 
     //Getters
