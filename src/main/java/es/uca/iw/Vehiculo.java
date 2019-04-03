@@ -21,9 +21,6 @@ public class Vehiculo implements Serializable, Cloneable {
     @OneToOne
     private VehiculoModelo modelo;
 
-    public void rata(){
-
-    }
     //Getters
     public Long getId() {
         return id;
