@@ -15,13 +15,13 @@ public class VehiculoForm extends FormLayout {
     private ComboBox<VehiculoModelo> modelo = new ComboBox<>("Modelo");
     private NumberField precio = new NumberField("Precio");
     private Button save = new Button("Save");
-    //private Button delete = new Button("Delete");
+    private Button delete = new Button("Delete");
 
     public VehiculoForm() {
         //marca.setItems(VehiculoMarca.values());
         //modelo.setItems(VehiculoModelo.values()); hay que sacar los valores de la base de datos
 
-        HorizontalLayout buttons = new HorizontalLayout(save);
+        HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(matricula, marca, modelo, precio, buttons);
     }
