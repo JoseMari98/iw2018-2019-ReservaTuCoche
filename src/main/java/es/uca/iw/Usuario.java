@@ -1,12 +1,14 @@
 package es.uca.iw;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails {
     @Id //esto sirve para decir cual es el id
     @GeneratedValue(strategy= GenerationType.AUTO) //esto para que se genere aleatorio
     private int id;
