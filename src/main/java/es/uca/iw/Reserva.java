@@ -8,9 +8,9 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private Usuario usuario;
-    @OneToOne
+    @ManyToOne
     private Vehiculo vehiculo;
     private Date fechaInicio, fechaFin;
 
