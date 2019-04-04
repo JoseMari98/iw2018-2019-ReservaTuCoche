@@ -1,18 +1,18 @@
 package es.uca.iw;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Usuario implements UserDetails {
     @Id //esto sirve para decir cual es el id
     @GeneratedValue(strategy= GenerationType.AUTO) //esto para que se genere aleatorio
     private int id;
-    private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", contrasena = "";
+    private String dni = "", nombre = "", apellido1 = "", nombreUsuario = "", apellido2 = "", telefono = "", email = "", contrasena = "";
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
 
@@ -45,21 +45,17 @@ public class Usuario implements UserDetails {
         return telefono;
     }
 
-    public String getContrasena() {
-        return contrasena;
-    }
-
     public String getEmail() {
         return email;
+    }
+
+    public Set<Reserva> getReservaSet() {
+        return reservaSet;
     }
 
     //Setters
     public void setId(int Id) {
         this.id = Id;
-    }
-
-    public void setReservas(Set<Reserva> Reservas) {
-        this.reservaSet = Reservas;
     }
 
     public void setApellido1(String Apellido1) {
@@ -88,5 +84,50 @@ public class Usuario implements UserDetails {
 
     public void setContrasena(String Contrasena) {
         this.contrasena = Contrasena;
+    }
+
+    public void setReservaSet(Set<Reserva> reservaSet) {
+        this.reservaSet = reservaSet;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        list.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
+        return list;
+    }
+
+    @Override
+    public String getPassword() {
+        return contrasena;
+    }
+
+    @Override
+    public String getUsername() {
+        return nombreUsuario;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
