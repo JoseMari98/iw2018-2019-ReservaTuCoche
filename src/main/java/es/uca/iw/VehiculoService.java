@@ -10,8 +10,11 @@ import java.util.Optional;
 @Service
 public class VehiculoService {
 
-    private VehiculoRepository repo;
+    private static VehiculoService instance;
 
+    private final HashMap<Long, Vehiculo> contacts = new HashMap<>();
+
+    private VehiculoRepository repo;
     @Autowired
     private VehiculoService(VehiculoRepository repo) {
         this.repo = repo;
@@ -27,14 +30,6 @@ public class VehiculoService {
 
     public Iterable<Vehiculo> findAll() {
         return repo.findAll();
-    }
-
-    public Long count() {
-        return repo.count();
-    }
-
-    public void delete(Vehiculo entidad) {
-        repo.delete(entidad);
     }
 
 }
