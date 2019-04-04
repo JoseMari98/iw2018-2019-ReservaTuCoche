@@ -1,5 +1,35 @@
 package es.uca.iw;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class VehiculoService {
+
+    private static VehiculoService instance;
+
+    private final HashMap<Long, Vehiculo> contacts = new HashMap<>();
+
+    private VehiculoRepository repo;
+    @Autowired
+    private VehiculoService(VehiculoRepository repo) {
+        this.repo = repo;
+    }
+
+    public synchronized Vehiculo save(Vehiculo entrada) {
+        return repo.save(entrada);
+    }
+
+    public Optional<Vehiculo> findById(Long id) {
+        return repo.findById(id);
+    }
+
+    public Iterable<Vehiculo> findAll() {
+        return repo.findAll();
+    }
 
 }
