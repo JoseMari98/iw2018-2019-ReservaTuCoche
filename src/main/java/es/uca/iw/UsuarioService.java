@@ -1,4 +1,4 @@
-package es.uca.iw;
+/*package es.uca.iw;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,7 +48,7 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        Usuario user= repo.finByUsername(username);
+        Usuario user= repo.findByUsername(username);
         if(user==null){
             throw new UsernameNotFoundException(username);
         }
@@ -59,3 +59,4 @@ public class UsuarioService implements UserDetailsService {
 
 
 }
+*/
