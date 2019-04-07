@@ -1,4 +1,4 @@
-package es.uca.iw;
+/*package es.uca.iw;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -59,3 +59,4 @@ public class UsuarioService implements UserDetailsService {
 
 
 }
+*/

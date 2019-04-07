@@ -8,7 +8,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
-@Route("GestionVehiculo")
+@Route("coche/form")
 public class VehiculoGestionView extends VerticalLayout {
     private Grid<Vehiculo> grid = new Grid<>(Vehiculo.class);
     private TextField filterText = new TextField();
