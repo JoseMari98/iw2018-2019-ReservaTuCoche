@@ -6,30 +6,32 @@ import java.util.Optional;
 
 @Service
 public class VehiculoService {
-    private VehiculoRepository repo;
+    private VehiculoRepository repoVehiculo;
+    private VehiculoMarcaRepository repoMarca;
+    private VehiculoModeloRepository repoModelo;
     @Autowired
-    private VehiculoService(VehiculoRepository repo) {
-        this.repo = repo;
+    private VehiculoService(VehiculoRepository repoVehiculo) {
+        this.repoVehiculo = repoVehiculo;
     }
 
     public synchronized Vehiculo save(Vehiculo entrada) {
-        return repo.save(entrada);
+        return repoVehiculo.save(entrada);
     }
 
     public Optional<Vehiculo> findById(Long id) {
-        return repo.findById(id);
+        return repoVehiculo.findById(id);
     }
 
     public Iterable<Vehiculo> findAll() {
-        return repo.findAll();
+        return repoVehiculo.findAll();
     }
 
     public Long count() {
-        return repo.count();
+        return repoVehiculo.count();
     }
 
     public void delete (Vehiculo entidad) {
-        repo.delete(entidad);
+        repoVehiculo.delete(entidad);
     }
 
 }

@@ -16,10 +16,12 @@ public class VehiculoForm extends FormLayout {
     private NumberField precio = new NumberField("Precio");
     private Button save = new Button("Save");
     private Button delete = new Button("Delete");
+    private VehiculoGestionView vehiculoView;
 
-    public VehiculoForm() {
-        //marca.setItems(VehiculoMarca.values());
-        //modelo.setItems(VehiculoModelo.values()); hay que sacar los valores de la base de datos
+    public VehiculoForm(VehiculoGestionView vehiculoView) {
+        this.vehiculoView = vehiculoView;
+        marca.setItems(VehiculoMarca.values());
+        modelo.setItems(VehiculoModelo.values()); hay que sacar los valores de la base de datos
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
