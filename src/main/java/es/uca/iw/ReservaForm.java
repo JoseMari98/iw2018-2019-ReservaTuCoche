@@ -7,6 +7,9 @@ import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeButton;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.Route;
 
@@ -56,20 +59,36 @@ public class ReservaForm extends FormLayout {
         });
 
         save.addClickListener(click -> {
-            Div mensaje = new Div();
-            if (!validation.getValue() || fechaInicio.getValue() == null || fechaFin.getValue() == null) {
-                mensaje.setText("Se deben aceptar los términos y condiciones para proceder con la reserva.");
-                add(mensaje);
+            if (!validation.getValue()) {
+                NativeButton botonNotif = new NativeButton("X");
+                Notification notification = new Notification(new Label("Se deben aceptar los términos y condiciones para proceder."), botonNotif);
+                notification.setDuration(5000);
+                notification.setPosition(Notification.Position.MIDDLE);
+                botonNotif.addClickListener(event -> notification.close());
+            } else if (fechaInicio.getValue() == null) {
+                NativeButton botonNotif = new NativeButton("X");
+                Notification notification = new Notification(new Label("No se ha indicado la fecha de recogida del vehículo."), botonNotif);
+                notification.setDuration(5000);
+                notification.setPosition(Notification.Position.MIDDLE);
+                botonNotif.addClickListener(event -> notification.close());
+            } else if (fechaFin.getValue() == null) {
+                NativeButton botonNotif = new NativeButton("X");
+                Notification notification = new Notification(new Label("No se ha indicado la fecha de entrega del vehículo."), botonNotif);
+                notification.setDuration(5000);
+                notification.setPosition(Notification.Position.MIDDLE);
+                botonNotif.addClickListener(event -> notification.close());
             } else {
-                UI.getCurrent().navigate("");
+                NativeButton botonNotif = new NativeButton("X");
+                Notification notification = new Notification(new Label("La reserva se ha realizado de forma exitosa."), botonNotif);
+                notification.setDuration(5000);
+                notification.setPosition(Notification.Position.MIDDLE);
+                botonNotif.addClickListener(event -> notification.close());
+                UI.getCurrent().navigate("principal");
             }
         });
 
         delete.addClickListener(click -> {
-            Div mensaje = new Div();
-            mensaje.setText("\"Volver a la página anterior\" pendiente de implementar.");
-            add(mensaje);
-            UI.getCurrent().navigate("");
+            UI.getCurrent().navigate("principal");
         });
     }
 
