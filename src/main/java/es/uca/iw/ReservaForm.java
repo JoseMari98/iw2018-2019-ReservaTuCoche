@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -39,6 +40,8 @@ public class ReservaForm extends FormLayout {
             LocalDate fin = fechaFin.getValue();
             if (inicio != null) {
                 fechaFin.setMin(inicio.plusDays(1));
+            } else {
+                fechaFin.setMin(LocalDate.now());
             }
         });
 
@@ -47,21 +50,26 @@ public class ReservaForm extends FormLayout {
             LocalDate inicio = fechaInicio.getValue();
             if (fin != null) {
                 fechaInicio.setMax(fin.minusDays(1));
+            } else {
+                fechaInicio.setMax(LocalDate.now().plusYears(1));
             }
         });
 
         save.addClickListener(click -> {
             Div mensaje = new Div();
-            if (!validation.getValue()) {
+            if (!validation.getValue() || fechaInicio.getValue() == null || fechaFin.getValue() == null) {
                 mensaje.setText("Se deben aceptar los términos y condiciones para proceder con la reserva.");
+                add(mensaje);
             } else {
-                mensaje.setText("Formulario correcto. Registro de la reserva pendiente de implementar.");
+                UI.getCurrent().navigate("");
             }
         });
 
         delete.addClickListener(click -> {
             Div mensaje = new Div();
             mensaje.setText("\"Volver a la página anterior\" pendiente de implementar.");
+            add(mensaje);
+            UI.getCurrent().navigate("");
         });
     }
 
