@@ -6,30 +6,76 @@ import java.util.Optional;
 
 @Service
 public class VehiculoService {
-    private VehiculoRepository repo;
+    private VehiculoRepository repoVehiculo;
+    private VehiculoMarcaRepository repoMarca;
+    private VehiculoModeloRepository repoModelo;
     @Autowired
-    private VehiculoService(VehiculoRepository repo) {
-        this.repo = repo;
+    private VehiculoService(VehiculoRepository repoVehiculo, VehiculoModeloRepository repoModelo, VehiculoMarcaRepository repoMarca) {
+        this.repoVehiculo = repoVehiculo;
+        this.repoMarca = repoMarca;
+        this.repoModelo = repoModelo;
     }
 
-    public synchronized Vehiculo save(Vehiculo entrada) {
-        return repo.save(entrada);
+    public synchronized Vehiculo guardarVehiculo(Vehiculo entrada) {
+        return repoVehiculo.save(entrada);
     }
 
-    public Optional<Vehiculo> findById(Long id) {
-        return repo.findById(id);
+    public Optional<Vehiculo> buscarIdVehiculo(Long id) {
+        return repoVehiculo.findById(id);
     }
 
-    public Iterable<Vehiculo> findAll() {
-        return repo.findAll();
+    public Iterable<Vehiculo> listarVehiculo() {
+        return repoVehiculo.findAll();
     }
 
-    public Long count() {
-        return repo.count();
+    public Long contarVehiculo() {
+        return repoVehiculo.count();
     }
 
-    public void delete (Vehiculo entidad) {
-        repo.delete(entidad);
+    public void borrarVehiculo(Vehiculo entidad) {
+        repoVehiculo.delete(entidad);
+    }
+
+
+    public synchronized VehiculoMarca guardarMarca(VehiculoMarca entrada) {
+        return repoMarca.save(entrada);
+    }
+
+    public Optional<VehiculoMarca> buscarIdMarca(Long id) {
+        return repoMarca.findById(id);
+    }
+
+    public Iterable<VehiculoMarca> listarMarca() {
+        return repoMarca.findAll();
+    }
+
+    public Long contarMarca() {
+        return repoMarca.count();
+    }
+
+    public void borrarMarca(VehiculoMarca entidad) {
+        repoMarca.delete(entidad);
+    }
+
+
+    public synchronized VehiculoModelo guardarModelo(VehiculoModelo entrada) {
+        return repoModelo.save(entrada);
+    }
+
+    public Optional<VehiculoModelo> buscarIdModelo(Long id) {
+        return repoModelo.findById(id);
+    }
+
+    public Iterable<VehiculoModelo> listarModelo() {
+        return repoModelo.findAll();
+    }
+
+    public Long contarModelo() {
+        return repoModelo.count();
+    }
+
+    public void borrarModelo(VehiculoModelo entidad) {
+        repoModelo.delete(entidad);
     }
 
 }
