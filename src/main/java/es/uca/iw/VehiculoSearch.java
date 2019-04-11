@@ -36,13 +36,15 @@ public class VehiculoSearch extends FormLayout {
         filtertext.setClearButtonVisible(true);
         filtertext.setValueChangeMode(ValueChangeMode.EAGER);
 
+        HorizontalLayout buscar = new HorizontalLayout(filtertext, search);
+
         gVehiculos.setColumns("marca", "modelo", "precio");
 
         gVehiculos.setItems(listaVehiculo);
 
-        VerticalLayout Busqueda = new VerticalLayout(filtertext, gVehiculos);
+        VerticalLayout listado = new VerticalLayout(buscar, gVehiculos);
 
-        add(Busqueda);
+        add(listado);
     }
 
 }
