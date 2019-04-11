@@ -1,10 +1,12 @@
-/*package es.uca.iw;
-
+package es.uca.iw;
+/*
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 
@@ -21,6 +23,9 @@ public class UsuarioService implements UserDetailsService {
         this.passwordEncoder=passwordEncoder;
         this.notificationService= notificationService;
     }
+
+    Usuario findOne(int );
+     setEnabled(boolean);
 
     public Usuario create(Usuario usuario)
     {
@@ -49,13 +54,11 @@ public class UsuarioService implements UserDetailsService {
     public Usuario loadUserByUsername(String username) throws UsernameNotFoundException
     {
         Usuario user= repo.findByUsername(username);
-        if(user==null){
+        if(user == null){
             throw new UsernameNotFoundException(username);
         }
         return user;
     }
-
-
 
 
 }
