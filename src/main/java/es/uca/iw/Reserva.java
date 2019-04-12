@@ -6,7 +6,7 @@ import java.util.Date;
 @Entity
 public class Reserva {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private Usuario usuario;

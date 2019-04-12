@@ -7,26 +7,35 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("coche/form")
+import java.util.ArrayList;
+
+@Route("coche")
 public class VehiculoGestionView extends VerticalLayout {
     private Grid<Vehiculo> grid = new Grid<>(Vehiculo.class);
     private TextField filterText = new TextField();
-    private VehiculoForm form = new VehiculoForm();
+    private VehiculoService service;
+    private VehiculoForm form;
 
-    public VehiculoGestionView() {
-        filterText.setPlaceholder("Filter by name...?"); //poner el campo
+    @Autowired
+    public VehiculoGestionView(VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo) {
+        this.service = service;
+        this.form = new VehiculoForm(this, service, serviceMarca, serviceModelo);
+
+        filterText.setPlaceholder("Filtrar por matricula"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar
         filterText.setValueChangeMode(ValueChangeMode.EAGER); //que se hagan los cambios cuando se escriba
+        filterText.addValueChangeListener(event -> updateList());
 
-        Button addCustomerBtn = new Button ("Add new customer");
-        /*addCustomerBtn.addClickListener(e -> {
+        Button addVehiculoBtn = new Button ("Add new customer");
+        addVehiculoBtn.addClickListener(e -> {
             grid.asSingleSelect().clear(); //clear para que borre si habia algo antes
-            form.setCustomer(new Customer()); //instancia un nuevo customer
-        });*/
+            form.setVehiculo(new Vehiculo()); //instancia un nuevo customer
+        });
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText,
-                addCustomerBtn);
+                addVehiculoBtn);
 
         grid.setColumns("matricula","modelo","marca","precio");
 
@@ -37,5 +46,15 @@ public class VehiculoGestionView extends VerticalLayout {
         add(toolbar, mainContent);
 
         setSizeFull();
+
+        updateList();
+
+        form.setVehiculo(null);
+
+        grid.asSingleSelect().addValueChangeListener(event -> form.setVehiculo(grid.asSingleSelect().getValue()));
+    }
+
+    public void updateList() {
+        grid.setItems(service.listarVehiculo(filterText.getValue()));
     }
 }
