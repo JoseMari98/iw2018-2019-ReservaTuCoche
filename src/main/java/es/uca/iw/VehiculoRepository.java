@@ -7,5 +7,5 @@ import java.util.List;
 // CRUD refers Create, Read, Update, Delete
 
 public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
-    List<Vehiculo> findAllByMatricula(String matricula);
+    List<Vehiculo> findByMatriculaStartsWithIgnoreCase(String matricula);
 }

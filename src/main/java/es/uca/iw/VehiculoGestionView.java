@@ -28,7 +28,7 @@ public class VehiculoGestionView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.EAGER); //que se hagan los cambios cuando se escriba
         filterText.addValueChangeListener(event -> updateList());
 
-        Button addVehiculoBtn = new Button ("Add new customer");
+        Button addVehiculoBtn = new Button ("Añade un vehículo");
         addVehiculoBtn.addClickListener(e -> {
             grid.asSingleSelect().clear(); //clear para que borre si habia algo antes
             form.setVehiculo(new Vehiculo()); //instancia un nuevo customer
@@ -55,6 +55,9 @@ public class VehiculoGestionView extends VerticalLayout {
     }
 
     public void updateList() {
-        grid.setItems(service.listarVehiculo(filterText.getValue()));
+        if(filterText.isEmpty())
+            grid.setItems(service.listarVehiculo());
+        else
+            grid.setItems(service.listarVehiculoPorMatricula(filterText.getValue()));
     }
 }

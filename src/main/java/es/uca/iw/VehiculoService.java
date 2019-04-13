@@ -24,7 +24,7 @@ public class VehiculoService {
     }
 
     public List<Vehiculo> listarVehiculo() {
-        return this.listarVehiculo("");
+        return repoVehiculo.findAll();
     }
 
     public Long contarVehiculo() {
@@ -35,7 +35,7 @@ public class VehiculoService {
         repoVehiculo.delete(entidad);
     }
 
-    public List<Vehiculo> listarVehiculo(String matricula) {
-        return repoVehiculo.findAllByMatricula(matricula);
+    public List<Vehiculo> listarVehiculoPorMatricula(String matricula) {
+        return repoVehiculo.findByMatriculaStartsWithIgnoreCase(matricula);
     }
 }
