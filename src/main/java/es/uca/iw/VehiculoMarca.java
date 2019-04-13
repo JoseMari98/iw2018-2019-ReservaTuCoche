@@ -9,7 +9,7 @@ import javax.persistence.Id;
 public class VehiculoMarca { //habria que cambiar por clase
     //Audi, BMW, Mercedes, Renault, SEAT, Citroen, Chevrolet, Ford, Hyundai, KIA, OPEL, Peugeot, Toyota, Volkswagen, Volvo
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String marca = "";
 

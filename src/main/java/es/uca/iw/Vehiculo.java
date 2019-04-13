@@ -10,11 +10,11 @@ import java.util.Set;
 @Entity
 public class Vehiculo implements Serializable, Cloneable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @OneToMany(mappedBy = "vehiculo")
     private Set<Reserva> reservaSet = new HashSet<>();
-    private double precio;
+    private Double precio;
     private String matricula = "";
     @ManyToOne
     private VehiculoMarca marca;
@@ -30,7 +30,7 @@ public class Vehiculo implements Serializable, Cloneable {
         return reservaSet;
     }
 
-    public double getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
@@ -55,7 +55,7 @@ public class Vehiculo implements Serializable, Cloneable {
         this.reservaSet = Reservas;
     }
 
-    public void setPrecio(int Precio) {
+    public void setPrecio(Double Precio) {
         this.precio = Precio;
     }
 

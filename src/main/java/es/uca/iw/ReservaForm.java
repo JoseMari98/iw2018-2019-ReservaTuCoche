@@ -6,11 +6,11 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 
 import java.time.LocalDate;
@@ -25,6 +25,9 @@ public class ReservaForm extends FormLayout {
 
     private Button save = new Button("Reservar");
     private Button delete = new Button("Cancelar");
+
+    private Binder<Reserva> binder = new Binder<>(Reserva.class);
+    private ReservaService service;
 
     public ReservaForm() {
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
@@ -60,36 +63,49 @@ public class ReservaForm extends FormLayout {
 
         save.addClickListener(click -> {
             if (!validation.getValue()) {
-                NativeButton botonNotif = new NativeButton("X");
-                Notification notification = new Notification(new Label("Se deben aceptar los términos y condiciones para proceder."), botonNotif);
-                notification.setDuration(5000);
-                notification.setPosition(Notification.Position.MIDDLE);
-                botonNotif.addClickListener(event -> notification.close());
+                notificate("Se deben aceptar los términos y condiciones para proceder. ");
             } else if (fechaInicio.getValue() == null) {
-                NativeButton botonNotif = new NativeButton("X");
-                Notification notification = new Notification(new Label("No se ha indicado la fecha de recogida del vehículo."), botonNotif);
-                notification.setDuration(5000);
-                notification.setPosition(Notification.Position.MIDDLE);
-                botonNotif.addClickListener(event -> notification.close());
+                notificate("No se ha indicado la fecha de recogida del vehículo. ");
             } else if (fechaFin.getValue() == null) {
-                NativeButton botonNotif = new NativeButton("X");
-                Notification notification = new Notification(new Label("No se ha indicado la fecha de entrega del vehículo."), botonNotif);
-                notification.setDuration(5000);
-                notification.setPosition(Notification.Position.MIDDLE);
-                botonNotif.addClickListener(event -> notification.close());
+                notificate("No se ha indicado la fecha de entrega del vehículo. ");
             } else {
-                NativeButton botonNotif = new NativeButton("X");
-                Notification notification = new Notification(new Label("La reserva se ha realizado de forma exitosa."), botonNotif);
-                notification.setDuration(5000);
+                NativeButton botonSi = new NativeButton("Sí");
+                NativeButton botonNo = new NativeButton("No");
+                Notification notification = new Notification(new Label("¿Confirmar reserva? "), botonSi, new Label(" "), botonNo);
                 notification.setPosition(Notification.Position.MIDDLE);
-                botonNotif.addClickListener(event -> notification.close());
-                UI.getCurrent().navigate("principal");
+                notification.open();
+                botonSi.addClickListener(event -> {
+                    notification.close();
+                    save();
+                });
+                botonNo.addClickListener(event -> notification.close());
             }
         });
 
         delete.addClickListener(click -> {
             UI.getCurrent().navigate("principal");
         });
+    }
+
+    private void save() {
+        NativeButton botonNotif = new NativeButton("X");
+        Notification notifInt = new Notification(new Label("La reserva se ha realizado de forma exitosa. "), botonNotif);
+        notifInt.setDuration(4000);
+        notifInt.setPosition(Notification.Position.MIDDLE);
+        notifInt.open();
+        botonNotif.addClickListener(eventInt -> notifInt.close());
+        //Reserva reserva = binder.getBean();
+        //service.save(reserva);
+        UI.getCurrent().navigate("principal");
+    }
+
+    private void notificate(String sNotif) {
+        NativeButton botonNotif = new NativeButton("X");
+        Notification notification = new Notification(new Label(sNotif), botonNotif);
+        notification.setDuration(4000);
+        notification.setPosition(Notification.Position.MIDDLE);
+        notification.open();
+        botonNotif.addClickListener(event -> notification.close());
     }
 
 }

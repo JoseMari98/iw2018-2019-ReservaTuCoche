@@ -10,7 +10,7 @@ import java.util.*;
 @Entity
 public class Usuario implements UserDetails {
     @Id //esto sirve para decir cual es el id
-    @GeneratedValue(strategy= GenerationType.AUTO) //esto para que se genere aleatorio
+    @GeneratedValue(strategy= GenerationType.IDENTITY) //esto para que se genere aleatorio
     private int id;
     private String dni = "", nombre = "", apellido1 = "", nombreUsuario = "", apellido2 = "", telefono = "", email = "", contrasena = "";
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
