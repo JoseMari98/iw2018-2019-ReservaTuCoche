@@ -12,8 +12,8 @@ public class ReservaService {
         this.repo = repo;
     }
 
-    public synchronized Reserva save(Reserva entrada) {
-        return repo.save(entrada);
+    public synchronized Reserva save(Reserva data) {
+        return repo.save(data);
     }
 
     public Optional<Reserva> findById(Long id) {
@@ -28,8 +28,8 @@ public class ReservaService {
         return repo.count();
     }
 
-    public void delete (Reserva entidad) {
-        repo.delete(entidad);
+    public void delete (Reserva data) {
+        repo.delete(data);
     }
 
 }
