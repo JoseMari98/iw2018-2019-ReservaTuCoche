@@ -18,8 +18,8 @@ public class VehiculoForm extends FormLayout {
     private ComboBox<VehiculoMarca> marca = new ComboBox<>("Marca");
     private ComboBox<VehiculoModelo> modelo = new ComboBox<>("Modelo");
     private NumberField precio = new NumberField("Precio");
-    private Button save = new Button("Save");
-    private Button delete = new Button("Delete");
+    private Button save = new Button("Añadir");
+    private Button delete = new Button("Borrar");
     private VehiculoGestionView vehiculoView;
     private Binder<Vehiculo> binder = new Binder<>(Vehiculo.class);
     private VehiculoService serviceVehiculo;
@@ -35,6 +35,8 @@ public class VehiculoForm extends FormLayout {
 
         precio.setSuffixComponent(new Span("€"));
 
+        marca.setItemLabelGenerator(VehiculoMarca::getMarca);
+        modelo.setItemLabelGenerator(VehiculoModelo::getModelo);
         marca.setItems(serviceMarca.listarMarca());
         modelo.setItems(serviceModelo.listarModelo());
 
