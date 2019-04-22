@@ -9,33 +9,33 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("GestionVehiculo")
-public class VehiculoGestionView extends VerticalLayout {
-    private Grid<Vehiculo> grid = new Grid<>(Vehiculo.class);
+@Route("GestionModelo")
+public class VehiculoModeloGestionView extends VerticalLayout {
+    private Grid<VehiculoModelo> grid = new Grid<>(VehiculoModelo.class);
     private TextField filterText = new TextField();
-    private VehiculoService service;
-    private VehiculoForm form;
+    private VehiculoModeloService serviceModelo;
+    private VehiculoModeloForm form;
 
     @Autowired
-    public VehiculoGestionView(VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo) {
-        this.service = service;
-        this.form = new VehiculoForm(this, service, serviceMarca, serviceModelo);
+    public VehiculoModeloGestionView(VehiculoModeloService serviceModelo) {
+        this.serviceModelo = serviceModelo;
+        this.form = new VehiculoModeloForm(this, serviceModelo);
 
-        filterText.setPlaceholder("Filtrar por matricula"); //poner el campo
+        filterText.setPlaceholder("Filtrar por modelo"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar
         filterText.setValueChangeMode(ValueChangeMode.EAGER); //que se hagan los cambios cuando se escriba
         filterText.addValueChangeListener(event -> updateList());
 
-        Button addVehiculoBtn = new Button ("Añade un vehículo");
-        addVehiculoBtn.addClickListener(e -> {
+        Button addModeloBtn = new Button ("Añade un modelo");
+        addModeloBtn.addClickListener(e -> {
             grid.asSingleSelect().clear(); //clear para que borre si habia algo antes
-            form.setVehiculo(new Vehiculo()); //instancia un nuevo customer
+            form.setModelo(new VehiculoModelo()); //instancia un nuevo customer
         });
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText,
-                addVehiculoBtn);
+                addModeloBtn);
 
-        grid.setColumns("matricula","modelo","marca","precio");
+        grid.setColumns("modelo");
 
         HorizontalLayout mainContent = new HorizontalLayout(grid, form); //metemos en un objeto el grid y formulario
         mainContent.setSizeFull();
@@ -47,15 +47,15 @@ public class VehiculoGestionView extends VerticalLayout {
 
         updateList();
 
-        form.setVehiculo(null);
+        form.setModelo(null);
 
-        grid.asSingleSelect().addValueChangeListener(event -> form.setVehiculo(grid.asSingleSelect().getValue()));
+        grid.asSingleSelect().addValueChangeListener(event -> form.setModelo(grid.asSingleSelect().getValue()));
     }
 
     public void updateList() {
         if(filterText.isEmpty())
-            grid.setItems(service.listarVehiculo());
+            grid.setItems(serviceModelo.listarModelo());
         else
-            grid.setItems(service.listarVehiculoPorMatricula(filterText.getValue()));
+            grid.setItems(serviceModelo.listarModeloPorModelo(filterText.getValue()));
     }
 }

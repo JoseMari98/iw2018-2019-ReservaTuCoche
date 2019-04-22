@@ -32,4 +32,8 @@ public class VehiculoModeloService {
     public void borrarModelo(VehiculoModelo entidad) {
         repoModelo.delete(entidad);
     }
+
+    public List<VehiculoModelo> listarModeloPorModelo(String modelo) {
+        return repoModelo.findByModeloStartsWithIgnoreCase(modelo);
+    }
 }

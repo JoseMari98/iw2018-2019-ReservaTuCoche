@@ -34,4 +34,8 @@ public class VehiculoMarcaService {
     public void borrarMarca(VehiculoMarca entidad) {
         repoMarca.delete(entidad);
     }
+
+    public List<VehiculoMarca> listarMarcaPorMarca(String marca) {
+        return repoMarca.findByMarcaStartsWithIgnoreCase(marca);
+    }
 }
