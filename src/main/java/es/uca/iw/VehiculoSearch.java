@@ -23,7 +23,6 @@ public class VehiculoSearch extends FormLayout {
     private Grid<Vehiculo> gVehiculos = new Grid<>(Vehiculo.class);
     private TextField filtertext = new TextField();
     private VehiculoService service;
-    private Button search = new Button("Search!");
 
     @Autowired
     public VehiculoSearch(VehiculoService serv) {
@@ -36,6 +35,12 @@ public class VehiculoSearch extends FormLayout {
         filtertext.setClearButtonVisible(true);
         filtertext.setValueChangeMode(ValueChangeMode.EAGER);
 
+        Button search = new Button ("Buscar");
+        search.addClickListener(e -> {
+            gVehiculos.asSingleSelect().clear();
+            gVehiculos.setItems(service.listarVehiculoPorMarca(filtertext.getValue()));
+        });
+
         HorizontalLayout buscar = new HorizontalLayout(filtertext, search);
 
         gVehiculos.setColumns("marca", "modelo", "precio");
@@ -47,4 +52,10 @@ public class VehiculoSearch extends FormLayout {
         add(listado);
     }
 
+    public void updateList() {
+        if(filtertext.isEmpty())
+            gVehiculos.setItems(service.listarVehiculo());
+        else
+            gVehiculos.setItems(service.listarVehiculoPorMarca(filtertext.getValue()));
+    }
 }

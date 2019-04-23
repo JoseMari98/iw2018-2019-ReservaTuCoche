@@ -11,6 +11,7 @@ public class VehiculoMarca { //habria que cambiar por clase
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
     private String marca = "";
 
     public Long getId() {
