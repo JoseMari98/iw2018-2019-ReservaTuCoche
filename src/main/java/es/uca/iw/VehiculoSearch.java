@@ -35,21 +35,17 @@ public class VehiculoSearch extends FormLayout {
         filtertext.setClearButtonVisible(true);
         filtertext.setValueChangeMode(ValueChangeMode.EAGER);
 
-        Button search = new Button ("Buscar");
-        search.addClickListener(e -> {
-            gVehiculos.asSingleSelect().clear();
-            gVehiculos.setItems(service.listarVehiculoPorMarca(filtertext.getValue()));
-        });
-
-        HorizontalLayout buscar = new HorizontalLayout(filtertext, search);
+        filtertext.addValueChangeListener(e->updateList());
 
         gVehiculos.setColumns("marca", "modelo", "precio");
 
         gVehiculos.setItems(listaVehiculo);
 
-        VerticalLayout listado = new VerticalLayout(buscar, gVehiculos);
+        VerticalLayout listado = new VerticalLayout(filtertext, gVehiculos);
 
         add(listado);
+
+        setSizeFull();
     }
 
     public void updateList() {
