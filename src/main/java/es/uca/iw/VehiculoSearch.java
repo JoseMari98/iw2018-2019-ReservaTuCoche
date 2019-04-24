@@ -37,7 +37,7 @@ public class VehiculoSearch extends FormLayout {
 
         filtertext.addValueChangeListener(e->updateList());
 
-        gVehiculos.setColumns("marca", "modelo", "precio");
+        gVehiculos.setColumns("marca.marca", "modelo", "precio");
 
         gVehiculos.setItems(listaVehiculo);
 
