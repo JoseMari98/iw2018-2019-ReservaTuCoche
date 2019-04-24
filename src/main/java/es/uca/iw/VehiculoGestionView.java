@@ -35,7 +35,7 @@ public class VehiculoGestionView extends VerticalLayout {
         HorizontalLayout toolbar = new HorizontalLayout(filterText,
                 addVehiculoBtn);
 
-        grid.setColumns("matricula","modelo","marca","precio");
+        grid.setColumns("matricula","modelo.modelo","marca.marca","precio");
 
         HorizontalLayout mainContent = new HorizontalLayout(grid, form); //metemos en un objeto el grid y formulario
         mainContent.setSizeFull();
