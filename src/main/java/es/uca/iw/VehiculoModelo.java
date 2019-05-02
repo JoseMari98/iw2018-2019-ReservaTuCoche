@@ -1,5 +1,7 @@
 package es.uca.iw;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,7 @@ public class VehiculoModelo {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
+    @UniqueElements
     private String modelo = "";
 
     public Long getId() {
