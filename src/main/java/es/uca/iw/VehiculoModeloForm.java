@@ -22,6 +22,7 @@ public class VehiculoModeloForm extends FormLayout {
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(modelo, buttons);
+        modelo.setRequired(true);
 
         binder.bindInstanceFields(this);
 
@@ -43,9 +44,11 @@ public class VehiculoModeloForm extends FormLayout {
 
     public void save() {
         VehiculoModelo modelo = binder.getBean();
-        serviceModelo.guardarModelo(modelo);
-        this.vehiculoModeloView.updateList();
-        setModelo(null);
+        if(binder.isValid()) {
+            serviceModelo.guardarModelo(modelo);
+            this.vehiculoModeloView.updateList();
+            setModelo(null);
+        }
     }
 
     public void delete() {

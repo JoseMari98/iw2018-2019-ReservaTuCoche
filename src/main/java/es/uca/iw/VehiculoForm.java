@@ -32,7 +32,11 @@ public class VehiculoForm extends FormLayout {
         this.serviceModelo = serviceModelo;
 
         precio.setSuffixComponent(new Span("€"));
+        precio.setStep(0.01);
+        matricula.setRequired(true);
 
+        marca.setRequired(true);
+        modelo.setRequired(true);
         marca.setItemLabelGenerator(VehiculoMarca::getMarca);
         modelo.setItemLabelGenerator(VehiculoModelo::getModelo);
         marca.setItems(serviceMarca.listarMarca());
@@ -62,9 +66,11 @@ public class VehiculoForm extends FormLayout {
 
     public void save() {
         Vehiculo vehiculo = binder.getBean();
-        serviceVehiculo.guardarVehiculo(vehiculo);
-        this.vehiculoView.updateList();
-        setVehiculo(null);
+        if(binder.isValid()) {
+            serviceVehiculo.guardarVehiculo(vehiculo);
+            this.vehiculoView.updateList();
+            setVehiculo(null);
+        }
     }
 
     public void delete() {

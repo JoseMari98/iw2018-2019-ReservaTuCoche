@@ -1,6 +1,8 @@
 package es.uca.iw;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,10 +17,13 @@ public class Vehiculo implements Serializable, Cloneable {
     @OneToMany(mappedBy = "vehiculo")
     private Set<Reserva> reservaSet = new HashSet<>();
     private Double precio;
+    @NotEmpty(message = "La matricula es obligatoria")
     private String matricula = "";
     @ManyToOne
+    @NotNull(message = "La marca es obligatoria")
     private VehiculoMarca marca;
     @ManyToOne
+    @NotNull(message = "El modelo es obligatorio")
     private VehiculoModelo modelo;
 
     //Getters

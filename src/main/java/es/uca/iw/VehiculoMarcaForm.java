@@ -22,6 +22,7 @@ public class VehiculoMarcaForm extends FormLayout {
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(marca, buttons);
+        marca.setRequired(true);
 
         binder.bindInstanceFields(this);
 
@@ -43,9 +44,11 @@ public class VehiculoMarcaForm extends FormLayout {
 
     public void save() {
         VehiculoMarca marca = binder.getBean();
-        serviceMarca.guardarMarca(marca);
-        this.vehiculoMarcaView.updateList();
-        setMarca(null);
+        if(binder.isValid()) {
+            serviceMarca.guardarMarca(marca);
+            this.vehiculoMarcaView.updateList();
+            setMarca(null);
+        }
     }
 
     public void delete() {
