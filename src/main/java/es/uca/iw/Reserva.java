@@ -2,6 +2,8 @@ package es.uca.iw;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Reserva {
@@ -13,6 +15,8 @@ public class Reserva {
     @ManyToOne
     private Vehiculo vehiculo;
     private Date fechaInicio, fechaFin;
+    @OneToMany(mappedBy = "reserva")
+    private Set<Pago> pagosSet = new HashSet<>();
 
     //Getters
     public Usuario getUsuario() {
