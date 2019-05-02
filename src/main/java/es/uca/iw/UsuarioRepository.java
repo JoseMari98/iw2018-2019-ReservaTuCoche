@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // CRUD refers Create, Read, Update, Delete
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-
+    
 }
