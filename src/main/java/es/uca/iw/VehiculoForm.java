@@ -5,9 +5,11 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 
 
@@ -19,7 +21,7 @@ public class VehiculoForm extends FormLayout {
     private Button save = new Button("Añadir");
     private Button delete = new Button("Borrar");
     private VehiculoGestionView vehiculoView;
-    private Binder<Vehiculo> binder = new Binder<>(Vehiculo.class);
+    private BeanValidationBinder<Vehiculo> binder = new BeanValidationBinder<>(Vehiculo.class);
     private VehiculoService serviceVehiculo;
     private VehiculoMarcaService serviceMarca;
     private VehiculoModeloService serviceModelo;
@@ -66,10 +68,13 @@ public class VehiculoForm extends FormLayout {
 
     public void save() {
         Vehiculo vehiculo = binder.getBean();
-        if(binder.isValid()) {
+        if(binder.validate().isOk()) {
             serviceVehiculo.guardarVehiculo(vehiculo);
             this.vehiculoView.updateList();
             setVehiculo(null);
+        }
+        else {
+            Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
         }
     }
 

@@ -3,6 +3,7 @@ package es.uca.iw;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -48,6 +49,9 @@ public class VehiculoMarcaForm extends FormLayout {
             serviceMarca.guardarMarca(marca);
             this.vehiculoMarcaView.updateList();
             setMarca(null);
+        }
+        else {
+            Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
         }
     }
 
