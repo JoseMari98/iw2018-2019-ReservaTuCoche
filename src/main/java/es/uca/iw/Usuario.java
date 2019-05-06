@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 @Entity
@@ -12,7 +13,8 @@ public class Usuario implements UserDetails {
     @Id //esto sirve para decir cual es el id
     @GeneratedValue(strategy= GenerationType.IDENTITY) //esto para que se genere aleatorio
     private int id;
-    private String dni = "", nombre = "", apellido1 = "", nombreUsuario = "", apellido2 = "", telefono = "", email = "", contrasena = "";
+    @NotEmpty(message = "Este campo es obligatorio")
+    private String dni = "", nombre = "", apellido1 = "", username = "", apellido2 = "", telefono = "", email = "", contrasena = "";
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
 
@@ -91,7 +93,7 @@ public class Usuario implements UserDetails {
     }
 
     public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+        this.username = nombreUsuario;
     }
 
     @Override
@@ -108,7 +110,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nombreUsuario;
+        return username;
     }
 
     @Override

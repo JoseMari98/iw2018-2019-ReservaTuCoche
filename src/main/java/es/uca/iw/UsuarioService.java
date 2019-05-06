@@ -20,13 +20,13 @@ public class UsuarioService implements UserDetailsService {
     @Autowired
     public UsuarioService(UsuarioRepository repo, @Qualifier("Passwordencoder") PasswordEncoder passwordEncoder)
     {
-        this.repo=repo;
-        this.passwordEncoder=passwordEncoder;
+        this.repo = repo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario create(Usuario usuario)
     {
-        usuario.setContrasena(passwordEncoder.encode(usuario.getPassword()));
+        //usuario.setContrasena(passwordEncoder.encode(usuario.getPassword()));
         Usuario usr = repo.save(usuario);
 
         return usr;

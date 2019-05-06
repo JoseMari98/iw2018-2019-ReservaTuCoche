@@ -32,6 +32,7 @@ public class Loginusuario extends VerticalLayout {
         loginForm = new LoginOverlay();
         loginForm.setOpened(true);
         loginForm.setTitle("Reserva tu coche");
+        loginForm.setDescription("Inicio sesión");
         loginForm.setForgotPasswordButtonVisible(false);
         loginForm.addLoginListener( e -> signIn(e));
     }
