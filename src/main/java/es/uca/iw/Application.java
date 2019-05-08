@@ -25,4 +25,15 @@ public class Application extends SpringBootServletInitializer {
     public class Config {
     }
 
+    /*@Bean
+    public void creador() {
+        PagoService pagoService;
+        Vehiculo vehiculo = new Vehiculo();
+        Usuario u = new Usuario();
+        Reserva r = new Reserva();
+        vehiculo.setMatricula("culo");
+        u.setNombre("ratilla");
+        r.setUsuario(u);
+        r.setVehiculo(vehiculo);
+    }*/
 }
