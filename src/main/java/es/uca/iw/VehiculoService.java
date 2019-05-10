@@ -10,11 +10,13 @@ import java.util.Optional;
 public class VehiculoService {
     private VehiculoRepository repoVehiculo;
     private VehiculoMarcaRepository repoMarca;
+    private VehiculoModeloRepository repoModelo;
 
     @Autowired
     private VehiculoService(VehiculoRepository repoVehiculo, VehiculoModeloRepository repoModelo, VehiculoMarcaRepository repoMarca) {
         this.repoVehiculo = repoVehiculo;
         this.repoMarca = repoMarca;
+        this.repoModelo = repoModelo;
     }
 
     public synchronized Vehiculo guardarVehiculo(Vehiculo entrada) {
@@ -43,5 +45,13 @@ public class VehiculoService {
 
     public List<Vehiculo> listarVehiculoPorMarca(String marca) {
         return repoVehiculo.findByMarca(repoMarca.findByMarcaStartsWithIgnoreCase(marca));
+    }
+
+    public List<Vehiculo> listarVehiculoPorModelo(String modelo) {
+        return repoVehiculo.findByModelo(repoModelo.findByModeloStartsWithIgnoreCase(modelo));
+    }
+
+    public List<Vehiculo> listarVehiculoPorMarcaYModelo(String marca, String modelo) {
+        return repoVehiculo.findByMarcaAndModelo(repoMarca.findByMarcaStartsWithIgnoreCase(marca), repoModelo.findByModeloStartsWithIgnoreCase(modelo));
     }
 }

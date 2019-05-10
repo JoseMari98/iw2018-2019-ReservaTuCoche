@@ -33,7 +33,7 @@ public class VehiculoModeloService {
         repoModelo.delete(entidad);
     }
 
-    public List<VehiculoModelo> listarModeloPorModelo(String modelo) {
+    public VehiculoModelo listarModeloPorModelo(String modelo) {
         return repoModelo.findByModeloStartsWithIgnoreCase(modelo);
     }
 }

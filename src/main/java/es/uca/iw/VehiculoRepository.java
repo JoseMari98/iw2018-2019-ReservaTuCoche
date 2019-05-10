@@ -9,4 +9,6 @@ import java.util.List;
 public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
     List<Vehiculo> findByMatriculaStartsWithIgnoreCase(String matricula);
     List<Vehiculo> findByMarca(VehiculoMarca marca);
+    List<Vehiculo> findByModelo(VehiculoModelo modelo);
+    List<Vehiculo> findByMarcaAndModelo(VehiculoMarca marca, VehiculoModelo modelo);
 }
