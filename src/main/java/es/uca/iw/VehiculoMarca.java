@@ -2,10 +2,7 @@ package es.uca.iw;
 
 import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -15,7 +12,7 @@ public class VehiculoMarca { //habria que cambiar por clase
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
-    @UniqueElements
+    @Column(unique = true)
     private String marca = "";
 
     public Long getId() {
