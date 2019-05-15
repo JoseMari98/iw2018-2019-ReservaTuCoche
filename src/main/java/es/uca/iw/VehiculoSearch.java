@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -52,7 +53,6 @@ public class VehiculoSearch extends FormLayout {
 
         buscaMarca.addValueChangeListener(event -> {
             query[0] = buscaMarca.getValue().getMarca();
-            Notification.show(query[0]);
             updateList(query);
         });
 
@@ -62,13 +62,19 @@ public class VehiculoSearch extends FormLayout {
 
         buscaModelo.addValueChangeListener( event -> {
             query[1] = buscaModelo.getValue().getModelo();
-            Notification.show(query[1]);
             updateList(query);
         });
 
         gVehiculos.setColumns("marca.marca", "modelo.modelo", "precio");
 
         gVehiculos.setItems(listaVehiculo);
+
+        reserva.addClickListener(event -> {
+            if (SecurityUtils.isUserLoggedIn()) {
+                UI.getCurrent().navigate("reservaform/" + SecurityUtils.getUsername().toString() + "/" + gVehiculos.asSingleSelect().getValue().getId());
+            } else
+                Notification.show("Debes estar registrado!");
+        });
 
         VerticalLayout filters = new VerticalLayout(buscaMarca, buscaModelo);
 
