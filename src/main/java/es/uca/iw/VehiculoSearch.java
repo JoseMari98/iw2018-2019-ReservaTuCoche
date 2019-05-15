@@ -71,7 +71,7 @@ public class VehiculoSearch extends FormLayout {
 
         reserva.addClickListener(event -> {
             if (SecurityUtils.isUserLoggedIn()) {
-                UI.getCurrent().navigate("reservaform/" + SecurityUtils.getUsername().toString() + "/" + gVehiculos.asSingleSelect().getValue().getId());
+                UI.getCurrent().navigate("reservaform/"  + gVehiculos.asSingleSelect().getValue().getId());
             } else
                 Notification.show("Debes estar registrado!");
         });
