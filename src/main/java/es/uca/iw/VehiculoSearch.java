@@ -24,6 +24,7 @@ public class VehiculoSearch extends FormLayout {
     private TextField filtertext = new TextField();
     private VehiculoService service;
     private Button reserva = new Button("Reservar");
+    private Button info = new Button("Mas información");
     private RadioButtonGroup<VehiculoMarca> buscaMarca = new RadioButtonGroup<>();
     private RadioButtonGroup<VehiculoModelo> buscaModelo = new RadioButtonGroup<>();
 
@@ -80,7 +81,7 @@ public class VehiculoSearch extends FormLayout {
 
         VerticalLayout reservar = new VerticalLayout(gVehiculos, reserva);
 
-        HorizontalLayout lista = new HorizontalLayout(reservar, filters);
+        HorizontalLayout lista = new HorizontalLayout(filters, reservar);
 
         add(lista);
 
