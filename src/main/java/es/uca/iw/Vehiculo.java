@@ -106,6 +106,6 @@ public class Vehiculo implements Serializable, Cloneable {
 
     @Override
     public String toString() {
-        return marca + " " + modelo;
+        return marca.toString() + " " + modelo.toString();
     }
 }

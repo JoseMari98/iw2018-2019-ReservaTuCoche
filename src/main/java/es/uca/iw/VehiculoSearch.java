@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 public class VehiculoSearch extends FormLayout {
 
     private Grid<Vehiculo> gVehiculos = new Grid<>(Vehiculo.class);
-    private TextField filtertext = new TextField();
     private VehiculoService service;
     private Button reserva = new Button("Reservar");
     private Button info = new Button("Mas información");
@@ -77,11 +76,11 @@ public class VehiculoSearch extends FormLayout {
                 Notification.show("Debes estar registrado!");
         });
 
-        VerticalLayout filters = new VerticalLayout(buscaMarca, buscaModelo);
+        HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo);
 
         VerticalLayout reservar = new VerticalLayout(gVehiculos, reserva);
 
-        HorizontalLayout lista = new HorizontalLayout(filters, reservar);
+        VerticalLayout lista = new VerticalLayout(filters, reservar);
 
         add(lista);
 
