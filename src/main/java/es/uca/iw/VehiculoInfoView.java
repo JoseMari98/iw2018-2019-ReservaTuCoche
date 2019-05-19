@@ -14,7 +14,6 @@ import java.io.IOException;
 public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long> {
 
     private Long id;
-    private Html nombre;
     private VehiculoService service;
 
     @Autowired
@@ -25,8 +24,12 @@ public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long
     @Override
     public void setParameter(BeforeEvent event, Long id) {
         this.id = id;
-        nombre = new Html("<h1>" + service.buscarIdVehiculo(id).get().toString() + "</h1>");
-        VerticalLayout layout = new VerticalLayout(nombre);
+        Vehiculo v = service.buscarIdVehiculo(id).get();
+        Html nombre = new Html("<h1>" + v.toString() + "</h1>");
+        Html etiqueta2 = new Html("<h2>Información:</h2>");
+        Label cuerpo = new Label("Precio:" + v.getPrecio() + "€/dia");
+        Label cuerpo2 = new Label("Matrícula: " + v.getMatricula());
+        VerticalLayout layout = new VerticalLayout(nombre, etiqueta2, cuerpo, cuerpo2);
         add(layout);
     }
 }
