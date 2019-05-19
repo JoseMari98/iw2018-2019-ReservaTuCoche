@@ -92,7 +92,7 @@ public class Usuario implements UserDetails {
         this.reservaSet = reservaSet;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
+    public void setUsername(String nombreUsuario) {
         this.username = nombreUsuario;
     }
 

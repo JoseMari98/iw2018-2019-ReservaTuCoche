@@ -12,6 +12,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 
 public class UsuarioForm extends FormLayout {
 
+    private TextField username = new TextField("Nombre usuario");
     private TextField nombre = new TextField("Nombre");
     private TextField apellido1 = new TextField("Primer Apellido");
     private TextField apellido2 = new TextField("Segundo Apellido");
@@ -41,18 +42,23 @@ public class UsuarioForm extends FormLayout {
         contrasena.setRequired(true);
 
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(nombre, apellido1,apellido2, dni, telefono, email, contrasena, save);
+        add(username, nombre, apellido1,apellido2, dni, telefono, email, contrasena, save);
 
         binder.bindInstanceFields(this);
 
         save.addClickListener(event -> save());
-
-        setSizeFull();
-
     }
 
     public void save() {
-        Usuario usuario = binder.getBean();
+        Usuario usuario = new Usuario();
+        usuario.setUsername(username.getValue());
+        usuario.setNombre(nombre.getValue());
+        usuario.setApellido1(apellido1.getValue());
+        usuario.setApellido2(apellido2.getValue());
+        usuario.setDni(dni.getValue());
+        usuario.setTelefono(telefono.getValue());
+        usuario.setEmail(email.getValue());
+        usuario.setContrasena(contrasena.getValue());
         if(binder.validate().isOk()) {
             service.create(usuario);
         }
