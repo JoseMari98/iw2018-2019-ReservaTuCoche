@@ -76,9 +76,14 @@ public class VehiculoSearch extends FormLayout {
                 Notification.show("Debes estar registrado!");
         });
 
-        HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo);
+        info.addClickListener(event -> {
+            UI.getCurrent().navigate("Info/"  + gVehiculos.asSingleSelect().getValue().getId());
+        });
 
-        VerticalLayout reservar = new VerticalLayout(gVehiculos, reserva);
+        HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo);
+        HorizontalLayout botones = new HorizontalLayout(reserva, info);
+
+        VerticalLayout reservar = new VerticalLayout(gVehiculos, botones);
 
         VerticalLayout lista = new VerticalLayout(filters, reservar);
 
