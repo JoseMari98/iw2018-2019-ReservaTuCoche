@@ -39,7 +39,7 @@ public class VehiculoService {
         repoVehiculo.delete(entidad);
     }
 
-    public List<Vehiculo> listarVehiculoPorMatricula(String matricula) {
+    public Vehiculo listarVehiculoPorMatricula(String matricula) {
         return repoVehiculo.findByMatriculaStartsWithIgnoreCase(matricula);
     }
 

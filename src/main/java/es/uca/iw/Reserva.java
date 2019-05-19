@@ -1,7 +1,7 @@
 package es.uca.iw;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,7 +14,8 @@ public class Reserva {
     private Usuario usuario;
     @ManyToOne
     private Vehiculo vehiculo;
-    private Date fechaInicio, fechaFin;
+    private LocalDate fechaInicio, fechaFin;
+    private double precioTotal;
     @OneToMany(mappedBy = "reserva")
     private Set<Pago> pagosSet = new HashSet<>();
 
@@ -23,11 +24,15 @@ public class Reserva {
         return usuario;
     }
 
-    public Date getFechaFin() {
+    public Set<Pago> getPagosSet() {
+        return pagosSet;
+    }
+
+    public LocalDate getFechaFin() {
         return fechaFin;
     }
 
-    public Date getFechaInicio() {
+    public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
@@ -39,16 +44,28 @@ public class Reserva {
         return id;
     }
 
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
     //Setters
     public void setUsuario(Usuario Usuario) {
         this.usuario = Usuario;
     }
 
-    public void setFechaFin(Date FechaFin) {
+    public void setPagosSet(Set<Pago> pagosSet) {
+        this.pagosSet = pagosSet;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
+    }
+
+    public void setFechaFin(LocalDate FechaFin) {
         this.fechaFin = FechaFin;
     }
 
-    public void setFechaInicio(Date FechaInicio) {
+    public void setFechaInicio(LocalDate FechaInicio) {
         this.fechaInicio = FechaInicio;
     }
 

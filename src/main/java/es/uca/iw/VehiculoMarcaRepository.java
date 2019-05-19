@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface VehiculoMarcaRepository extends JpaRepository<VehiculoMarca, Long> {
     VehiculoMarca findByMarcaStartsWithIgnoreCase(String marca);
-
 }

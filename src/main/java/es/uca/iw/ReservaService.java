@@ -2,11 +2,14 @@ package es.uca.iw;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ReservaService {
     private ReservaRepository repo;
+    private VehiculoRepository vehiculoRepository;
     @Autowired
     private ReservaService(ReservaRepository repo) {
         this.repo = repo;
@@ -20,7 +23,7 @@ public class ReservaService {
         return repo.findById(id);
     }
 
-    public Iterable<Reserva> findAll() {
+    public List<Reserva> findAll() {
         return repo.findAll();
     }
 
@@ -32,4 +35,7 @@ public class ReservaService {
         repo.delete(data);
     }
 
+    public List<Reserva> listarReservaPorMatricula(String matricula) {
+        return repo.findByVehiculo(vehiculoRepository.findByMatriculaStartsWithIgnoreCase(matricula));
+    }
 }
