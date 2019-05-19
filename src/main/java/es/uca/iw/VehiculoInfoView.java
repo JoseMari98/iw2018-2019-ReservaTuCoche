@@ -27,7 +27,7 @@ public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long
         Vehiculo v = service.buscarIdVehiculo(id).get();
         Html nombre = new Html("<h1>" + v.toString() + "</h1>");
         Html etiqueta2 = new Html("<h2>Información:</h2>");
-        Label cuerpo = new Label("Precio:" + v.getPrecio() + "€/dia");
+        Label cuerpo = new Label("Precio:" + v.getPrecio() + " €/dia");
         Label cuerpo2 = new Label("Matrícula: " + v.getMatricula());
         VerticalLayout layout = new VerticalLayout(nombre, etiqueta2, cuerpo, cuerpo2);
         add(layout);
