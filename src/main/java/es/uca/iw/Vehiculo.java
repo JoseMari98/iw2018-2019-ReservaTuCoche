@@ -18,6 +18,7 @@ public class Vehiculo implements Serializable, Cloneable {
     private Set<Reserva> reservaSet = new HashSet<>();
     private Double precio;
     @NotEmpty(message = "La matricula es obligatoria")
+    @Column(unique = true)
     private String matricula = "";
     @ManyToOne
     @NotNull(message = "La marca es obligatoria")

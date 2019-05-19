@@ -39,7 +39,11 @@ public class PagoForm extends FormLayout {
     }
 
     public void save() {
-        Pago pago = binder.getBean();
+        Pago pago = new Pago();
+        pago.setFechaCaducidad(fechaCaducidad.getValue());
+        pago.setNumeroSeguridad(numeroSeguridad.getValue());
+        pago.setPropietario(propietario.getValue());
+        pago.setTarjetaCredito(tarjetaCredito.getValue());
         if(binder.validate().isOk()) {
             pagoService.guardarPago(pago);
         }

@@ -12,12 +12,13 @@ public class PagoView extends VerticalLayout {
     private PagoForm form;
 
     @Autowired
-    public PagoView(PagoService pagoService/*, Reserva reserva*/) {
+    public PagoView(PagoService pagoService) {
         this.pagoService = pagoService;
         this.form = new PagoForm(this, pagoService);
 
         //H1 contenido = new H1(reserva.getUsuario().getNombre());
-        VerticalLayout mainContent = new VerticalLayout(/*contenido,*/ form); //metemos en un objeto el grid y formulario
+        H1 contenido = new H1("Hola");
+        VerticalLayout mainContent = new VerticalLayout(contenido, form); //metemos en un objeto el grid y formulario
         mainContent.setSizeFull();
 
         add(mainContent);

@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -24,16 +25,32 @@ public class Application extends SpringBootServletInitializer {
     @EnableJpaRepositories
     public class Config {
     }
+    /*
+    @Bean
+    public CommandLineRunner loadData(ReservaRepository reservaRepository, VehiculoRepository vehiculoRepository, UsuarioRepository usuarioRepository, VehiculoMarcaRepository marcaRepository, VehiculoModeloRepository modeloRepository) {
+        return (args) -> {
+            VehiculoModelo vmod = new VehiculoModelo();
+            VehiculoMarca vmar = new VehiculoMarca();
+            Vehiculo v = new Vehiculo();
+            Usuario u = new Usuario();
+            Reserva r = new Reserva();
 
-    /*@Bean
-    public void creador() {
-        PagoService pagoService;
-        Vehiculo vehiculo = new Vehiculo();
-        Usuario u = new Usuario();
-        Reserva r = new Reserva();
-        vehiculo.setMatricula("culo");
-        u.setNombre("ratilla");
-        r.setUsuario(u);
-        r.setVehiculo(vehiculo);
+            vmod.setModelo("sport");
+            vmar.setMarca("bmw");
+            v.setMatricula("34");
+            v.setMarca(vmar);
+            v.setModelo(vmod);
+            u.setNombre("pepe");
+            r.setVehiculo(v);
+            r.setUsuario(u);
+
+            modeloRepository.save(vmod);
+            marcaRepository.save(vmar);
+            usuarioRepository.save(u);
+            vehiculoRepository.save(v);
+            reservaRepository.save(r);
+
+
+        };
     }*/
 }
