@@ -34,6 +34,7 @@ public class UsuarioForm extends FormLayout {
         this.usuarioView = usuarioView;
         this.service = service;
 
+
         nombre.setRequired(true);
         apellido1.setRequired(true);
         apellido2.setRequired(true);
@@ -51,6 +52,7 @@ public class UsuarioForm extends FormLayout {
 
     public void save() {
         Usuario usuario = new Usuario();
+        usuario.setRole("User");
         usuario.setUsername(username.getValue());
         usuario.setNombre(nombre.getValue());
         usuario.setApellido1(apellido1.getValue());
