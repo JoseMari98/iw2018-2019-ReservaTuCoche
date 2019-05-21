@@ -22,11 +22,41 @@ public class MainView extends AbstractAppRouterLayout {
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu appLayoutMenu) {
         appLayoutMenu = appLayout.createMenu();
-        Icon user = new Icon(VaadinIcon.USER);
-        //appLayoutMenu.addMenuItems(new AppLayoutMenuItem("Iniciar sesión", "Login"), new AppLayoutMenuItem("Registrarse","RegistroUsuario"));
-        appLayoutMenu.addMenuItem(user, "Inicar sesión", "Login");
-    }
+        Icon user = new Icon(VaadinIcon.SIGN_IN);
+        Icon home = new Icon(VaadinIcon.HOME);
+        Icon registro = new Icon(VaadinIcon.USER_CARD);
+        Icon reserva = new Icon(VaadinIcon.CAR);
+        Icon cerrar = new Icon(VaadinIcon.SIGN_OUT);
+        Icon gestion = new Icon(VaadinIcon.RECORDS);
+        Icon estadistica = new Icon(VaadinIcon.SPLINE_AREA_CHART);
+        Icon postpago = new Icon(VaadinIcon.MONEY);
 
-    private void setMenuItem(AppLayoutMenu appLayoutMenu) {
+        appLayoutMenu.addMenuItem(home, "Home", "");
+
+        if(!SecurityUtils.isUserLoggedIn())
+        {
+            appLayoutMenu.addMenuItem(user, "Inicar Sesión", "Login");
+            appLayoutMenu.addMenuItem(registro, "Registrarse", "RegistroUsuario");
+        }
+        else {
+            if(SecurityUtils.hasRole("User")){
+
+                appLayoutMenu.addMenuItem(reserva, "Mis Reservas", "MisReservas");
+            }
+
+            if(SecurityUtils.hasRole("Admin"))
+            {
+                appLayoutMenu.addMenuItem(gestion, "Gestión Vehículo", "GestionVehiculo");
+                appLayoutMenu.addMenuItem(gestion, "Gestión Reservas", "GestionReservas");
+                appLayoutMenu.addMenuItem(postpago, "Gestión Postpago", "GestionPostpago");
+                appLayoutMenu.addMenuItem(gestion, "Gestión Modelo", "GestionModelo");
+                appLayoutMenu.addMenuItem(gestion, "Gestión Marca", "GestionMarca");
+                appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Estadísticas");
+            }
+
+            appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", "CerrarSesion");
+        }
+
+
     }
 }
