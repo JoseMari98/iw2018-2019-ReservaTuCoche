@@ -6,9 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
@@ -20,32 +18,25 @@ public class Application extends SpringBootServletInitializer {
     @EnableJpaRepositories
     public class Config {
     }
-    /*
+
     @Bean
-    public CommandLineRunner loadData(ReservaRepository reservaRepository, VehiculoRepository vehiculoRepository, UsuarioRepository usuarioRepository, VehiculoMarcaRepository marcaRepository, VehiculoModeloRepository modeloRepository) {
+    public CommandLineRunner loadData(UsuarioService usuarioService) {
         return (args) -> {
-            VehiculoModelo vmod = new VehiculoModelo();
-            VehiculoMarca vmar = new VehiculoMarca();
-            Vehiculo v = new Vehiculo();
-            Usuario u = new Usuario();
-            Reserva r = new Reserva();
-
-            vmod.setModelo("sport");
-            vmar.setMarca("bmw");
-            v.setMatricula("34");
-            v.setMarca(vmar);
-            v.setModelo(vmod);
-            u.setNombre("pepe");
-            r.setVehiculo(v);
-            r.setUsuario(u);
-
-            modeloRepository.save(vmod);
-            marcaRepository.save(vmar);
-            usuarioRepository.save(u);
-            vehiculoRepository.save(v);
-            reservaRepository.save(r);
-
-
+            try {
+                boolean valido = usuarioService.loadUserByUsername("admin").getRole().equals("Admin");
+            } catch (UsernameNotFoundException e) {
+                Usuario u = new Usuario();
+                u.setNombre("admin");
+                u.setPassword("admin");
+                u.setApellido1("admin");
+                u.setApellido2("admin");
+                u.setEmail("admin@admin.es");
+                u.setUsername("admin");
+                u.setRole("Admin");
+                u.setTelefono("9");
+                u.setDni("9");
+                usuarioService.create(u);
+            }
         };
-    }*/
+    }
 }

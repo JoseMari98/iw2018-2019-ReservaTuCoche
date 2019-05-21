@@ -18,9 +18,9 @@ public class VehiculoGestionView extends AbstractView {
     private VehiculoForm form;
 
     @Autowired
-    public VehiculoGestionView(VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo) {
+    public VehiculoGestionView(VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo, VehiculoTipoService serviceTipo) {
         this.service = service;
-        this.form = new VehiculoForm(this, service, serviceMarca, serviceModelo);
+        this.form = new VehiculoForm(this, service, serviceMarca, serviceModelo, serviceTipo);
 
         filterText.setPlaceholder("Filtrar por matricula"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar
@@ -36,7 +36,7 @@ public class VehiculoGestionView extends AbstractView {
         HorizontalLayout toolbar = new HorizontalLayout(filterText,
                 addVehiculoBtn);
 
-        grid.setColumns("matricula", "modelo.modelo","marca.marca","precio");
+        grid.setColumns("matricula", "modelo.modelo","marca.marca", "tipo.tipo", "precio", "puertas", "plazas", "ac", "motor");
 
         HorizontalLayout mainContent = new HorizontalLayout(grid, form); //metemos en un objeto el grid y formulario
         mainContent.setSizeFull();

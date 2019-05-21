@@ -3,7 +3,6 @@ package es.uca.iw;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 import java.io.Serializable;
@@ -16,16 +15,24 @@ public class Vehiculo implements Serializable, Cloneable {
     private Long id;
     @OneToMany(mappedBy = "vehiculo")
     private Set<Reserva> reservaSet = new HashSet<>();
+    @NotNull(message = "Campos obligatorios")
+    private Double puertas, plazas;
+    @NotNull(message = "Campos obligatorios")
+    private VehiculoAC ac;
+    @NotNull(message = "Campos obligatorios")
     private Double precio;
     @NotEmpty(message = "La matricula es obligatoria")
     @Column(unique = true)
-    private String matricula = "";
+    private String matricula = "", motor = "";
     @ManyToOne
-    @NotNull(message = "La marca es obligatoria")
+    @NotNull(message = "Campos obligatorios")
     private VehiculoMarca marca;
     @ManyToOne
-    @NotNull(message = "El modelo es obligatorio")
+    @NotNull(message = "Campos obligatorios")
     private VehiculoModelo modelo;
+    @ManyToOne
+    @NotNull
+    private VehiculoTipo tipo;
 
     //Getters
     public Long getId() {
@@ -52,6 +59,26 @@ public class Vehiculo implements Serializable, Cloneable {
         return modelo;
     }
 
+    public VehiculoTipo getTipo() {
+        return tipo;
+    }
+
+    public VehiculoAC getAc() {
+        return ac;
+    }
+
+    public Double getPuertas() {
+        return puertas;
+    }
+
+    public String getMotor() {
+        return motor;
+    }
+
+    public Double getPlazas() {
+        return plazas;
+    }
+
     //Setters
     public void setId(Long Id) {
         this.id = Id;
@@ -59,6 +86,22 @@ public class Vehiculo implements Serializable, Cloneable {
 
     public void setReservas(Set<Reserva> Reservas) {
         this.reservaSet = Reservas;
+    }
+
+    public void setAc(VehiculoAC ac) {
+        this.ac = ac;
+    }
+
+    public void setMotor(String motor) {
+        this.motor = motor;
+    }
+
+    public void setPlazas(Double plazas) {
+        this.plazas = plazas;
+    }
+
+    public void setPuertas(Double puertas) {
+        this.puertas = puertas;
     }
 
     public void setPrecio(Double Precio) {
@@ -75,6 +118,10 @@ public class Vehiculo implements Serializable, Cloneable {
 
     public void setModelo(VehiculoModelo Modelo) {
         this.modelo = Modelo;
+    }
+
+    public void setTipo(VehiculoTipo tipo) {
+        this.tipo = tipo;
     }
 
     @Override

@@ -15,7 +15,12 @@ public class VehiculoForm extends FormLayout {
     private TextField matricula = new TextField("Matricula");
     private ComboBox<VehiculoMarca> marca = new ComboBox<>("Marca");
     private ComboBox<VehiculoModelo> modelo = new ComboBox<>("Modelo");
+    private ComboBox<VehiculoTipo> tipo = new ComboBox<>("Tipo");
     private NumberField precio = new NumberField("Precio");
+    private NumberField plazas = new NumberField("Plazas");
+    private NumberField puertas = new NumberField("Puertas");
+    private TextField motor = new TextField("Motor");
+    private ComboBox<VehiculoAC> ac = new ComboBox<>("A/C");
     private Button save = new Button("Añadir");
     private Button delete = new Button("Borrar");
     private VehiculoGestionView vehiculoView;
@@ -23,28 +28,37 @@ public class VehiculoForm extends FormLayout {
     private VehiculoService serviceVehiculo;
     private VehiculoMarcaService serviceMarca;
     private VehiculoModeloService serviceModelo;
+    private VehiculoTipoService serviceTipo;
 
 
-    public VehiculoForm(VehiculoGestionView vehiculoView, VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo) {
+    public VehiculoForm(VehiculoGestionView vehiculoView, VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo, VehiculoTipoService serviceTipo) {
         this.serviceVehiculo = service;
         this.vehiculoView = vehiculoView;
         this.serviceMarca = serviceMarca;
         this.serviceModelo = serviceModelo;
+        this.serviceTipo = serviceTipo;
 
         precio.setSuffixComponent(new Span("€"));
         precio.setStep(0.01);
         matricula.setRequired(true);
-
+        tipo.setRequired(true);
         marca.setRequired(true);
         modelo.setRequired(true);
+        plazas.setRequiredIndicatorVisible(true);
+        puertas.setRequiredIndicatorVisible(true);
+        ac.setRequired(true);
+        motor.setRequired(true);
         marca.setItemLabelGenerator(VehiculoMarca::getMarca);
         modelo.setItemLabelGenerator(VehiculoModelo::getModelo);
+        tipo.setItemLabelGenerator(VehiculoTipo::getTipo);
+        tipo.setItems(serviceTipo.listarTipo());
         marca.setItems(serviceMarca.listarMarca());
         modelo.setItems(serviceModelo.listarModelo());
+        ac.setItems(VehiculoAC.values());
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(matricula, marca, modelo, precio, buttons);
+        add(matricula, marca, modelo, tipo, precio, puertas, plazas, motor, ac, buttons);
 
         binder.bindInstanceFields(this);
 

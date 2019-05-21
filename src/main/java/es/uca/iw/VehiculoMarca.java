@@ -2,6 +2,7 @@ package es.uca.iw;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 public class VehiculoMarca { //habria que cambiar por clase
@@ -12,6 +13,8 @@ public class VehiculoMarca { //habria que cambiar por clase
     @NotEmpty
     @Column(unique = true)
     private String marca = "";
+    @OneToMany(mappedBy = "marca")
+    private Set<VehiculoTipo> tipo;
 
     public Long getId() {
         return id;
@@ -21,12 +24,20 @@ public class VehiculoMarca { //habria que cambiar por clase
         return marca;
     }
 
+    public Set<VehiculoTipo> getTipo() {
+        return tipo;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+
+    public void setTipo(Set<VehiculoTipo> tipo) {
+        this.tipo = tipo;
     }
 
     @Override

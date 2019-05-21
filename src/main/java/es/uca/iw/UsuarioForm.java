@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -63,6 +64,7 @@ public class UsuarioForm extends FormLayout {
         usuario.setPassword(password.getValue());
         if(binder.validate().isOk()) {
             service.create(usuario);
+            UI.getCurrent().navigate("");
         }
         else {
             Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
