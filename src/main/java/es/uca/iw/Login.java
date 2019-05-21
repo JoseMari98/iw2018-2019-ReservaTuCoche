@@ -18,14 +18,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Theme(Material.class)
 
-public class Loginusuario extends VerticalLayout {
+public class Login extends VerticalLayout {
 
     UsuarioService service;
     AuthenticationManager authenticationManager;
     LoginOverlay loginForm;
 
     @Autowired
-    public Loginusuario(UsuarioService service, AuthenticationManager authenticationManager)
+    public Login(UsuarioService service, AuthenticationManager authenticationManager)
     {
         this.service = service;
         this.authenticationManager = authenticationManager;

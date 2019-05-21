@@ -6,9 +6,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 @Route("MisReservas")
-public class ReservasView extends VerticalLayout {
+@Secured("User")
+public class ReservasView extends AbstractView {
     private Grid<Reserva> grid = new Grid<>(Reserva.class);
     private ReservaService service;
     private Button delete = new Button("Borrar");

@@ -1,6 +1,5 @@
 package es.uca.iw;
 
-import com.vaadin.flow.component.UI;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +14,10 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy= GenerationType.IDENTITY) //esto para que se genere aleatorio
     private int id;
     @NotEmpty(message = "Este campo es obligatorio")
-    private String dni = "", nombre = "", apellido1 = "", username = "", apellido2 = "", telefono = "", email = "", password = "";
+    private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", password = "", role = "";
+    @NotEmpty(message = "Este campo es obligatorio")
+    @Column(unique = true)
+    private String username = "";
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
 
@@ -55,6 +57,8 @@ public class Usuario implements UserDetails {
     public Set<Reserva> getReservaSet() {
         return reservaSet;
     }
+
+    public String getRole() { return role; }
 
     //Setters
     public void setId(int Id) {
@@ -97,10 +101,12 @@ public class Usuario implements UserDetails {
         this.username = nombreUsuario;
     }
 
+    public void setRole(String role) { this.role = role; }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-        list.add(new SimpleGrantedAuthority("ROLE_MANAGER"));
+        list.add(new SimpleGrantedAuthority(role));
         return list;
     }
 

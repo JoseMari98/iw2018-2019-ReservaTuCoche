@@ -8,9 +8,11 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 @Route("GestionMarca")
-public class VehiculoMarcaGestionView extends VerticalLayout {
+@Secured("Admin")
+public class VehiculoMarcaGestionView extends AbstractView {
     private Grid<VehiculoMarca> grid = new Grid<>(VehiculoMarca.class);
     private TextField filterText = new TextField();
     private VehiculoMarcaService serviceMarca;
