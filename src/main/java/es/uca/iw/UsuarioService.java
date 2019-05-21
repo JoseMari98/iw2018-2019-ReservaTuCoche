@@ -18,7 +18,7 @@ public class UsuarioService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioService(UsuarioRepository repo, @Qualifier("Passwordencoder") PasswordEncoder passwordEncoder)
+    public UsuarioService(UsuarioRepository repo, PasswordEncoder passwordEncoder)
     {
         this.repo = repo;
         this.passwordEncoder = passwordEncoder;
@@ -26,7 +26,7 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario create(Usuario usuario)
     {
-        //usuario.setContrasena(passwordEncoder.encode(usuario.getPassword()));
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         Usuario usr = repo.save(usuario);
 
         return usr;

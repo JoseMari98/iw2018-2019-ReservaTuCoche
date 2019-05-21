@@ -17,11 +17,6 @@ public class Application extends SpringBootServletInitializer {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean(name = "Passwordencoder")
-    public PasswordEncoder Encoder() {
-        return new BCryptPasswordEncoder(11);
-    }
-
     @EnableJpaRepositories
     public class Config {
     }

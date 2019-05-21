@@ -35,6 +35,7 @@ public class Loginusuario extends VerticalLayout {
         loginForm.setDescription("Inicio sesión");
         loginForm.setForgotPasswordButtonVisible(false);
         loginForm.addLoginListener( e -> signIn(e));
+        add(loginForm);
     }
 
     private void signIn(AbstractLogin.LoginEvent e)

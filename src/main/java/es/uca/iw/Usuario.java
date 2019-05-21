@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.UI;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,7 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy= GenerationType.IDENTITY) //esto para que se genere aleatorio
     private int id;
     @NotEmpty(message = "Este campo es obligatorio")
-    private String dni = "", nombre = "", apellido1 = "", username = "", apellido2 = "", telefono = "", email = "", contrasena = "";
+    private String dni = "", nombre = "", apellido1 = "", username = "", apellido2 = "", telefono = "", email = "", password = "";
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
 
@@ -84,8 +85,8 @@ public class Usuario implements UserDetails {
         this.email = Email;
     }
 
-    public void setContrasena(String Contrasena) {
-        this.contrasena = Contrasena;
+    public void setPassword(String Contrasena) {
+        this.password = Contrasena;
     }
 
     public void setReservaSet(Set<Reserva> reservaSet) {
@@ -105,7 +106,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return contrasena;
+        return password;
     }
 
     @Override
@@ -115,21 +116,21 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

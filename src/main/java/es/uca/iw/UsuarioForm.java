@@ -19,7 +19,7 @@ public class UsuarioForm extends FormLayout {
     private TextField dni = new TextField("Dni");
     private TextField telefono = new TextField("Teléfono");
     private EmailField email = new EmailField("Email");
-    private PasswordField contrasena = new PasswordField("Contraseña");
+    private PasswordField password = new PasswordField("Contraseña");
 
     private BeanValidationBinder<Usuario> binder = new BeanValidationBinder<>(Usuario.class);
     private UsuarioView usuarioView;
@@ -39,10 +39,10 @@ public class UsuarioForm extends FormLayout {
         apellido2.setRequired(true);
         dni.setRequired(true);
         email.setRequiredIndicatorVisible(true);
-        contrasena.setRequired(true);
+        password.setRequired(true);
 
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(username, nombre, apellido1,apellido2, dni, telefono, email, contrasena, save);
+        add(username, nombre, apellido1,apellido2, dni, telefono, email, password, save);
 
         binder.bindInstanceFields(this);
 
@@ -58,7 +58,7 @@ public class UsuarioForm extends FormLayout {
         usuario.setDni(dni.getValue());
         usuario.setTelefono(telefono.getValue());
         usuario.setEmail(email.getValue());
-        usuario.setContrasena(contrasena.getValue());
+        usuario.setPassword(password.getValue());
         if(binder.validate().isOk()) {
             service.create(usuario);
         }
