@@ -7,7 +7,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
-@Route("PagoView")
+@Route(value = "PagoView", layout = MainView.class)
 @Secured("User")
 public class PagoView extends AbstractView {
     private PagoService pagoService;

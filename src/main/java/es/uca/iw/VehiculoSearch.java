@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-@Route("Search")
+@Route(value="", layout = MainView.class)
 public class VehiculoSearch extends FormLayout {
 
     private Grid<Vehiculo> gVehiculos = new Grid<>(Vehiculo.class);

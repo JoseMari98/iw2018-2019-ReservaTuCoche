@@ -8,7 +8,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
-@Route("MisReservas")
+@Route(value = "MisReserva", layout = MainView.class)
 @Secured("User")
 public class ReservasView extends AbstractView {
     private Grid<Reserva> grid = new Grid<>(Reserva.class);

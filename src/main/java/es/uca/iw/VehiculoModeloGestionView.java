@@ -10,7 +10,7 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
-@Route("GestionModelo")
+@Route(value = "GestionModelo", layout = MainView.class)
 @Secured("Admin")
 public class VehiculoModeloGestionView extends AbstractView {
     private Grid<VehiculoModelo> grid = new Grid<>(VehiculoModelo.class);

@@ -7,8 +7,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("RegistroUsuario")
-
+@Route(value = "RegistroUsuario", layout = MainView.class)
 public class UsuarioView extends VerticalLayout {
 
     private UsuarioForm form;

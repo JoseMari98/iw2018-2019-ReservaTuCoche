@@ -10,7 +10,8 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 
-@Route("Info")
+
+@Route(value = "Info", layout = MainView.class)
 public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long> {
 
     private Long id;

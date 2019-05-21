@@ -10,7 +10,7 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("ReservaGestionView")
+@Route(value = "ReservaGestionView", layout = MainView.class)
 public class ReservaGestionView extends VerticalLayout {
     private Grid<Reserva> grid = new Grid<>(Reserva.class);
     private TextField filterText = new TextField();

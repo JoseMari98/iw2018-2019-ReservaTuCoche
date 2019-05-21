@@ -14,8 +14,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-@Route("Login")
-
 @Theme(Material.class)
 
 public class Login extends VerticalLayout {
@@ -43,7 +41,7 @@ public class Login extends VerticalLayout {
         if (authenticate(e.getUsername(), e.getPassword()))
         {
             loginForm.close();
-            UI.getCurrent().navigate(MainView.class);
+            UI.getCurrent().navigate("principal");
         } else {
             loginForm.setError(true);
         }
@@ -60,3 +58,4 @@ public class Login extends VerticalLayout {
         }
     }
 }
+
