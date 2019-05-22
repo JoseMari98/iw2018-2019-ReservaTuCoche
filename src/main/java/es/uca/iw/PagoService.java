@@ -33,4 +33,8 @@ public class PagoService {
     public void borrarPago(Pago entidad) {
         repoPago.delete(entidad);
     }
+
+    public List<Pago> listarPorReserva(Reserva reserva){
+        return repoPago.findByReserva(reserva);
+    }
 }

@@ -9,15 +9,15 @@ public class Pago {
     private Long id;
     @ManyToOne
     private Reserva reserva;
-    private double precioTotal;
+    private double cantidad;
     @ManyToOne
     private TarjetaCredito origen;
     @ManyToOne
     private TarjetaCredito destino;
     private PagoTipo tipo;
 
-    public double getPrecioTotal() {
-        return precioTotal;
+    public double getCantidad() {
+        return cantidad;
     }
 
     public Reserva getReserva() {
@@ -56,8 +56,8 @@ public class Pago {
         this.tipo = tipo;
     }
 
-    public void setPrecioTotal(double precioTotal) {
-        this.precioTotal = precioTotal;
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
     }
 
     public void setReserva(Reserva reserva) {
