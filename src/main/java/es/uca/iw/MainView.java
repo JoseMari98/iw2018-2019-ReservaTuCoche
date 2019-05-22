@@ -56,8 +56,7 @@ public class MainView extends AbstractAppRouterLayout {
                 appLayoutMenu.addMenuItem(gestion, "Gestión Marca", "GestionMarca");
                 appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Estadísticas");
             }
-
-            appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", "CerrarSesion");
+            appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", "CerrarSesion");;
         }
 
 

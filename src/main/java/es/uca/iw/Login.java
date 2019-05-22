@@ -42,6 +42,7 @@ public class Login extends VerticalLayout {
         {
             loginForm.close();
             UI.getCurrent().navigate("");
+            UI.getCurrent().getPage().reload();
         } else {
             loginForm.setError(true);
         }

@@ -14,6 +14,7 @@ public class Pago {
     private TarjetaCredito origen;
     @ManyToOne
     private TarjetaCredito destino;
+    @Enumerated(EnumType.STRING)
     private PagoTipo tipo;
 
     public double getCantidad() {

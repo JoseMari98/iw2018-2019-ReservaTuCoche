@@ -26,6 +26,7 @@ public class Vehiculo implements Serializable, Cloneable {
     @Column(unique = true)
     private String matricula = "";
     @NotNull(message = "Campos obligatorios")
+    @Enumerated(EnumType.STRING)
     private VehiculoMotor motor;
     @ManyToOne
     @NotNull(message = "Campos obligatorios")
