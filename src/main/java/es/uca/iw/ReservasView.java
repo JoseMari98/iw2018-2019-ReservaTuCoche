@@ -2,7 +2,6 @@ package es.uca.iw;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,12 @@ public class ReservasView extends AbstractView {
     private ReservaService service;
     private Button delete = new Button("Borrar");
     private BeanValidationBinder<Reserva> binder = new BeanValidationBinder<>(Reserva.class);
+    private UsuarioService usuarioService;
 
     @Autowired
-    public ReservasView(ReservaService service) {
+    public ReservasView(ReservaService service, UsuarioService usuarioService) {
         this.service = service;
+        this.usuarioService = usuarioService;
 
         grid.setColumns("vehiculo.modelo.modelo", "vehiculo.marca.marca","fechaInicio","fechaFin","precioTotal");
 
@@ -36,8 +37,9 @@ public class ReservasView extends AbstractView {
     }
 
     public void updateList() {
-        grid.setItems(service.findAll());
-    } //cambiar para que solo se muestre
+        Usuario u = usuarioService.loadUserByUsername(SecurityUtils.getUsername());
+        grid.setItems(service.listarPorUsuario(u));
+    }
 
     public void setReserva(Reserva reserva) {
         binder.setBean(reserva);

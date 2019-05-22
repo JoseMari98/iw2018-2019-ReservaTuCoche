@@ -24,7 +24,9 @@ public class Vehiculo implements Serializable, Cloneable {
     private Double precio;
     @NotEmpty(message = "La matricula es obligatoria")
     @Column(unique = true)
-    private String matricula = "", motor = "";
+    private String matricula = "";
+    @NotEmpty(message = "Campos obligatorios")
+    private VehiculoMotor motor;
     @ManyToOne
     @NotNull(message = "Campos obligatorios")
     private VehiculoMarca marca;
@@ -72,7 +74,7 @@ public class Vehiculo implements Serializable, Cloneable {
         return puertas;
     }
 
-    public String getMotor() {
+    public VehiculoMotor getMotor() {
         return motor;
     }
 
@@ -93,7 +95,7 @@ public class Vehiculo implements Serializable, Cloneable {
         this.ac = ac;
     }
 
-    public void setMotor(String motor) {
+    public void setMotor(VehiculoMotor motor) {
         this.motor = motor;
     }
 

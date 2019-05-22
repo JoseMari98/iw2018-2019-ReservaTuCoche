@@ -21,7 +21,9 @@ public class Reserva {
     @OneToMany(mappedBy = "reserva")
     private Set<Pago> pagosSet = new HashSet<>();
     @Enumerated(EnumType.STRING)
-    private ReservaEstado estado;
+    private ReservaEstadoCoche estadoCoche;
+    @Enumerated(EnumType.STRING)
+    private ReservaEstado reservaEstado;
 
     //Getters
     public Usuario getUsuario() {
@@ -56,8 +58,12 @@ public class Reserva {
         return codigo;
     }
 
-    public ReservaEstado getEstado() {
-        return estado;
+    public ReservaEstadoCoche getEstadoCoche() {
+        return estadoCoche;
+    }
+
+    public ReservaEstado getReservaEstado() {
+        return reservaEstado;
     }
 
     //Setters
@@ -93,8 +99,12 @@ public class Reserva {
         this.id = id;
     }
 
-    public void setEstado(ReservaEstado estado) {
-        this.estado = estado;
+    public void setEstadoCoche(ReservaEstadoCoche estadoCoche) {
+        this.estadoCoche = estadoCoche;
+    }
+
+    public void setReservaEstado(ReservaEstado reservaEstado) {
+        this.reservaEstado = reservaEstado;
     }
 
     @Override
