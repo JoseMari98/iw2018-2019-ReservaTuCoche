@@ -1,4 +1,4 @@
-/*package es.uca.iw;
+package es.uca.iw;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -50,4 +50,4 @@ public class ReservasView extends AbstractView {
         service.delete(reserva);
         updateList();
     }
-}*/
+}

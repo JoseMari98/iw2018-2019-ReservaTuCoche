@@ -38,4 +38,8 @@ public class VehiculoTipoService {
     public VehiculoTipo listarTipoPorTipo(String tipo) {
         return repoTipo.findByTipoStartsWithIgnoreCase(tipo);
     }
+
+    public List<VehiculoTipo> listarPorMarca(VehiculoMarca vehiculoMarca) {
+        return repoTipo.findByMarca(vehiculoMarca);
+    }
 }

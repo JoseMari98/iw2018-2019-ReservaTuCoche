@@ -48,6 +48,7 @@ public class VehiculoForm extends FormLayout {
         puertas.setRequiredIndicatorVisible(true);
         ac.setRequired(true);
         motor.setRequired(true);
+        marca.addValueChangeListener(e -> tipo.setItems(serviceTipo.listarPorMarca(marca.getValue())));
         marca.setItemLabelGenerator(VehiculoMarca::getMarca);
         modelo.setItemLabelGenerator(VehiculoModelo::getModelo);
         tipo.setItemLabelGenerator(VehiculoTipo::getTipo);
