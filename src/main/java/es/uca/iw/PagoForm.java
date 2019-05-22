@@ -1,4 +1,4 @@
-package es.uca.iw;
+/*package es.uca.iw;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -57,3 +57,4 @@ public class PagoForm extends FormLayout {
         }
     }
 }
+*/

@@ -1,10 +1,6 @@
 package es.uca.iw;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 public class Pago {
@@ -13,11 +9,12 @@ public class Pago {
     private Long id;
     @ManyToOne
     private Reserva reserva;
-    @NotEmpty(message = "Rellene el campo")
-    private String tarjetaCredito = "", propietario = "", numeroSeguridad = "";
     private double precioTotal;
-    @NotNull(message = "Rellene el campo")
-    private LocalDate fechaCaducidad;
+    @ManyToOne
+    private TarjetaCredito origen;
+    @ManyToOne
+    private TarjetaCredito destino;
+    private PagoTipo tipo;
 
     public double getPrecioTotal() {
         return precioTotal;
@@ -27,32 +24,36 @@ public class Pago {
         return reserva;
     }
 
-    public String getTarjetaCredito() {
-        return tarjetaCredito;
+    public Long getId() {
+        return id;
     }
 
-    public String getNumeroSeguridad() {
-        return numeroSeguridad;
+    public PagoTipo getTipo() {
+        return tipo;
     }
 
-    public String getPropietario() {
-        return propietario;
+    public TarjetaCredito getDestino() {
+        return destino;
     }
 
-    public LocalDate getFechaCaducidad() {
-        return fechaCaducidad;
+    public TarjetaCredito getOrigen() {
+        return origen;
     }
 
-    public void setFechaCaducidad(LocalDate fechaCaducidad) {
-        this.fechaCaducidad = fechaCaducidad;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setNumeroSeguridad(String numeroSeguridad) {
-        this.numeroSeguridad = numeroSeguridad;
+    public void setDestino(TarjetaCredito destino) {
+        this.destino = destino;
     }
 
-    public void setPropietario(String propietario) {
-        this.propietario = propietario;
+    public void setOrigen(TarjetaCredito origen) {
+        this.origen = origen;
+    }
+
+    public void setTipo(PagoTipo tipo) {
+        this.tipo = tipo;
     }
 
     public void setPrecioTotal(double precioTotal) {
@@ -63,7 +64,4 @@ public class Pago {
         this.reserva = reserva;
     }
 
-    public void setTarjetaCredito(String tarjetaCredito) {
-        this.tarjetaCredito = tarjetaCredito;
-    }
 }

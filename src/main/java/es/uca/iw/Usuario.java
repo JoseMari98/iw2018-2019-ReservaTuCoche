@@ -21,6 +21,8 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
     private String role = "";
+    @OneToMany(mappedBy = "usuario")
+    private Set<TarjetaCredito> tarjetaCreditoSet = new HashSet<>();
 
     //Getters
     public int getId() {

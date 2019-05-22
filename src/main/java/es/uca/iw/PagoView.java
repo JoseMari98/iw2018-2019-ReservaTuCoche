@@ -1,4 +1,4 @@
-package es.uca.iw;
+/*package es.uca.iw;
 
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -28,3 +28,4 @@ public class PagoView extends AbstractView {
         setSizeFull();
     }
 }
+*/
