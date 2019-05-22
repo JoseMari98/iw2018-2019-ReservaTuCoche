@@ -10,6 +10,8 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private Long codigo;
     @ManyToOne
     private Usuario usuario;
     @ManyToOne
@@ -18,6 +20,8 @@ public class Reserva {
     private double precioTotal;
     @OneToMany(mappedBy = "reserva")
     private Set<Pago> pagosSet = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private ReservaEstado estado;
 
     //Getters
     public Usuario getUsuario() {
@@ -48,6 +52,14 @@ public class Reserva {
         return precioTotal;
     }
 
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    public ReservaEstado getEstado() {
+        return estado;
+    }
+
     //Setters
     public void setUsuario(Usuario Usuario) {
         this.usuario = Usuario;
@@ -59,6 +71,10 @@ public class Reserva {
 
     public void setPrecioTotal(double precioTotal) {
         this.precioTotal = precioTotal;
+    }
+
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public void setFechaFin(LocalDate FechaFin) {
@@ -75,6 +91,10 @@ public class Reserva {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setEstado(ReservaEstado estado) {
+        this.estado = estado;
     }
 
     @Override

@@ -18,6 +18,7 @@ public class Vehiculo implements Serializable, Cloneable {
     @NotNull(message = "Campos obligatorios")
     private Double puertas, plazas;
     @NotNull(message = "Campos obligatorios")
+    @Enumerated(EnumType.STRING)
     private VehiculoAC ac;
     @NotNull(message = "Campos obligatorios")
     private Double precio;

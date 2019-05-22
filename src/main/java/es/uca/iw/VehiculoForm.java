@@ -19,7 +19,7 @@ public class VehiculoForm extends FormLayout {
     private NumberField precio = new NumberField("Precio");
     private NumberField plazas = new NumberField("Plazas");
     private NumberField puertas = new NumberField("Puertas");
-    private TextField motor = new TextField("Motor");
+    private ComboBox<VehiculoMotor> motor = new ComboBox<>("Motor");
     private ComboBox<VehiculoAC> ac = new ComboBox<>("A/C");
     private Button save = new Button("Añadir");
     private Button delete = new Button("Borrar");
@@ -55,6 +55,7 @@ public class VehiculoForm extends FormLayout {
         marca.setItems(serviceMarca.listarMarca());
         modelo.setItems(serviceModelo.listarModelo());
         ac.setItems(VehiculoAC.values());
+        motor.setItems(VehiculoMotor.values());
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
