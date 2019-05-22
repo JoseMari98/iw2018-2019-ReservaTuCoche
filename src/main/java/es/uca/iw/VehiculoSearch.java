@@ -18,18 +18,18 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 @Route(value="search", layout = MainView.class)
-public class VehiculoSearch extends FormLayout {
+public class VehiculoSearch extends AbstractView {
 
     private Grid<Vehiculo> gVehiculos = new Grid<>(Vehiculo.class);
     private VehiculoService service;
-    private Button reserva = new Button("Reservar");
-    private Button info = new Button("Mas información");
+    private VehiculoSearchForm form;
     private RadioButtonGroup<VehiculoMarca> buscaMarca = new RadioButtonGroup<>();
     private RadioButtonGroup<VehiculoModelo> buscaModelo = new RadioButtonGroup<>();
 
     @Autowired
     public VehiculoSearch(VehiculoService serv, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo) {
         service = serv;
+        form = new VehiculoSearchForm(this, serv, serviceModelo, serviceMarca);
         buscaMarca.setLabel("Marca");
         buscaModelo.setLabel("Modelo");
         final String[] query = {"", ""};
@@ -69,27 +69,19 @@ public class VehiculoSearch extends FormLayout {
 
         gVehiculos.setItems(listaVehiculo);
 
-        reserva.addClickListener(event -> {
-            if (SecurityUtils.isUserLoggedIn()) {
-                UI.getCurrent().navigate("reservaform/"  + gVehiculos.asSingleSelect().getValue().getId());
-            } else
-                Notification.show("Debes estar registrado!");
-        });
-
-        info.addClickListener(event -> {
-            UI.getCurrent().navigate("Info/"  + gVehiculos.asSingleSelect().getValue().getId());
-        });
-
         HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo);
-        HorizontalLayout botones = new HorizontalLayout(reserva, info);
 
-        VerticalLayout reservar = new VerticalLayout(gVehiculos, botones);
+        VerticalLayout reservar = new VerticalLayout(gVehiculos, form);
 
         VerticalLayout lista = new VerticalLayout(filters, reservar);
 
         add(lista);
 
         setSizeFull();
+
+        gVehiculos.asSingleSelect().addValueChangeListener( e -> {
+            form.setReserva(gVehiculos.asSingleSelect().getValue().getId());
+        });
     }
 
     public void updateList( String[] marca) {
