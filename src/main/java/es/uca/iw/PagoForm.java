@@ -2,6 +2,7 @@ package es.uca.iw;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
@@ -14,6 +15,7 @@ public class PagoForm extends FormLayout {
     TextField propietario = new TextField("Nombre y apellidos del propietario de la tarjeta");
     TextField numeroSeguridad = new TextField("Numero de seguridad");
     DatePicker fechaCaducidad = new DatePicker("Fecha de caducidad");
+    ComboBox<ReservaSeguro> seguro = new ComboBox<>("Seguro");
     private Button save = new Button("Pagar");
     private Button cancelar = new Button("Cancelar");
     private PagoView pagoView;
@@ -28,10 +30,12 @@ public class PagoForm extends FormLayout {
         propietario.setRequired(true);
         numeroSeguridad.setRequired(true);
         fechaCaducidad.setRequired(true);
+        seguro.setRequired(true);
+        seguro.setItems(ReservaSeguro.values());
 
         HorizontalLayout buttons = new HorizontalLayout(save, cancelar);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(tarjetaCredito, propietario, numeroSeguridad, fechaCaducidad, buttons);
+        add(tarjetaCredito, propietario, numeroSeguridad, fechaCaducidad, seguro, buttons);
 
         binder.bindInstanceFields(this);
 
@@ -44,6 +48,7 @@ public class PagoForm extends FormLayout {
         pago.setNumeroSeguridad(numeroSeguridad.getValue());
         pago.setPropietario(propietario.getValue());
         pago.setTarjetaCredito(tarjetaCredito.getValue());
+        //meter en la reserva de la sesion el seguro
         if(binder.validate().isOk()) {
             pagoService.guardarPago(pago);
         }

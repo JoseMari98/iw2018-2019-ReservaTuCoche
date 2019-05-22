@@ -24,6 +24,8 @@ public class Reserva {
     private ReservaEstadoCoche estadoCoche;
     @Enumerated(EnumType.STRING)
     private ReservaEstado reservaEstado;
+    @Enumerated(EnumType.STRING)
+    private ReservaSeguro seguro;
 
     //Getters
     public Usuario getUsuario() {
@@ -66,6 +68,10 @@ public class Reserva {
         return reservaEstado;
     }
 
+    public ReservaSeguro getSeguro() {
+        return seguro;
+    }
+
     //Setters
     public void setUsuario(Usuario Usuario) {
         this.usuario = Usuario;
@@ -105,6 +111,10 @@ public class Reserva {
 
     public void setReservaEstado(ReservaEstado reservaEstado) {
         this.reservaEstado = reservaEstado;
+    }
+
+    public void setSeguro(ReservaSeguro seguro) {
+        this.seguro = seguro;
     }
 
     @Override
