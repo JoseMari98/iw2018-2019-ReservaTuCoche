@@ -13,11 +13,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
 @Route(value="search", layout = MainView.class)
+@Secured("User")
 public class VehiculoSearch extends AbstractView {
 
     private Grid<Vehiculo> gVehiculos = new Grid<>(Vehiculo.class);
@@ -26,12 +29,17 @@ public class VehiculoSearch extends AbstractView {
     private RadioButtonGroup<VehiculoMarca> buscaMarca = new RadioButtonGroup<>();
     private RadioButtonGroup<VehiculoModelo> buscaModelo = new RadioButtonGroup<>();
 
+    private LocalDate fechaFin;
+    private LocalDate fechaInicio;
+    private VehiculoCiudad ciudad;
+
     @Autowired
     public VehiculoSearch(VehiculoService serv, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo, ReservaService reservaService) {
         service = serv;
         form = new VehiculoSearchForm(this, serv, serviceModelo, serviceMarca, reservaService);
         buscaMarca.setLabel("Marca");
         buscaModelo.setLabel("Modelo");
+
         final String[] query = {"", ""};
         ArrayList<Vehiculo> listaVehiculo = new ArrayList<>();
         ArrayList<VehiculoMarca> listaMarca = new ArrayList<>();
@@ -94,7 +102,7 @@ public class VehiculoSearch extends AbstractView {
                 if(marca[0] == "" && marca[1] != "")
                     gVehiculos.setItems(service.listarVehiculoPorModelo(marca[1]));
                 else {
-                    gVehiculos.setItems(service.listarVehiculoPorMarcaYModelo(marca[0], marca[1]));
+                    gVehiculos.setItems(service.listarVehiculoPorMarcaYModelo(marca[0],marca[1]));
                 }
             }
         }
