@@ -6,6 +6,9 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
+import java.time.LocalDate;
+import java.util.Random;
+
 public class VehiculoSearchForm extends FormLayout {
     private Button reserva = new Button("Reservar");
     private Button info = new Button("Mas información");
@@ -13,12 +16,14 @@ public class VehiculoSearchForm extends FormLayout {
     private VehiculoService service;
     private VehiculoMarcaService maService;
     private VehiculoModeloService moService;
+    private ReservaService reservaService;
 
-    public VehiculoSearchForm(VehiculoSearch view, VehiculoService service, VehiculoModeloService moService, VehiculoMarcaService maService) {
+    public VehiculoSearchForm(VehiculoSearch view, VehiculoService service, VehiculoModeloService moService, VehiculoMarcaService maService, ReservaService reservaService) {
         this.view = view;
         this.service = service;
         this.moService = moService;
         this.maService = maService;
+        this.reservaService = reservaService;
 
         HorizontalLayout botones = new HorizontalLayout(reserva, info);
 
@@ -27,11 +32,20 @@ public class VehiculoSearchForm extends FormLayout {
     }
 
     public void setReserva(Long id) {
+        Reserva r = new Reserva();
+        r.setFechaInicio(LocalDate.now());
+        r.setFechaFin(LocalDate.now().plusDays(7));
+        r.setVehiculo(service.buscarIdVehiculo(id).get());
+        Random random = new Random();
+
+        while(reservaService.listarPorCodigo(random.nextLong()) != null) {
+            random = new Random();
+        }
+
+        r.setCodigo(random.nextLong());
         reserva.addClickListener(event -> {
-            if (SecurityUtils.isUserLoggedIn()) {
-                UI.getCurrent().navigate("reservaform/"  + id);
-            } else
-                Notification.show("Debes estar registrado!");
+            UI.getCurrent().getSession().setAttribute(Reserva.class, r);
+            UI.getCurrent().navigate("PagoView");
         });
 
         info.addClickListener(event -> {
