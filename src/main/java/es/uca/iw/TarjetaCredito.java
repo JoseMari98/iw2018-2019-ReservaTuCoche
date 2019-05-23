@@ -11,7 +11,10 @@ public class TarjetaCredito {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @NotEmpty(message = "Rellene el campo")
-    private String numeroTarjeta = "", numeroSeguridad = "";
+    @Column(unique = true)
+    private String numeroTarjeta = "";
+    @NotEmpty(message = "Rellene el campo")
+    private String numeroSeguridad = "";
     @NotNull(message = "Rellene el campo")
     private LocalDate fechaCaducidad;
     @ManyToOne
@@ -33,6 +36,10 @@ public class TarjetaCredito {
         return fechaCaducidad;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
     public void setFechaCaducidad(LocalDate fechaCaducidad) {
         this.fechaCaducidad = fechaCaducidad;
     }
@@ -47,5 +54,9 @@ public class TarjetaCredito {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

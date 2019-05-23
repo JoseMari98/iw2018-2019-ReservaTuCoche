@@ -3,6 +3,7 @@ package es.uca.iw;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -21,34 +22,45 @@ public class UsuarioForm extends FormLayout {
     private TextField telefono = new TextField("Teléfono");
     private EmailField email = new EmailField("Email");
     private PasswordField password = new PasswordField("Contraseña");
-
     private BeanValidationBinder<Usuario> binder = new BeanValidationBinder<>(Usuario.class);
     private UsuarioView usuarioView;
     private UsuarioService service;
-
-
-
-    private Button save = new Button("Registrarse");
+    private Button save = new Button("Continuar");
 
     public UsuarioForm(UsuarioView usuarioView, UsuarioService service) {
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) == null) {
+            this.usuarioView = usuarioView;
+            this.service = service;
 
-        this.usuarioView = usuarioView;
-        this.service = service;
+            nombre.setRequired(true);
+            apellido1.setRequired(true);
+            apellido2.setRequired(true);
+            dni.setRequired(true);
+            email.setRequiredIndicatorVisible(true);
+            password.setRequired(true);
 
+            save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+            add(username, nombre, apellido1, apellido2, dni, telefono, email, password, save);
 
-        nombre.setRequired(true);
-        apellido1.setRequired(true);
-        apellido2.setRequired(true);
-        dni.setRequired(true);
-        email.setRequiredIndicatorVisible(true);
-        password.setRequired(true);
+            binder.bindInstanceFields(this);
 
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(username, nombre, apellido1,apellido2, dni, telefono, email, password, save);
+            Dialog dialog = new Dialog();
 
-        binder.bindInstanceFields(this);
-
-        save.addClickListener(event -> save());
+            Button confirmButton = new Button("Confirmar", event -> {
+                save();
+                dialog.close();
+            });
+            confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+            Button cancelButton = new Button("Cancelar", event -> {
+                dialog.close();
+            });
+            dialog.add(confirmButton, cancelButton);
+            cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+            save.addClickListener(event -> dialog.open());
+        }
+        else {
+            UI.getCurrent().navigate("MisReservas");
+        }
     }
 
     public void save() {

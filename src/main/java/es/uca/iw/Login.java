@@ -41,6 +41,7 @@ public class Login extends VerticalLayout {
         if (authenticate(e.getUsername(), e.getPassword()))
         {
             loginForm.close();
+            UI.getCurrent().getSession().setAttribute(Usuario.class, service.loadUserByUsername(e.getUsername()));
             UI.getCurrent().navigate("");
             UI.getCurrent().getPage().reload();
         } else {

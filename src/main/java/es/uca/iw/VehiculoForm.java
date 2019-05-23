@@ -38,7 +38,6 @@ public class VehiculoForm extends FormLayout {
         this.serviceMarca = serviceMarca;
         this.serviceModelo = serviceModelo;
         this.serviceTipo = serviceTipo;
-
         precio.setSuffixComponent(new Span("€"));
         precio.setStep(0.01);
         matricula.setRequired(true);
@@ -50,7 +49,9 @@ public class VehiculoForm extends FormLayout {
         puertas.setRequiredIndicatorVisible(true);
         ac.setRequired(true);
         motor.setRequired(true);
-        marca.addValueChangeListener(e -> tipo.setItems(serviceTipo.listarPorMarca(marca.getValue())));
+        marca.addValueChangeListener(e -> {
+            tipo.setItems(serviceTipo.listarPorMarca(marca.getValue()));
+        } );
         marca.setItemLabelGenerator(VehiculoMarca::getMarca);
         modelo.setItemLabelGenerator(VehiculoModelo::getModelo);
         tipo.setItemLabelGenerator(VehiculoTipo::getTipo);

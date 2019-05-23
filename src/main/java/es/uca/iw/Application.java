@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.time.LocalDate;
+
 @SpringBootApplication
 public class Application extends SpringBootServletInitializer {
 
@@ -20,7 +22,7 @@ public class Application extends SpringBootServletInitializer {
     }
 
     @Bean
-    public CommandLineRunner loadData(UsuarioService usuarioService) {
+    public CommandLineRunner loadData(UsuarioService usuarioService, TarjetaCreditoService creditoService) {
         return (args) -> {
             try {
                 boolean valido = usuarioService.loadUserByUsername("admin").getRole().equals("Admin");
@@ -36,6 +38,14 @@ public class Application extends SpringBootServletInitializer {
                 u.setTelefono("9");
                 u.setDni("9");
                 usuarioService.create(u);
+                if(creditoService.listarPorNumero("1234567890123456") == null) {
+                    TarjetaCredito tarjetaCredito = new TarjetaCredito();
+                    tarjetaCredito.setNumeroTarjeta("1234567890123456");
+                    tarjetaCredito.setFechaCaducidad(LocalDate.of(2024, 10, 3));
+                    tarjetaCredito.setNumeroSeguridad("232");
+                    tarjetaCredito.setUsuario(u);
+                    creditoService.guardarTarjeta(tarjetaCredito);
+                }
             }
         };
     }

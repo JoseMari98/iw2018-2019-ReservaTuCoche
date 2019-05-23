@@ -33,4 +33,8 @@ public class TarjetaCreditoService {
     public void borrarTarjeta(TarjetaCredito entidad) {
         repoTarjeta.delete(entidad);
     }
+
+    public TarjetaCredito listarPorNumero(String numero) {
+        return repoTarjeta.findByNumeroTarjeta(numero);
+    }
 }

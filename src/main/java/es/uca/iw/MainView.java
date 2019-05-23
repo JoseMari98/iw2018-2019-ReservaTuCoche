@@ -10,13 +10,14 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.material.Material;
 
 /**
  * The main view contains a button and a click listener.
  */
 @Theme(Material.class)
-@PWA(name = "Project Base for Vaadin Flow", shortName = "Project Base")
+@PWA(name = "Reserva Tu Coche", shortName = "RTC")
 public class MainView extends AbstractAppRouterLayout {
 
     public MainView(){}
@@ -63,6 +64,7 @@ public class MainView extends AbstractAppRouterLayout {
     private void signOut() {
         UI.getCurrent().getPage().executeJavaScript("location.assign('logout')");
         UI.getCurrent().getSession().close();
+        UI.getCurrent().getSession().setAttribute(Usuario.class, null);
         UI.getCurrent().setPollInterval(3000);
     }
 }

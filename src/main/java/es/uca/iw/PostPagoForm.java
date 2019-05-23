@@ -2,7 +2,9 @@ package es.uca.iw;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -31,8 +33,21 @@ public class PostPagoForm extends FormLayout {
         codigo.setRequired(true);
         HorizontalLayout buttons = new HorizontalLayout(save);
         add(codigo, estadoCoche, buttons);
-        save.addClickListener(event -> save());
+        Dialog dialog = new Dialog();
 
+        binder.bindInstanceFields(this);
+
+        Button confirmButton = new Button("Confirmar", event -> {
+            save();
+            dialog.close();
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        Button cancelButton = new Button("Cancelar", event -> {
+            dialog.close();
+        });
+        dialog.add(confirmButton, cancelButton);
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        save.addClickListener(event -> dialog.open());
     }
 
     public void save() {

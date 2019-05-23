@@ -1,6 +1,8 @@
 package es.uca.iw;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -16,7 +18,13 @@ public class Vehiculo implements Serializable, Cloneable {
     @OneToMany(mappedBy = "vehiculo")
     private Set<Reserva> reservaSet = new HashSet<>();
     @NotNull(message = "Campos obligatorios")
-    private Double puertas, plazas;
+    @Min(value = 3, message = "El numero de puertas no puede ser menor que 3")
+    @Max(value = 5, message = "El numero de puertas no puede ser mayor que 5")
+    private Double puertas;
+    @NotNull(message = "Campos obligatorios")
+    @Min(value = 3, message = "El numero de plazas no puede ser menor que 3")
+    @Max(value = 7, message = "El numero de plazas no puede ser mayor que 7")
+    private Double plazas;
     @NotNull(message = "Campos obligatorios")
     @Enumerated(EnumType.STRING)
     private VehiculoAC ac;
@@ -35,9 +43,9 @@ public class Vehiculo implements Serializable, Cloneable {
     @NotNull(message = "Campos obligatorios")
     private VehiculoModelo modelo;
     @ManyToOne
-    @NotNull
+    @NotNull(message = "Campo obligatorio")
     private VehiculoTipo tipo;
-    @NotNull
+    @NotNull(message = "Campo obligatorio")
     @Enumerated(EnumType.STRING)
     private VehiculoCiudad ciudad;
 

@@ -4,9 +4,8 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 
@@ -17,7 +16,7 @@ public class PagoForm extends FormLayout {
     ComboBox<ReservaSeguro> seguro = new ComboBox<>("Seguro");
     private Button save = new Button("Pagar");
     private PagoView pagoView;
-    private BeanValidationBinder<Pago> binder = new BeanValidationBinder<>(Pago.class);
+    private BeanValidationBinder<TarjetaCredito> binder = new BeanValidationBinder<>(TarjetaCredito.class);
     private PagoService pagoService;
     private TarjetaCreditoService tarjetaService;
 
@@ -31,13 +30,27 @@ public class PagoForm extends FormLayout {
         fechaCaducidad.setRequired(true);
         seguro.setRequired(true);
         seguro.setItems(ReservaSeguro.values());
+        seguro.setPreventInvalidInput(true);
+        seguro.setValue(ReservaSeguro.No);
 
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(numeroTarjeta, numeroSeguridad, fechaCaducidad, seguro, save);
 
-        //binder.bindInstanceFields(this);
+        binder.bindInstanceFields(this);
 
-        //save.addClickListener(event -> save());
+        Dialog dialog = new Dialog();
+
+        Button confirmButton = new Button("Confirmar", event -> {
+            //save();
+            dialog.close();
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        Button cancelButton = new Button("Cancelar", event -> {
+            dialog.close();
+        });
+        dialog.add(confirmButton, cancelButton);
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        save.addClickListener(event -> dialog.open());
     }
 
     /*public void save() {

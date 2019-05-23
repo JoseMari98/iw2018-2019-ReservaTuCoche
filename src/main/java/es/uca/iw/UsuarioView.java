@@ -15,8 +15,8 @@ public class UsuarioView extends VerticalLayout {
     UsuarioView(UsuarioService service){
         this.service = service;
         this.form = new UsuarioForm( this , service);
-        H1 titulo = new H1("Registro");
-        VerticalLayout contenido = new VerticalLayout(titulo, form);
+        //H1 titulo = new H1("Registro");
+        VerticalLayout contenido = new VerticalLayout(/*titulo,*/ form);
         contenido.setSizeFull();
         add(contenido);
         setSizeFull();
