@@ -1,6 +1,7 @@
 package es.uca.iw;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
@@ -56,9 +57,12 @@ public class MainView extends AbstractAppRouterLayout {
                 appLayoutMenu.addMenuItem(gestion, "Gestión Marca", "GestionMarca");
                 appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Estadísticas");
             }
-            appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", "CerrarSesion");;
+            appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", e -> signOut());;
         }
-
-
+    }
+    private void signOut() {
+        UI.getCurrent().getPage().executeJavaScript("location.assign('logout')");
+        UI.getCurrent().getSession().close();
+        UI.getCurrent().setPollInterval(3000);
     }
 }
