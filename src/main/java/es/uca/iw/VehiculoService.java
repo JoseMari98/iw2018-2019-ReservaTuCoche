@@ -1,8 +1,10 @@
 package es.uca.iw;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +55,21 @@ public class VehiculoService {
 
     public List<Vehiculo> listarVehiculoPorMarcaYModelo(String marca, String modelo) {
         return repoVehiculo.findByMarcaAndModelo(repoMarca.findByMarcaStartsWithIgnoreCase(marca), repoModelo.findByModeloStartsWithIgnoreCase(modelo));
+    }
+
+    public List<Vehiculo> buscarPorFechaYCiudad(LocalDate fechaInicio, LocalDate fechaFin, String ciudad) {
+        return repoVehiculo.findByFechaAndCiudad(fechaInicio, fechaFin, ciudad);
+    }
+
+    public List<Vehiculo> buscarPorFechaYCiudadYMarca(LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String marca) {
+        return repoVehiculo.findByFechaAndCiudadAndMarca(fechaInicio,fechaFin,ciudad, repoMarca.findByMarcaStartsWithIgnoreCase(marca).getId());
+    }
+
+    public List<Vehiculo> buscarPorFechaYCiudadYModelo(LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String modelo) {
+        return repoVehiculo.findByFechaAndCiudadAndModelo(fechaInicio,fechaFin,ciudad,repoModelo.findByModeloStartsWithIgnoreCase(modelo).getId());
+    }
+
+    public List<Vehiculo> buscarPorFechaYCiudadYMarcaYmodelo(LocalDate fechaInicio, LocalDate fechaFin, String ciudad,String marca, String modelo) {
+        return repoVehiculo.findByFechaAndCiudadAndMarcaAndModelo(fechaInicio,fechaFin,ciudad,repoMarca.findByMarcaStartsWithIgnoreCase(marca).getId(), repoModelo.findByModeloStartsWithIgnoreCase(modelo).getId());
     }
 }

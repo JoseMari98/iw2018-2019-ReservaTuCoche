@@ -33,9 +33,12 @@ public class VehiculoSearchForm extends FormLayout {
 
     public void setReserva(Long id) {
         Reserva r = new Reserva();
-        r.setFechaInicio(LocalDate.now());
-        r.setFechaFin(LocalDate.now().plusDays(7));
+        LocalDate now = LocalDate.now();
+        r.setFechaFin(now.plusDays(7));
+        r.setFechaInicio(now);
+
         r.setVehiculo(service.buscarIdVehiculo(id).get());
+
         Random random = new Random();
 
         while(reservaService.listarPorCodigo(random.nextLong()) != null) {
