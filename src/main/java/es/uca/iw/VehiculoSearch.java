@@ -27,9 +27,9 @@ public class VehiculoSearch extends AbstractView {
     private RadioButtonGroup<VehiculoModelo> buscaModelo = new RadioButtonGroup<>();
 
     @Autowired
-    public VehiculoSearch(VehiculoService serv, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo) {
+    public VehiculoSearch(VehiculoService serv, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo, ReservaService reservaService) {
         service = serv;
-        form = new VehiculoSearchForm(this, serv, serviceModelo, serviceMarca);
+        form = new VehiculoSearchForm(this, serv, serviceModelo, serviceMarca, reservaService);
         buscaMarca.setLabel("Marca");
         buscaModelo.setLabel("Modelo");
         final String[] query = {"", ""};
