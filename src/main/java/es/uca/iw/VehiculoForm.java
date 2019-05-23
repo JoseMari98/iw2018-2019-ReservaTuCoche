@@ -13,6 +13,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 
 public class VehiculoForm extends FormLayout {
     private TextField matricula = new TextField("Matricula");
+    private ComboBox<VehiculoCiudad> ciudad = new ComboBox<>("Ciudad");
     private ComboBox<VehiculoMarca> marca = new ComboBox<>("Marca");
     private ComboBox<VehiculoModelo> modelo = new ComboBox<>("Modelo");
     private ComboBox<VehiculoTipo> tipo = new ComboBox<>("Tipo");
@@ -44,6 +45,7 @@ public class VehiculoForm extends FormLayout {
         tipo.setRequired(true);
         marca.setRequired(true);
         modelo.setRequired(true);
+        ciudad.setRequired(true);
         plazas.setRequiredIndicatorVisible(true);
         puertas.setRequiredIndicatorVisible(true);
         ac.setRequired(true);
@@ -57,10 +59,11 @@ public class VehiculoForm extends FormLayout {
         modelo.setItems(serviceModelo.listarModelo());
         ac.setItems(VehiculoAC.values());
         motor.setItems(VehiculoMotor.values());
+        ciudad.setItems(VehiculoCiudad.values());
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        add(matricula, marca, modelo, tipo, precio, puertas, plazas, motor, ac, buttons);
+        add(matricula, marca, modelo, tipo, precio, puertas, plazas, motor, ac, ciudad, buttons);
 
         binder.bindInstanceFields(this);
 

@@ -37,6 +37,9 @@ public class Vehiculo implements Serializable, Cloneable {
     @ManyToOne
     @NotNull
     private VehiculoTipo tipo;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private VehiculoCiudad ciudad;
 
     //Getters
     public Long getId() {
@@ -53,6 +56,10 @@ public class Vehiculo implements Serializable, Cloneable {
 
     public VehiculoMarca getMarca() {
         return marca;
+    }
+
+    public VehiculoCiudad getCiudad() {
+        return ciudad;
     }
 
     public String getMatricula() {
@@ -90,6 +97,10 @@ public class Vehiculo implements Serializable, Cloneable {
 
     public void setReservas(Set<Reserva> Reservas) {
         this.reservaSet = Reservas;
+    }
+
+    public void setCiudad(VehiculoCiudad ciudad) {
+        this.ciudad = ciudad;
     }
 
     public void setAc(VehiculoAC ac) {

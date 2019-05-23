@@ -36,7 +36,7 @@ public class VehiculoGestionView extends AbstractView {
         HorizontalLayout toolbar = new HorizontalLayout(filterText,
                 addVehiculoBtn);
 
-        grid.setColumns("matricula", "modelo.modelo","marca.marca", "tipo.tipo", "precio", "puertas", "plazas", "ac", "motor");
+        grid.setColumns("matricula", "modelo.modelo","marca.marca", "tipo.tipo", "precio", "puertas", "plazas", "ac", "motor", "ciudad");
 
         HorizontalLayout mainContent = new HorizontalLayout(grid, form); //metemos en un objeto el grid y formulario
         mainContent.setSizeFull();

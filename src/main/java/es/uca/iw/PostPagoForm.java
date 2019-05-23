@@ -39,32 +39,33 @@ public class PostPagoForm extends FormLayout {
         Reserva reserva = reservaService.listarPorCodigo(Long.parseLong(codigo.getValue()));
         reserva.setEstadoCoche(estadoCoche.getValue());
         reserva.setReservaEstado(ReservaEstado.Finalizada);
-        Pago pago = new Pago();
-        if(reserva.getSeguro() == ReservaSeguro.No) {
-            if(reserva.getEstadoCoche()!= ReservaEstadoCoche.Siniestrado)
-            {
-                List<Pago> pagoList = pagoService.listarPorReserva(reserva);
-                pago.setReserva(reserva);
-                pago.setTipo(PagoTipo.Fianza);
-                for(int i = 0; i < 2; i++){
-                    if(pagoList.get(i).getTipo() == PagoTipo.Fianza ) {
-                        if(reserva.getEstadoCoche() == ReservaEstadoCoche.Abollado) {
-                            double cantidad = pagoList.get(i).getCantidad() * 0.5;
-                            pago.setCantidad(cantidad);
-                            pago.setOrigen(pagoList.get(i).getDestino());
-                            pago.setDestino(pagoList.get(i).getOrigen());
-                        } else{
-                            double cantidad = pagoList.get(i).getCantidad();
-                            pago.setCantidad(cantidad);
-                            pago.setOrigen(pagoList.get(i).getOrigen());
-                            pago.setDestino(pagoList.get(i).getDestino());
+
+        if(binder.validate().isOk()) {
+            if(reserva.getSeguro() == ReservaSeguro.No) {
+                Pago pago = new Pago();
+                if(reserva.getEstadoCoche()!= ReservaEstadoCoche.Siniestrado)
+                {
+                    List<Pago> pagoList = pagoService.listarPorReserva(reserva);
+                    pago.setReserva(reserva);
+                    pago.setTipo(PagoTipo.Fianza);
+                    for(int i = 0; i < 2; i++){
+                        if(pagoList.get(i).getTipo() == PagoTipo.Fianza) {
+                            if(reserva.getEstadoCoche() == ReservaEstadoCoche.Abollado) {
+                                double cantidad = pagoList.get(i).getCantidad() * 0.5;
+                                pago.setCantidad(cantidad);
+                                pago.setOrigen(pagoList.get(i).getDestino());
+                                pago.setDestino(pagoList.get(i).getOrigen());
+                            } else{
+                                double cantidad = pagoList.get(i).getCantidad();
+                                pago.setCantidad(cantidad);
+                                pago.setOrigen(pagoList.get(i).getOrigen());
+                                pago.setDestino(pagoList.get(i).getDestino());
+                            }
                         }
                     }
                 }
+                pagoService.guardarPago(pago);
             }
-        }
-        if(binder.validate().isOk()) {
-            pagoService.guardarPago(pago);
             reservaService.save(reserva);
             UI.getCurrent().navigate("");
         }
