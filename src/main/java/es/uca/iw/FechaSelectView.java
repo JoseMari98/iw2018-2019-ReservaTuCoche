@@ -11,6 +11,8 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.formlayout.FormLayout;
 
 import java.time.LocalDate;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 @Route(value = "", layout = MainView.class)
 public class FechaSelectView extends FormLayout {
@@ -45,8 +47,15 @@ public class FechaSelectView extends FormLayout {
             UI.getCurrent().getSession().setAttribute(Reserva.class, r);
             if(SecurityUtils.isUserLoggedIn()) {
                 UI.getCurrent().navigate("search");
-            } else
+            } else{
                 Notification.show("¡Debe estar registrado!");
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e1) {
+                    Notification.show("Ha ocurrido un error!");
+                }
+                UI.getCurrent().navigate("Login");
+            }
         });
 
         add(layout, envia);
