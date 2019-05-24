@@ -37,6 +37,7 @@ public class VehiculoSearchForm extends FormLayout {
         Reserva r = UI.getCurrent().getSession().getAttribute(Reserva.class);
 
         r.setVehiculo(service.buscarIdVehiculo(id).get());
+        UI.getCurrent().getSession().setAttribute(Vehiculo.class, service.buscarIdVehiculo(id).get());
 
         Random random = new Random();
 

@@ -5,7 +5,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route(value = "", layout = MainView.class)
+@Route(value = "UsuarioView", layout = MainView.class)
 public class UsuarioView extends VerticalLayout {
 
     private UsuarioForm form;
