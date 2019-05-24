@@ -177,6 +177,6 @@ public class Vehiculo implements Serializable, Cloneable {
 
     @Override
     public String toString() {
-        return marca.getMarca() + " " + modelo.getModelo();
+        return marca.getMarca() + " " + tipo.getTipo();
     }
 }
