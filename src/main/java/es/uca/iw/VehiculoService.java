@@ -57,19 +57,20 @@ public class VehiculoService {
         return repoVehiculo.findByMarcaAndModelo(repoMarca.findByMarcaStartsWithIgnoreCase(marca), repoModelo.findByModeloStartsWithIgnoreCase(modelo));
     }
 
-    public List<Vehiculo> buscarPorFechaYCiudad(LocalDate fechaInicio, LocalDate fechaFin, String ciudad) {
-        return repoVehiculo.findByFechaAndCiudad(fechaInicio, fechaFin, ciudad);
+    public List<Vehiculo> buscarPorMarcaYCiudad(String marca, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByMarcaAndCiudad(repoMarca.findByMarcaStartsWithIgnoreCase(marca), ciudad);
     }
 
-    public List<Vehiculo> buscarPorFechaYCiudadYMarca(LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String marca) {
-        return repoVehiculo.findByFechaAndCiudadAndMarca(fechaInicio,fechaFin,ciudad, repoMarca.findByMarcaStartsWithIgnoreCase(marca).getId());
+    public List<Vehiculo> buscarPorModeloYCiudad(String modelo, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByModeloAndCiudad(repoModelo.findByModeloStartsWithIgnoreCase(modelo), ciudad);
     }
 
-    public List<Vehiculo> buscarPorFechaYCiudadYModelo(LocalDate fechaInicio, LocalDate fechaFin, String ciudad, String modelo) {
-        return repoVehiculo.findByFechaAndCiudadAndModelo(fechaInicio,fechaFin,ciudad,repoModelo.findByModeloStartsWithIgnoreCase(modelo).getId());
+    public List<Vehiculo> buscarPorMarcaYModeloYCiudad(String marca, String modelo, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByMarcaAndModeloAndCiudad(repoMarca.findByMarcaStartsWithIgnoreCase(marca), repoModelo.findByModeloStartsWithIgnoreCase(modelo), ciudad);
     }
 
-    public List<Vehiculo> buscarPorFechaYCiudadYMarcaYmodelo(LocalDate fechaInicio, LocalDate fechaFin, String ciudad,String marca, String modelo) {
-        return repoVehiculo.findByFechaAndCiudadAndMarcaAndModelo(fechaInicio,fechaFin,ciudad,repoMarca.findByMarcaStartsWithIgnoreCase(marca).getId(), repoModelo.findByModeloStartsWithIgnoreCase(modelo).getId());
+    public List<Vehiculo> buscarPorCiudad(VehiculoCiudad ciudad) {
+        return repoVehiculo.findByCiudad(ciudad);
     }
+
 }

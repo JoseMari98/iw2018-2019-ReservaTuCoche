@@ -7,6 +7,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalField;
 import java.util.Random;
 
 public class VehiculoSearchForm extends FormLayout {
@@ -32,10 +34,7 @@ public class VehiculoSearchForm extends FormLayout {
     }
 
     public void setReserva(Long id) {
-        Reserva r = new Reserva();
-        LocalDate now = LocalDate.now();
-        r.setFechaFin(now.plusDays(7));
-        r.setFechaInicio(now);
+        Reserva r = UI.getCurrent().getSession().getAttribute(Reserva.class);
 
         r.setVehiculo(service.buscarIdVehiculo(id).get());
 
@@ -45,7 +44,14 @@ public class VehiculoSearchForm extends FormLayout {
             random = new Random();
         }
 
+        Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
+
+        long dias = p.getDays();
+
+        r.setPrecioTotal(service.buscarIdVehiculo(id).get().getPrecio() * dias);
+
         r.setCodigo(random.nextLong());
+        r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
         reserva.addClickListener(event -> {
             UI.getCurrent().getSession().setAttribute(Reserva.class, r);
             UI.getCurrent().navigate("PagoView");

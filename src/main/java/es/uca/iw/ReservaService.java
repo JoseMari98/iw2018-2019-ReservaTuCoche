@@ -39,6 +39,10 @@ public class ReservaService {
         return repo.findByVehiculo(vehiculoRepository.findByMatriculaStartsWithIgnoreCase(matricula));
     }
 
+    public List<Reserva> listarReservaPorVehiculo(Vehiculo v) {
+        return repo.findByVehiculo(v);
+    }
+
     public List<Reserva> listarPorUsuario(Usuario usuario) {
         return repo.findByUsuario(usuario);
     }
