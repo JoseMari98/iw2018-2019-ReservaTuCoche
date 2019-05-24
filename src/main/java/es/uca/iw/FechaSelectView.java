@@ -29,6 +29,7 @@ public class FechaSelectView extends FormLayout {
         fechaInicio.setMin(now);
         fechaInicio.setRequired(true);
         fechaFin.setRequired(true);
+        fechaFin.setMin(now);
         ciudad.setItems(VehiculoCiudad.values());
         ciudad.setLabel("Ciudad");
         fechaInicio.setLabel("Fecha de inicio");
