@@ -27,8 +27,6 @@ public class PostPagoForm extends FormLayout {
     public PostPagoForm(PagoService pagoService, ReservaService reservaService ){
         this.reservaService = reservaService;
         this.pagoService = pagoService;
-        //Reserva r = new Reserva();
-        //binder.setBean(r);
 
         estadoCoche.setItems(ReservaEstadoCoche.values());
         estadoCoche.setRequired(true);
@@ -62,8 +60,7 @@ public class PostPagoForm extends FormLayout {
         if(binder.validate().isOk()) {
             if(reserva.getSeguro() == ReservaSeguro.No) {
                 Pago pago = new Pago();
-                if(reserva.getEstadoCoche()!= ReservaEstadoCoche.Siniestrado)
-                {
+                if(reserva.getEstadoCoche() != ReservaEstadoCoche.Siniestrado) {
                     List<Pago> pagoList = pagoService.listarPorReserva(reserva);
                     pago.setReserva(reserva);
                     pago.setTipo(PagoTipo.Fianza);
@@ -77,16 +74,17 @@ public class PostPagoForm extends FormLayout {
                             } else{
                                 double cantidad = pagoList.get(i).getCantidad();
                                 pago.setCantidad(cantidad);
-                                pago.setOrigen(pagoList.get(i).getOrigen());
-                                pago.setDestino(pagoList.get(i).getDestino());
+                                pago.setOrigen(pagoList.get(i).getDestino());
+                                pago.setDestino(pagoList.get(i).getOrigen());
                             }
                         }
                     }
+                    pagoService.guardarPago(pago);
                 }
-                pagoService.guardarPago(pago);
             }
             reservaService.save(reserva);
             UI.getCurrent().navigate("");
+            UI.getCurrent().getPage().reload();
         }
         else {
             Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);

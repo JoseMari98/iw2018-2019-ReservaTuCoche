@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -37,7 +38,7 @@ public class ReservasView extends AbstractView {
     }
 
     public void updateList() {
-        Usuario u = usuarioService.loadUserByUsername(SecurityUtils.getUsername());
+        Usuario u = UI.getCurrent().getSession().getAttribute(Usuario.class); //terminar
         grid.setItems(service.listarPorUsuario(u));
     }
 

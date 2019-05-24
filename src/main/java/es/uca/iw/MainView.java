@@ -49,7 +49,7 @@ public class MainView extends AbstractAppRouterLayout {
         if(!SecurityUtils.isUserLoggedIn())
         {
             appLayoutMenu.addMenuItem(user, "Inicar Sesión", "Login");
-            appLayoutMenu.addMenuItem(registro, "Registrarse", "RegistroUsuario");
+            appLayoutMenu.addMenuItem(registro, "Registrarse", "UsuarioView");
         }
         else {
             if(SecurityUtils.hasRole("User")){

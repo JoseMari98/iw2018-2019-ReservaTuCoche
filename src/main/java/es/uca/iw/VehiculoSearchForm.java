@@ -41,8 +41,8 @@ public class VehiculoSearchForm extends FormLayout {
 
         Random random = new Random();
 
-        while(reservaService.listarPorCodigo(random.nextLong()) != null) {
-            random = new Random();
+        if(reservaService.listarPorCodigo(Math.abs(random.nextLong())) != null) {
+            Math.abs(random.nextLong());
         }
 
         Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
