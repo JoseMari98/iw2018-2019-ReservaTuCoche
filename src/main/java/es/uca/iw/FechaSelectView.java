@@ -12,7 +12,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 
 import java.time.LocalDate;
 
-@Route(value = "vista", layout = MainView.class)
+@Route(value = "", layout = MainView.class)
 public class FechaSelectView extends FormLayout {
     private DatePicker fechaInicio;
     private DatePicker fechaFin;
