@@ -52,13 +52,15 @@ public class VehiculoSearchForm extends FormLayout {
 
         r.setCodigo(random.nextLong());
         r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
+
         reserva.addClickListener(event -> {
             UI.getCurrent().getSession().setAttribute(Reserva.class, r);
             UI.getCurrent().navigate("PagoView");
         });
 
         info.addClickListener(event -> {
-            UI.getCurrent().navigate("Info/"  + id);
+            UI.getCurrent().getSession().setAttribute(Long.class, id);
+            UI.getCurrent().navigate("Info");
         });
     }
 }

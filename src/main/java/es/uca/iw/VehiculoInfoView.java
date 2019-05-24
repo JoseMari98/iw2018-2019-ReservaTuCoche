@@ -1,6 +1,7 @@
 package es.uca.iw;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -12,7 +13,7 @@ import java.io.IOException;
 
 
 @Route(value = "Info", layout = MainView.class)
-public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long> {
+public class VehiculoInfoView extends FormLayout {
 
     private Long id;
     private VehiculoService service;
@@ -20,11 +21,7 @@ public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long
     @Autowired
     public VehiculoInfoView(VehiculoService service) {
         this.service = service;
-    }
-
-    @Override
-    public void setParameter(BeforeEvent event, Long id) {
-        this.id = id;
+        this.id = UI.getCurrent().getSession().getAttribute(Long.class);
         Vehiculo v = service.buscarIdVehiculo(id).get();
         Html nombre = new Html("<h1>" + v.toString() + "</h1>");
         Html etiqueta2 = new Html("<h2>Información:</h2>");
@@ -33,4 +30,5 @@ public class VehiculoInfoView extends FormLayout implements HasUrlParameter<Long
         VerticalLayout layout = new VerticalLayout(nombre, etiqueta2, cuerpo, cuerpo2);
         add(layout);
     }
+
 }

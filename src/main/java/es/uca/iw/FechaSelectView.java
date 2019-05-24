@@ -24,9 +24,6 @@ public class FechaSelectView extends FormLayout {
         fechaInicio = new DatePicker();
         fechaFin = new DatePicker();
 
-
-
-
         LocalDate now = LocalDate.now();
 
         fechaInicio.setMin(now);
@@ -34,6 +31,8 @@ public class FechaSelectView extends FormLayout {
         fechaFin.setRequired(true);
         ciudad.setItems(VehiculoCiudad.values());
         ciudad.setLabel("Ciudad");
+        fechaInicio.setLabel("Fecha de inicio");
+        fechaFin.setLabel("Fecha final");
         ciudad.setRequired(true);
         HorizontalLayout layout = new HorizontalLayout(fechaInicio, fechaFin, ciudad);
 
