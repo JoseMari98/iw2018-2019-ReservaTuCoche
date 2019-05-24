@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -38,7 +39,8 @@ public class FechaSelectView extends FormLayout {
         fechaFin.setLabel("Fecha final");
         ciudad.setRequired(true);
         HorizontalLayout layout = new HorizontalLayout(fechaInicio, fechaFin, ciudad);
-
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        layout.setAlignItems(FlexComponent.Alignment.END);
         envia.addClickListener(e -> {
             Reserva r = new Reserva();
             UI.getCurrent().getSession().setAttribute(VehiculoCiudad.class,ciudad.getValue());
@@ -59,5 +61,6 @@ public class FechaSelectView extends FormLayout {
         });
 
         add(layout, envia);
+
     }
 }
