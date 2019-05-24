@@ -28,39 +28,39 @@ public class UsuarioForm extends FormLayout {
     private Button save = new Button("Continuar");
 
     public UsuarioForm(UsuarioView usuarioView, UsuarioService service) {
-        if(UI.getCurrent().getSession().getAttribute(Usuario.class) == null) {
-            this.usuarioView = usuarioView;
-            this.service = service;
-
-            nombre.setRequired(true);
-            apellido1.setRequired(true);
-            apellido2.setRequired(true);
-            dni.setRequired(true);
-            email.setRequiredIndicatorVisible(true);
-            password.setRequired(true);
-
-            save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-            add(username, nombre, apellido1, apellido2, dni, telefono, email, password, save);
-
-            binder.bindInstanceFields(this);
-
-            Dialog dialog = new Dialog();
-
-            Button confirmButton = new Button("Confirmar", event -> {
-                save();
-                dialog.close();
-            });
-            confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-            Button cancelButton = new Button("Cancelar", event -> {
-                dialog.close();
-            });
-            dialog.add(confirmButton, cancelButton);
-            cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-            save.addClickListener(event -> dialog.open());
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
+            Usuario usuario = UI.getCurrent().getSession().getAttribute(Usuario.class);
+            usuario.setPassword("");
+            binder.setBean(usuario);
         }
-        else {
-            UI.getCurrent().navigate("MisReservas");
-        }
+        this.usuarioView = usuarioView;
+        this.service = service;
+
+        nombre.setRequired(true);
+        apellido1.setRequired(true);
+        apellido2.setRequired(true);
+        dni.setRequired(true);
+        email.setRequiredIndicatorVisible(true);
+        password.setRequired(true);
+
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        add(username, nombre, apellido1, apellido2, dni, telefono, email, password, save);
+
+        binder.bindInstanceFields(this);
+
+        Dialog dialog = new Dialog();
+
+        Button confirmButton = new Button("Confirmar", event -> {
+            save();
+            dialog.close();
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        Button cancelButton = new Button("Cancelar", event -> {
+            dialog.close();
+        });
+        dialog.add(confirmButton, cancelButton);
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        save.addClickListener(event -> dialog.open());
     }
 
     public void save() {
