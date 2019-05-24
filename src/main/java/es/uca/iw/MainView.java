@@ -5,6 +5,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.Route;
@@ -12,6 +13,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.material.Material;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * The main view contains a button and a click listener.
@@ -19,8 +21,9 @@ import com.vaadin.flow.theme.material.Material;
 @Theme(Material.class)
 @PWA(name = "Reserva Tu Coche", shortName = "RTC")
 public class MainView extends AbstractAppRouterLayout {
+    public MainView(){
 
-    public MainView(){}
+    }
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu appLayoutMenu) {
         appLayoutMenu = appLayout.createMenu();
@@ -34,7 +37,9 @@ public class MainView extends AbstractAppRouterLayout {
         Icon gestion2 = new Icon(VaadinIcon.RECORDS);
         Icon gestion3 = new Icon(VaadinIcon.RECORDS);
         Icon estadistica = new Icon(VaadinIcon.SPLINE_AREA_CHART);
-        Icon postpago = new Icon(VaadinIcon.MONEY);
+        Icon postpago = new Icon(VaadinIcon.EURO);
+        Icon modificarusuario = new Icon(VaadinIcon.COGS);
+
 
         appLayoutMenu.addMenuItem(home, "Home", "");
 
@@ -47,15 +52,17 @@ public class MainView extends AbstractAppRouterLayout {
             if(SecurityUtils.hasRole("User")){
 
                 appLayoutMenu.addMenuItem(reserva, "Mis Reservas", "MisReservas");
+                appLayoutMenu.addMenuItem(modificarusuario, "Modificar Usuario", "UsuarioView");
+
             }
 
             if(SecurityUtils.hasRole("Admin"))
             {
                 appLayoutMenu.addMenuItem(gestion3, "Gestión Vehículo", "GestionVehiculo");
                 appLayoutMenu.addMenuItem(gestion2, "Gestión Reservas", "GestionReservas");
-                appLayoutMenu.addMenuItem(postpago, "Gestión Postpago", "GestionPostpago");
                 appLayoutMenu.addMenuItem(gestion1, "Gestión Modelo", "GestionModelo");
                 appLayoutMenu.addMenuItem(gestion, "Gestión Marca", "GestionMarca");
+                appLayoutMenu.addMenuItem(postpago, "Gestión Postpago", "GestionPostpago");
                 appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Estadísticas");
             }
             appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", e -> signOut());;
