@@ -75,6 +75,8 @@ public class UsuarioForm extends FormLayout {
         usuario.setEmail(email.getValue());
         usuario.setPassword(password.getValue());
         if(binder.validate().isOk()) {
+            if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null)
+                service.delete(UI.getCurrent().getSession().getAttribute(Usuario.class));
             service.create(usuario);
             UI.getCurrent().navigate("");
         }

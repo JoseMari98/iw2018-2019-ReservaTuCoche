@@ -17,19 +17,19 @@ public class PagoView extends AbstractView {
     private PagoForm form;
 
     @Autowired
-    public PagoView(PagoService pagoService, TarjetaCreditoService tarjetaService) {
+    public PagoView(PagoService pagoService, TarjetaCreditoService tarjetaService, ReservaService reservaService) {
         if(UI.getCurrent().getSession().getAttribute(Reserva.class) != null) {
             this.pagoService = pagoService;
             this.tarjetaService = tarjetaService;
-            this.form = new PagoForm(this, pagoService, tarjetaService);
+            this.form = new PagoForm(this, pagoService, tarjetaService, reservaService);
 
             HorizontalLayout contenido = new HorizontalLayout();
             H1 titulo = new H1("Datos de la reserva");
             H2 fecha = new H2("Para la fecha " +
                     UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaInicio().toString() +
                     " hasta la fecha " + UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaFin().toString());
-            H2 vehiculo = new H2("El vehiculo " + UI.getCurrent().getSession().getAttribute(Vehiculo.class).getMarca() +
-                    " " + UI.getCurrent().getSession().getAttribute(Vehiculo.class).getTipo());
+            H2 vehiculo = new H2("El vehiculo " + UI.getCurrent().getSession().getAttribute(Vehiculo.class).getMarca().getMarca() +
+                    " " + UI.getCurrent().getSession().getAttribute(Vehiculo.class).getTipo().getTipo());
             contenido.add(titulo, fecha, vehiculo);
             VerticalLayout mainContent = new VerticalLayout(contenido, form); //metemos en un objeto el grid y formulario
             mainContent.setSizeFull();
