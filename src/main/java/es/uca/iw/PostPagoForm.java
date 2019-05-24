@@ -27,6 +27,8 @@ public class PostPagoForm extends FormLayout {
     public PostPagoForm(PagoService pagoService, ReservaService reservaService ){
         this.reservaService = reservaService;
         this.pagoService = pagoService;
+        //Reserva r = new Reserva();
+        //binder.setBean(r);
 
         estadoCoche.setItems(ReservaEstadoCoche.values());
         estadoCoche.setRequired(true);
@@ -35,7 +37,9 @@ public class PostPagoForm extends FormLayout {
         add(codigo, estadoCoche, buttons);
         Dialog dialog = new Dialog();
 
-        binder.bindInstanceFields(this);
+        binder.forField(codigo).withConverter(Long::valueOf, String::valueOf).bind(Reserva::getCodigo, Reserva::setCodigo);
+        binder.forField(estadoCoche).bind(Reserva::getEstadoCoche, Reserva::setEstadoCoche);
+        //binder.bindInstanceFields(this);
 
         Button confirmButton = new Button("Confirmar", event -> {
             save();

@@ -15,7 +15,7 @@ public class PostPagoView extends AbstractView{
     private ReservaService reservaService;
 
     @Autowired
-    PostPagoView( PagoService pagoService, ReservaService reservaService){
+    PostPagoView(PagoService pagoService, ReservaService reservaService){
         this.pagoService = pagoService;
         this.reservaService = reservaService;
 
