@@ -75,9 +75,13 @@ public class UsuarioForm extends FormLayout {
         usuario.setEmail(email.getValue());
         usuario.setPassword(password.getValue());
         if(binder.validate().isOk()) {
-            if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null)
+            if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
+                Long id = UI.getCurrent().getSession().getAttribute(Usuario.class).getId();
                 service.delete(UI.getCurrent().getSession().getAttribute(Usuario.class));
-            service.create(usuario);
+                service.create(usuario);
+                service.updateId(id, UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
+            } else
+                service.create(usuario);
             UI.getCurrent().navigate("");
         }
         else {

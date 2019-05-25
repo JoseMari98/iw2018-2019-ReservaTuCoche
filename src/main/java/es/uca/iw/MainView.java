@@ -36,8 +36,10 @@ public class MainView extends AbstractAppRouterLayout {
         Icon gestion1 = new Icon(VaadinIcon.RECORDS);
         Icon gestion2 = new Icon(VaadinIcon.RECORDS);
         Icon gestion3 = new Icon(VaadinIcon.RECORDS);
+        Icon gestion4 = new Icon(VaadinIcon.RECORDS);
         Icon estadistica = new Icon(VaadinIcon.SPLINE_AREA_CHART);
         Icon postpago = new Icon(VaadinIcon.EURO);
+        Icon tarjetas = new Icon(VaadinIcon.USER_CARD);
         Icon modificarusuario = new Icon(VaadinIcon.COGS);
 
 
@@ -53,7 +55,7 @@ public class MainView extends AbstractAppRouterLayout {
 
                 appLayoutMenu.addMenuItem(reserva, "Mis Reservas", "MisReservas");
                 appLayoutMenu.addMenuItem(modificarusuario, "Modificar Usuario", "UsuarioView");
-
+                appLayoutMenu.addMenuItem(tarjetas, "Mis Tarjetas", "MisTarjetas");
             }
 
             if(SecurityUtils.hasRole("Admin"))
@@ -62,6 +64,7 @@ public class MainView extends AbstractAppRouterLayout {
                 appLayoutMenu.addMenuItem(gestion2, "Gestión Reservas", "GestionReservas");
                 appLayoutMenu.addMenuItem(gestion1, "Gestión Modelo", "GestionModelo");
                 appLayoutMenu.addMenuItem(gestion, "Gestión Marca", "GestionMarca");
+                appLayoutMenu.addMenuItem(gestion4, "Gestión Tipo", "GestionTipo");
                 appLayoutMenu.addMenuItem(postpago, "Gestión Postpago", "GestionPostpago");
                 appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Estadísticas");
             }

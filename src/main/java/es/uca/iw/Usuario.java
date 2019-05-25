@@ -12,7 +12,7 @@ import java.util.*;
 public class Usuario implements UserDetails {
     @Id //esto sirve para decir cual es el id
     @GeneratedValue(strategy= GenerationType.IDENTITY) //esto para que se genere aleatorio
-    private int id;
+    private Long id;
     @NotEmpty(message = "Este campo es obligatorio")
     private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", password = "";
     @NotEmpty(message = "Este campo es obligatorio")
@@ -25,7 +25,7 @@ public class Usuario implements UserDetails {
     private Set<TarjetaCredito> tarjetaCredito = new HashSet<>();
 
     //Getters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -64,7 +64,7 @@ public class Usuario implements UserDetails {
     public String getRole() { return role; }
 
     //Setters
-    public void setId(int Id) {
+    public void setId(Long Id) {
         this.id = Id;
     }
 

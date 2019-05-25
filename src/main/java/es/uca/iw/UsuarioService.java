@@ -30,7 +30,6 @@ public class UsuarioService implements UserDetailsService {
         Usuario usr = repo.save(usuario);
 
         return usr;
-
     }
 
     public Usuario update(Usuario usuario)
@@ -66,7 +65,9 @@ public class UsuarioService implements UserDetailsService {
         repo.delete(usr);
     }
 
-
+    public void updateId(Long ida, String username) {
+        repo.setId(ida, username);
+    }
 }
 
 

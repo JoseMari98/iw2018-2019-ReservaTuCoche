@@ -37,4 +37,6 @@ public class TarjetaCreditoService {
     public TarjetaCredito listarPorNumero(String numero) {
         return repoTarjeta.findByNumeroTarjeta(numero);
     }
+
+    public List<TarjetaCredito> listarPorUsuario(Usuario usuario) { return repoTarjeta.findByUsuario(usuario); }
 }

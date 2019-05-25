@@ -2,6 +2,8 @@ package es.uca.iw;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.Route;
@@ -22,7 +24,7 @@ public class ReservasView extends AbstractView {
         this.service = service;
         this.usuarioService = usuarioService;
 
-        grid.setColumns("vehiculo.modelo.modelo", "vehiculo.marca.marca","fechaInicio","fechaFin","precioTotal");
+        grid.setColumns("codigo", "vehiculo.modelo.modelo", "vehiculo.marca.marca","fechaInicio","fechaFin","precioTotal");
 
         grid.setSizeFull();
 
@@ -34,11 +36,22 @@ public class ReservasView extends AbstractView {
 
         grid.asSingleSelect().addValueChangeListener(event -> setReserva(grid.asSingleSelect().getValue()));
 
-        delete.addClickListener(event -> delete());
+        Dialog dialog = new Dialog();
+
+        Button confirmButton = new Button("Confirmar", event -> {
+            delete();
+            dialog.close();
+        });
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+        Button cancelButton = new Button("Cancelar", event -> {
+            dialog.close();
+        });
+        dialog.add(confirmButton, cancelButton);
+        cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
     }
 
     public void updateList() {
-        Usuario u = UI.getCurrent().getSession().getAttribute(Usuario.class); //terminar
+        Usuario u = UI.getCurrent().getSession().getAttribute(Usuario.class);
         grid.setItems(service.listarPorUsuario(u));
     }
 

@@ -42,19 +42,19 @@ public class PagoForm extends FormLayout {
         numeroTarjeta.addValueChangeListener(e -> {
            if(tarjetaService.listarPorNumero(numeroTarjeta.getValue()) != null &&
                    tarjetaService.listarPorNumero(numeroTarjeta.getValue()).getUsuario().getId() == UI.getCurrent().getSession().getAttribute(Usuario.class).getId()) {
-               Dialog d = new Dialog();
+               binder.setBean(tarjetaService.listarPorNumero(numeroTarjeta.getValue()));
+               Notification.show("Tarjeta autocompletada", 5000, Notification.Position.MIDDLE);
+
+               /*Dialog d = new Dialog();
+               d.open();
                Label l = new Label("Desea autocompletar");
                Button confirmButton = new Button("Confirmar", event -> {
                    binder.setBean(tarjetaService.listarPorNumero(numeroTarjeta.getValue()));
                    d.close();
                });
                confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-               Button cancelButton = new Button("Cancelar", event -> {
-                   d.close();
-               });
-               d.add(l, confirmButton, cancelButton);
-               cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-               d.open();
+               Button cancelButton = new Button("Cancelar", event -> d.close());
+               d.add(l, confirmButton,cancelButton);*/
            }
         });
         seguro.setLabel("Seguro para el vehiculo, 150 euros mas");
