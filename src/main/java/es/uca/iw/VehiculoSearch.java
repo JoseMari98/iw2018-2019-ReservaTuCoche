@@ -15,10 +15,12 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.component.combobox.ComboBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -30,9 +32,10 @@ public class VehiculoSearch extends AbstractView {
     private VehiculoService service;
     private VehiculoMarcaService serviceMarca;
     private VehiculoModeloService serviceModelo;
-    private VehiculoSearchForm form;
-    private RadioButtonGroup<VehiculoMarca> buscaMarca = new RadioButtonGroup<>();
-    private RadioButtonGroup<VehiculoModelo> buscaModelo = new RadioButtonGroup<>();
+    private Button reserva = new Button("Reservar");
+    private Button info = new Button("Mas información");
+    private ComboBox<VehiculoMarca> buscaMarca = new ComboBox<>();
+    private ComboBox<VehiculoModelo> buscaModelo = new ComboBox<>();
     private ReservaService reservaService;
 
     private LocalDate fechaFin;
@@ -44,10 +47,10 @@ public class VehiculoSearch extends AbstractView {
         this.serviceMarca = serviceMarca;
         this.serviceModelo = serviceModelo;
         this.reservaService = reservaService;
-        form = new VehiculoSearchForm(this, serv, serviceModelo, serviceMarca, reservaService);
         buscaMarca.setLabel("Marca");
-        buscaModelo.setLabel("Modelo");
-
+        buscaModelo.setLabel("Tipo");
+        buscaMarca.setItemLabelGenerator(VehiculoMarca::getMarca);
+        buscaModelo.setItemLabelGenerator(VehiculoModelo::getModelo);
 
         fechaInicio = UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaInicio();
         fechaFin = UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaFin();
@@ -73,8 +76,13 @@ public class VehiculoSearch extends AbstractView {
         buscaMarca.setRenderer(new ComponentRenderer<>(mar -> new Anchor("localhost/" + mar.getId(), mar.getMarca())));
 
         buscaMarca.addValueChangeListener(event -> {
-            query[0] = buscaMarca.getValue().getMarca();
-            updateList(query, ciudad);
+            if(buscaMarca.isEmpty()) {
+                query[0] = "";
+                updateList(query, ciudad);
+            } else {
+                query[0] = buscaMarca.getValue().getMarca();
+                updateList(query, ciudad);
+            }
         });
 
         buscaModelo.setItems(listaModelo);
@@ -82,8 +90,13 @@ public class VehiculoSearch extends AbstractView {
         buscaModelo.setRenderer(new ComponentRenderer<>(mod -> new Anchor("localhost/" + mod.getId(), mod.getModelo())));
 
         buscaModelo.addValueChangeListener( event -> {
-            query[1] = buscaModelo.getValue().getModelo();
-            updateList(query,ciudad);
+            if (buscaModelo.isEmpty()) {
+                query[1] = "";
+                updateList(query,ciudad);
+            } else {
+                query[1] = buscaModelo.getValue().getModelo();
+                updateList(query,ciudad);
+            }
         });
 
         gVehiculos.setColumns("marca.marca", "modelo.modelo", "precio");
@@ -92,7 +105,9 @@ public class VehiculoSearch extends AbstractView {
 
         HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo);
 
-        VerticalLayout reservar = new VerticalLayout(gVehiculos, form);
+        HorizontalLayout botones = new HorizontalLayout(reserva,info);
+
+        VerticalLayout reservar = new VerticalLayout(gVehiculos, botones);
 
         VerticalLayout lista = new VerticalLayout(filters, reservar);
 
@@ -100,13 +115,35 @@ public class VehiculoSearch extends AbstractView {
 
         setSizeFull();
 
-        Reserva r = new Reserva();
-        r.setFechaInicio(fechaInicio);
-        r.setFechaFin(fechaFin);
+        reserva.addClickListener(event -> {
+            Reserva r = new Reserva();
+            r.setFechaInicio(fechaInicio);
+            r.setFechaFin(fechaFin);
 
-        gVehiculos.asSingleSelect().addValueChangeListener( e -> {
+            r.setVehiculo(gVehiculos.asSingleSelect().getValue());
+            UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
+
+            Random random = new Random();
+
+            if(reservaService.listarPorCodigo(Math.abs(random.nextLong())) != null) {
+                Math.abs(random.nextLong());
+            }
+
+            Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
+
+            long dias = p.getDays();
+
+            r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * dias);
+
+            r.setCodigo(random.nextLong());
+            r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
             UI.getCurrent().getSession().setAttribute(Reserva.class, r);
-            form.setReserva(gVehiculos.asSingleSelect().getValue().getId());
+            UI.getCurrent().navigate("PagoView");
+        });
+
+        info.addClickListener(event -> {
+            UI.getCurrent().getSession().setAttribute(Long.class, gVehiculos.asSingleSelect().getValue().getId());
+            UI.getCurrent().navigate("Info");
         });
     }
 
