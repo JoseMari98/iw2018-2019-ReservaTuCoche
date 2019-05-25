@@ -125,19 +125,19 @@ public class VehiculoSearch extends AbstractView {
             UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
 
             Random random = new Random();
-            Math.abs(random.nextLong());
+            Long num = Math.abs(random.nextLong());
 
-            if(reservaService.listarPorCodigo(Math.abs(random.nextLong())) != null) {
-                Math.abs(random.nextLong());
+            while(reservaService.listarPorCodigo(num) != null) {
+                num = Math.abs(random.nextLong());
             }
 
             Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
 
             long dias = p.getDays();
 
-            r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * dias);
+            r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
 
-            r.setCodigo(random.nextLong());
+            r.setCodigo(num);
             r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
             UI.getCurrent().getSession().setAttribute(Reserva.class, r);
             UI.getCurrent().navigate("PagoView");
