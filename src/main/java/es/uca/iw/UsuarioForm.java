@@ -80,9 +80,11 @@ public class UsuarioForm extends FormLayout {
                 service.delete(UI.getCurrent().getSession().getAttribute(Usuario.class));
                 service.create(usuario);
                 service.updateId(id, UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
-            } else
+                UI.getCurrent().navigate("");
+            } else {
                 service.create(usuario);
-            UI.getCurrent().navigate("");
+                UI.getCurrent().navigate("Login");
+            }
         }
         else {
             Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);

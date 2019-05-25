@@ -103,7 +103,7 @@ public class PagoForm extends FormLayout {
                 pagoService.guardarPago(pagoFianza);
             }
             pagoService.guardarPago(pagoReserva);
-            UI.getCurrent().navigate("");
+            UI.getCurrent().navigate("ReservaInfo");
         } else {
             Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
         }

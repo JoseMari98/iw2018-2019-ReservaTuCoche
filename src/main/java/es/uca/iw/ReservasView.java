@@ -46,8 +46,10 @@ public class ReservasView extends AbstractView {
         Button cancelButton = new Button("Cancelar", event -> {
             dialog.close();
         });
+
         dialog.add(confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        delete.addClickListener(e -> dialog.open());
     }
 
     public void updateList() {

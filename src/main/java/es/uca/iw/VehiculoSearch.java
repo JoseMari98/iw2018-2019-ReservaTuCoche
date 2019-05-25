@@ -124,6 +124,7 @@ public class VehiculoSearch extends AbstractView {
             UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
 
             Random random = new Random();
+            Math.abs(random.nextLong());
 
             if(reservaService.listarPorCodigo(Math.abs(random.nextLong())) != null) {
                 Math.abs(random.nextLong());
