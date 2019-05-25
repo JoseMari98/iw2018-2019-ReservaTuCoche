@@ -1,19 +1,24 @@
 package es.uca.iw;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.material.Material;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Objects;
 
 /**
  * The main view contains a button and a click listener.
@@ -21,9 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Theme(Material.class)
 @PWA(name = "Reserva Tu Coche", shortName = "RTC")
 public class MainView extends AbstractAppRouterLayout {
-    public MainView(){
-
-    }
+    public MainView(){}
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu appLayoutMenu) {
         appLayoutMenu = appLayout.createMenu();
@@ -77,4 +80,11 @@ public class MainView extends AbstractAppRouterLayout {
         UI.getCurrent().getSession().setAttribute(Usuario.class, null);
         UI.getCurrent().setPollInterval(3000);
     }
+
+   /* @Override
+    public void showRouterLayoutContent(HasElement content) {
+        if (content != null) {
+            this.getElement().appendChild(Objects.requireNonNull(content.getElement()));
+        }
+    }*/
 }

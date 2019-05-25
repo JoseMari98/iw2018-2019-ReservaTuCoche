@@ -6,6 +6,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
@@ -107,8 +108,6 @@ public class VehiculoSearch extends AbstractView {
             UI.getCurrent().getSession().setAttribute(Reserva.class, r);
             form.setReserva(gVehiculos.asSingleSelect().getValue().getId());
         });
-
-
     }
 
     public List<Vehiculo> ChooseDate(List<Vehiculo> list, LocalDate fechaI, LocalDate fechaF) {
