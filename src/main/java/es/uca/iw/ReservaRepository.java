@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Reserva> findByVehiculo(Vehiculo vehiculo);
+    Long countByVehiculo(Vehiculo v);
     List<Reserva> findByUsuario(Usuario usuario);
     Reserva findByCodigo(Long codigo);
 }

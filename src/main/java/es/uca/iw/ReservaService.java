@@ -50,4 +50,8 @@ public class ReservaService {
     public Reserva listarPorCodigo(Long codigo) {
         return repo.findByCodigo(codigo);
     }
+
+    public Long ContarPorVehiculo(Vehiculo v) {
+        return repo.countByVehiculo(v);
+    }
 }

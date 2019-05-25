@@ -154,8 +154,9 @@ public class VehiculoSearch extends AbstractView {
             List<Reserva> reservas = reservaService.listarReservaPorVehiculo(vehiculo);
             Iterator<Reserva> it = reservas.iterator();
             while(it.hasNext() && !encontrado) {
-                LocalDate fechaReservaInicio = it.next().getFechaInicio();
-                LocalDate fechaReservaFin = it.next().getFechaFin();
+                Reserva r = it.next();
+                LocalDate fechaReservaInicio = r.getFechaInicio();
+                LocalDate fechaReservaFin = r.getFechaFin();
 
                 boolean prueba1 = fechaI.isAfter(fechaReservaInicio) && fechaI.isBefore(fechaReservaFin);
                 boolean prueba2 = fechaF.isAfter(fechaReservaInicio) && fechaF.isBefore(fechaReservaFin);
