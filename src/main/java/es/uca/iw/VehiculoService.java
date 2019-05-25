@@ -65,6 +65,22 @@ public class VehiculoService {
         return repoVehiculo.findByModeloAndCiudad(repoModelo.findByModeloStartsWithIgnoreCase(modelo), ciudad);
     }
 
+    public List<Vehiculo> buscarPorPrecioYCiudad(Double precio, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByPrecioAndCiudad(precio, ciudad);
+    }
+
+    public List<Vehiculo> buscarPorMarcaYPrecioYCiudad(String marca, Double precio, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByPrecioAndMarcaAndCiudad(precio, repoMarca.findByMarcaStartsWithIgnoreCase(marca), ciudad);
+    }
+
+    public List<Vehiculo> buscarPorModeloYPrecioYCiudad(String modelo, Double precio, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByPrecioAndModeloAndCiudad(precio, repoModelo.findByModeloStartsWithIgnoreCase(modelo), ciudad);
+    }
+
+    public List<Vehiculo> buscarPorMarcaYModeloYPrecioCiudad(String marca, String modelo, Double precio, VehiculoCiudad ciudad) {
+        return repoVehiculo.findByPrecioAndMarcaAndModeloAndCiudad(precio, repoMarca.findByMarcaStartsWithIgnoreCase(marca), repoModelo.findByModeloStartsWithIgnoreCase(modelo), ciudad);
+    }
+
     public List<Vehiculo> buscarPorMarcaYModeloYCiudad(String marca, String modelo, VehiculoCiudad ciudad) {
         return repoVehiculo.findByMarcaAndModeloAndCiudad(repoMarca.findByMarcaStartsWithIgnoreCase(marca), repoModelo.findByModeloStartsWithIgnoreCase(modelo), ciudad);
     }

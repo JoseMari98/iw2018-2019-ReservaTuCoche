@@ -10,10 +10,10 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.combobox.ComboBox;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,7 @@ public class VehiculoSearch extends AbstractView {
     private Button info = new Button("Mas información");
     private ComboBox<VehiculoMarca> buscaMarca = new ComboBox<>();
     private ComboBox<VehiculoModelo> buscaModelo = new ComboBox<>();
+    private NumberField precioMax = new NumberField("Precio máximo");
     private ReservaService reservaService;
 
     private LocalDate fechaFin;
@@ -48,7 +49,7 @@ public class VehiculoSearch extends AbstractView {
         this.serviceModelo = serviceModelo;
         this.reservaService = reservaService;
         buscaMarca.setLabel("Marca");
-        buscaModelo.setLabel("Tipo");
+        buscaModelo.setLabel("Modelo");
         buscaMarca.setItemLabelGenerator(VehiculoMarca::getMarca);
         buscaModelo.setItemLabelGenerator(VehiculoModelo::getModelo);
 
@@ -73,37 +74,37 @@ public class VehiculoSearch extends AbstractView {
 
         buscaMarca.setItems(listaMarca);
 
-        buscaMarca.setRenderer(new ComponentRenderer<>(mar -> new Anchor("localhost/" + mar.getId(), mar.getMarca())));
-
         buscaMarca.addValueChangeListener(event -> {
             if(buscaMarca.isEmpty()) {
                 query[0] = "";
-                updateList(query, ciudad);
+                updateList(query, ciudad, precioMax.getValue());
             } else {
                 query[0] = buscaMarca.getValue().getMarca();
-                updateList(query, ciudad);
+                updateList(query, ciudad, precioMax.getValue());
             }
         });
 
         buscaModelo.setItems(listaModelo);
 
-        buscaModelo.setRenderer(new ComponentRenderer<>(mod -> new Anchor("localhost/" + mod.getId(), mod.getModelo())));
-
         buscaModelo.addValueChangeListener( event -> {
             if (buscaModelo.isEmpty()) {
                 query[1] = "";
-                updateList(query,ciudad);
+                updateList(query,ciudad, precioMax.getValue());
             } else {
                 query[1] = buscaModelo.getValue().getModelo();
-                updateList(query,ciudad);
+                updateList(query,ciudad, precioMax.getValue());
             }
+        });
+
+        precioMax.addValueChangeListener(e -> {
+            updateList(query, ciudad, precioMax.getValue());
         });
 
         gVehiculos.setColumns("marca.marca", "modelo.modelo", "precio");
 
         gVehiculos.setItems(listaVehiculo);
 
-        HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo);
+        HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo, precioMax);
 
         HorizontalLayout botones = new HorizontalLayout(reserva,info);
 
@@ -176,17 +177,35 @@ public class VehiculoSearch extends AbstractView {
         return listaVehiculo;
     }
 
-    public void updateList( String[] marca, VehiculoCiudad ciudad) {
-        if(marca[0] == "" && marca[1] == "")
+    public void updateList( String[] marca, VehiculoCiudad ciudad, Double precio) {
+        if(marca[0] == "" && marca[1] == "" && precio == null)
             gVehiculos.setItems(this.ChooseDate(service.buscarPorCiudad(ciudad), fechaInicio, fechaFin));
         else {
-            if (marca[0] != "" && marca[1] == "")
-                gVehiculos.setItems(this.ChooseDate(service.buscarPorMarcaYCiudad(marca[0], ciudad),fechaInicio,fechaFin));
-            else {
-                if(marca[0] == "" && marca[1] != "")
-                    gVehiculos.setItems(this.ChooseDate(service.buscarPorModeloYCiudad(marca[1], ciudad), fechaInicio,fechaFin));
-                else {
-                    gVehiculos.setItems(this.ChooseDate(service.buscarPorMarcaYModeloYCiudad(marca[0],marca[1],ciudad),fechaInicio,fechaFin));
+            if(!marca[0].equals("") && marca[1].equals("") && precio == null) {
+                gVehiculos.setItems(this.ChooseDate(service.buscarPorMarcaYCiudad(marca[0], ciudad), fechaInicio, fechaFin));
+            } else {
+                if(marca[0].equals("") && !marca[1].equals("") && precio == null) {
+                    gVehiculos.setItems(this.ChooseDate(service.buscarPorModeloYCiudad(marca[1], ciudad), fechaInicio, fechaFin));
+                } else {
+                    if (marca[0].equals("") && marca[1].equals("") && precio != null) {
+                        gVehiculos.setItems(this.ChooseDate(service.buscarPorPrecioYCiudad(precio,ciudad), fechaInicio, fechaFin));
+                    } else {
+                        if(!marca[0].equals("") && !marca[1].equals("") && precio == null) {
+                            gVehiculos.setItems(this.ChooseDate(service.buscarPorMarcaYModeloYCiudad(marca[0],marca[1],ciudad), fechaInicio, fechaFin));
+                        } else {
+                            if (!marca[0].equals("") && marca[1].equals("") && precio != null) {
+                                gVehiculos.setItems(this.ChooseDate(service.buscarPorMarcaYPrecioYCiudad(marca[0], precio, ciudad), fechaInicio,fechaFin));
+                            } else {
+                                if (marca[0].equals("") && !marca[1].equals("") && precio != null) {
+                                    gVehiculos.setItems(this.ChooseDate(service.buscarPorModeloYPrecioYCiudad(marca[1], precio, ciudad), fechaInicio, fechaFin));
+                                } else {
+                                    if(!marca[0].equals("") && !marca[1].equals("") && precio != null) {
+                                        gVehiculos.setItems(this.ChooseDate(service.buscarPorMarcaYModeloYPrecioCiudad(marca[0], marca[1], precio, ciudad), fechaInicio, fechaFin));
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
