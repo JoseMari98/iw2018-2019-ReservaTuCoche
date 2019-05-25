@@ -32,31 +32,55 @@ public class FechaSelectView extends FormLayout {
         fechaInicio.setMin(now);
         fechaInicio.setRequired(true);
         fechaFin.setRequired(true);
-        fechaFin.setMin(now);
         ciudad.setItems(VehiculoCiudad.values());
         ciudad.setLabel("Ciudad");
         fechaInicio.setLabel("Fecha de inicio");
         fechaFin.setLabel("Fecha final");
         ciudad.setRequired(true);
+
+        fechaFin.addValueChangeListener(e -> {
+            if(fechaInicio.isEmpty()) {
+                fechaFin.setMin(now);
+            }else {
+                fechaFin.setMin(fechaInicio.getValue());
+            }
+        });
+
+        fechaInicio.addValueChangeListener(e -> {
+            fechaInicio.setMax(fechaFin.getValue());
+
+        });
         HorizontalLayout layout = new HorizontalLayout(fechaInicio, fechaFin, ciudad);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         layout.setAlignItems(FlexComponent.Alignment.END);
         envia.addClickListener(e -> {
-            Reserva r = new Reserva();
-            UI.getCurrent().getSession().setAttribute(VehiculoCiudad.class,ciudad.getValue());
-            r.setFechaInicio(fechaInicio.getValue());
-            r.setFechaFin(fechaFin.getValue());
-            UI.getCurrent().getSession().setAttribute(Reserva.class, r);
-            if(SecurityUtils.isUserLoggedIn()) {
-                UI.getCurrent().navigate("search");
-            } else{
-                Notification.show("¡Debe estar registrado!");
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e1) {
-                    Notification.show("Ha ocurrido un error!");
+            if(fechaInicio.isInvalid() || fechaFin.isInvalid() || fechaInicio.isEmpty() || fechaFin.isEmpty()) {
+                Notification.show("¡Algo anda mal con la fecha!");
+                fechaInicio.clear();
+                fechaFin.clear();
+            } else {
+                if(ciudad.isEmpty()) {
+                    Notification.show("¡Debe introducir una ciudad!");
+                } else{
+                    if (!fechaInicio.isEmpty() && !fechaFin.isEmpty()) {
+                        if(SecurityUtils.isUserLoggedIn()) {
+                            Reserva r = new Reserva();
+                            UI.getCurrent().getSession().setAttribute(VehiculoCiudad.class,ciudad.getValue());
+                            r.setFechaInicio(fechaInicio.getValue());
+                            r.setFechaFin(fechaFin.getValue());
+                            UI.getCurrent().getSession().setAttribute(Reserva.class, r);
+                            UI.getCurrent().navigate("search");
+                        } else{
+                            Notification.show("¡Debe estar registrado!");
+                            try {
+                                TimeUnit.SECONDS.sleep(1);
+                            } catch (InterruptedException e1) {
+                                Notification.show("Ha ocurrido un error!");
+                            }
+                            UI.getCurrent().navigate("Login");
+                        }
+                    }
                 }
-                UI.getCurrent().navigate("Login");
             }
         });
 
