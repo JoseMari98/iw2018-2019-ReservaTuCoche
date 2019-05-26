@@ -78,9 +78,10 @@ public class ReservasView extends AbstractView {
         Pago pago = new Pago();
         for(Pago p : pagoService.listarPorReserva(reserva)) {
             if(p.getTipo() == PagoTipo.Fianza) {
+                TarjetaCredito destino = p.getOrigen();
                 pago = p;
                 pago.setOrigen(p.getDestino());
-                pago.setDestino(p.getOrigen());
+                pago.setDestino(destino);
             }
         }
         pagoService.guardarPago(pago);

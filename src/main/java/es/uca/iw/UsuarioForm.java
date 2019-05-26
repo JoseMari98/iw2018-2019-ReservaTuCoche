@@ -86,6 +86,7 @@ public class UsuarioForm extends FormLayout {
                 service.delete(UI.getCurrent().getSession().getAttribute(Usuario.class));
                 service.create(usuario);
                 service.updateId(id, UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
+                Notification.show("Modificado con exito", 3000, Notification.Position.MIDDLE);
                 UI.getCurrent().navigate("");
             } else {
                 service.create(usuario);
