@@ -17,10 +17,10 @@ public class ElegirFecha {
                 LocalDate fechaReservaInicio = r.getFechaInicio();
                 LocalDate fechaReservaFin = r.getFechaFin();
 
-                boolean prueba1 = fechaI.isAfter(fechaReservaInicio) && fechaI.isBefore(fechaReservaFin);
-                boolean prueba2 = fechaF.isAfter(fechaReservaInicio) && fechaF.isBefore(fechaReservaFin);
-                boolean prueba3 = fechaReservaInicio.isAfter(fechaI) && fechaReservaInicio.isBefore(fechaF);
-                boolean prueba4 = fechaReservaFin.isAfter(fechaI) && fechaReservaFin.isBefore(fechaF);
+                boolean prueba1 = fechaI.isAfter(fechaReservaInicio.minusDays(1)) && fechaI.isBefore(fechaReservaFin.plusDays(1));
+                boolean prueba2 = fechaF.isAfter(fechaReservaInicio.minusDays(1)) && fechaF.isBefore(fechaReservaFin.plusDays(1));
+                boolean prueba3 = fechaReservaInicio.isAfter(fechaI.minusDays(1)) && fechaReservaInicio.isBefore(fechaF.plusDays(1));
+                boolean prueba4 = fechaReservaFin.isAfter(fechaI.minusDays(1)) && fechaReservaFin.isBefore(fechaF.plusDays(1));
 
                 if (prueba1 || prueba2 || prueba3 || prueba4) {
                     encontrado = true;
