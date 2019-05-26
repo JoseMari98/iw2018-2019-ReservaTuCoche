@@ -19,9 +19,10 @@ public class ReservaGestionView extends AbstractView {
     private ReservaService service;
     private Button delete = new Button("Borrar");
     private Binder<Reserva> binder = new Binder<>(Reserva.class);
+    private PagoService pagoService;
 
     @Autowired
-    public ReservaGestionView(ReservaService service) {
+    public ReservaGestionView(ReservaService service, PagoService pagoService) {
         this.service = service;
 
         filterText.setPlaceholder("Filtrar por nombre de marca"); //poner el campo
@@ -60,6 +61,7 @@ public class ReservaGestionView extends AbstractView {
 
     public void delete() {
         Reserva reserva = binder.getBean();
+        DevolverFianza.devolver(pagoService, reserva);
         service.delete(reserva);
         updateList();
     }

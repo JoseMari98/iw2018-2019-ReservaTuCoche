@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 
+
 public class VehiculoTipoForm extends FormLayout {
     private TextField tipo = new TextField("Tipo");
     private ComboBox<VehiculoMarca> marca = new ComboBox<>("Marca");
@@ -18,11 +19,13 @@ public class VehiculoTipoForm extends FormLayout {
     private Binder<VehiculoTipo> binder = new Binder<>(VehiculoTipo.class);
     private VehiculoTipoService serviceTipo;
     private VehiculoMarcaService vehiculoMarcaService;
+    private ReservaService reservaService;
 
-    public VehiculoTipoForm(VehiculoTipoGestionView vehiculoTipoView, VehiculoTipoService serviceTipo, VehiculoMarcaService vehiculoMarcaService) {
+    public VehiculoTipoForm(VehiculoTipoGestionView vehiculoTipoView, VehiculoTipoService serviceTipo, VehiculoMarcaService vehiculoMarcaService, ReservaService reservaService) {
         this.vehiculoTipoView = vehiculoTipoView;
         this.serviceTipo = serviceTipo;
         this.vehiculoMarcaService = vehiculoMarcaService;
+        this.reservaService = reservaService;
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

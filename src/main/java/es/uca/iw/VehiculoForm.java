@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
+import java.util.List;
 
 public class VehiculoForm extends FormLayout {
     private TextField matricula = new TextField("Matricula");
@@ -30,10 +31,14 @@ public class VehiculoForm extends FormLayout {
     private VehiculoMarcaService serviceMarca;
     private VehiculoModeloService serviceModelo;
     private VehiculoTipoService serviceTipo;
+    private ReservaService reservaService;
+    private PagoService pagoService;
 
-
-    public VehiculoForm(VehiculoGestionView vehiculoView, VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo, VehiculoTipoService serviceTipo) {
+    public VehiculoForm(VehiculoGestionView vehiculoView, VehiculoService service, VehiculoMarcaService serviceMarca, VehiculoModeloService serviceModelo,
+                        VehiculoTipoService serviceTipo, ReservaService reservaService, PagoService pagoService) {
         this.serviceVehiculo = service;
+        this.pagoService = pagoService;
+        this.reservaService = reservaService;
         this.vehiculoView = vehiculoView;
         this.serviceMarca = serviceMarca;
         this.serviceModelo = serviceModelo;
@@ -98,6 +103,7 @@ public class VehiculoForm extends FormLayout {
 
     public void delete() {
         Vehiculo vehiculo = binder.getBean();
+        SustitucionVehiculo.sustituir(reservaService, vehiculo, serviceVehiculo, pagoService);
         serviceVehiculo.borrarVehiculo(vehiculo);
         this.vehiculoView.updateList();
         setVehiculo(null);

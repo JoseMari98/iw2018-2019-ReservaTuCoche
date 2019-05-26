@@ -29,6 +29,7 @@ public class Vehiculo implements Serializable, Cloneable {
     @Enumerated(EnumType.STRING)
     private VehiculoAC ac;
     @NotNull(message = "Campos obligatorios")
+    @Min(value = 0, message = "El precio no puede ser negativo")
     private Double precio;
     @NotEmpty(message = "La matricula es obligatoria")
     @Column(unique = true)

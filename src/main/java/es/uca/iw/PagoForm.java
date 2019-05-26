@@ -96,6 +96,7 @@ public class PagoForm extends FormLayout {
             pagoReserva.setDestino(tarjetaService.buscarIdTarjeta(new Long(1)).get());
             pagoReserva.setOrigen(binder.getBean());
             pagoReserva.setCantidad(UI.getCurrent().getSession().getAttribute(Reserva.class).getPrecioTotal());
+            pagoService.guardarPago(pagoReserva);
             if(UI.getCurrent().getSession().getAttribute(Reserva.class).getSeguro() == ReservaSeguro.No){
                 Pago pagoFianza = new Pago();
                 pagoFianza.setReserva(UI.getCurrent().getSession().getAttribute(Reserva.class));
@@ -105,7 +106,6 @@ public class PagoForm extends FormLayout {
                 pagoFianza.setCantidad(500.0);
                 pagoService.guardarPago(pagoFianza);
             }
-            pagoService.guardarPago(pagoReserva);
             UI.getCurrent().navigate("ReservaInfo");
         } else {
             Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
