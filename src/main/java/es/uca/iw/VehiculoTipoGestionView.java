@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "GestionTipo", layout = MainView.class)
-@Secured("Admin")
+@Secured({"Admin", "Gerente"})
 public class VehiculoTipoGestionView extends AbstractView {
     private Grid<VehiculoTipo> grid = new Grid<>(VehiculoTipo.class);
     private TextField filterText = new TextField();

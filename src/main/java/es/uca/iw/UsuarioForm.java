@@ -83,6 +83,7 @@ public class UsuarioForm extends FormLayout {
                 UI.getCurrent().navigate("");
             } else {
                 service.create(usuario);
+                Notification.show("Registrado con exito", 3000, Notification.Position.MIDDLE);
                 UI.getCurrent().navigate("Login");
             }
         }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 @Route( value = "GestionPostpago", layout = MainView.class)
-@Secured("Admin")
+@Secured({"Admin","Gerente"})
 public class PostPagoView extends AbstractView{
 
     private PostPagoForm form;

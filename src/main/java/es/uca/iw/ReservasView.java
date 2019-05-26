@@ -5,10 +5,14 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import java.time.LocalDate;
+
 
 @Route(value = "MisReservas", layout = MainView.class)
 @Secured("User")
@@ -18,11 +22,13 @@ public class ReservasView extends AbstractView {
     private Button delete = new Button("Borrar");
     private BeanValidationBinder<Reserva> binder = new BeanValidationBinder<>(Reserva.class);
     private UsuarioService usuarioService;
+    private PagoService pagoService;
 
     @Autowired
-    public ReservasView(ReservaService service, UsuarioService usuarioService) {
+    public ReservasView(ReservaService service, UsuarioService usuarioService, PagoService pagoService) {
         this.service = service;
         this.usuarioService = usuarioService;
+        this.pagoService = pagoService;
 
         grid.setColumns("codigo", "vehiculo.modelo.modelo", "vehiculo.marca.marca","fechaInicio","fechaFin","precioTotal");
 
@@ -38,8 +44,14 @@ public class ReservasView extends AbstractView {
 
         Dialog dialog = new Dialog();
 
+        Label label = new Label("Si borras la reserva solo se devolvera la fianza");
+
         Button confirmButton = new Button("Confirmar", event -> {
-            delete();
+            if(binder.getBean().getFechaFin().isBefore(LocalDate.now()))
+                Notification.show("No puedes borrar una reserva que ya ha pasado");
+            else {
+                delete();
+            }
             dialog.close();
         });
         confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
@@ -47,7 +59,7 @@ public class ReservasView extends AbstractView {
             dialog.close();
         });
 
-        dialog.add(confirmButton, cancelButton);
+        dialog.add(label, confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         delete.addClickListener(e -> dialog.open());
     }
@@ -63,6 +75,15 @@ public class ReservasView extends AbstractView {
 
     public void delete() {
         Reserva reserva = binder.getBean();
+        Pago pago = new Pago();
+        for(Pago p : pagoService.listarPorReserva(reserva)) {
+            if(p.getTipo() == PagoTipo.Fianza) {
+                pago = p;
+                pago.setOrigen(p.getDestino());
+                pago.setDestino(p.getOrigen());
+            }
+        }
+        pagoService.guardarPago(pago);
         service.delete(reserva);
         updateList();
     }

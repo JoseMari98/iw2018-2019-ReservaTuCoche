@@ -69,6 +69,8 @@ public class PagoForm extends FormLayout {
 
         Dialog dialog = new Dialog();
 
+        Label label = new Label("Si haces la reserva no se devolvera el dinero de la misma, solo la fianza!");
+
         Button confirmButton = new Button("Confirmar", event -> {
             save();
             dialog.close();
@@ -77,7 +79,7 @@ public class PagoForm extends FormLayout {
         Button cancelButton = new Button("Cancelar", event -> {
             dialog.close();
         });
-        dialog.add(confirmButton, cancelButton);
+        dialog.add(label, confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         save.addClickListener(event -> dialog.open());
     }
@@ -86,6 +88,7 @@ public class PagoForm extends FormLayout {
         if(binder.validate().isOk()) {
             tarjetaService.guardarTarjeta(binder.getBean());
             UI.getCurrent().getSession().getAttribute(Reserva.class).setSeguro(seguro.getValue());
+            UI.getCurrent().getSession().getAttribute(Reserva.class).setReservaEstado(ReservaEstado.Pendiente);
             reservaService.save(UI.getCurrent().getSession().getAttribute(Reserva.class));
             Pago pagoReserva = new Pago();
             pagoReserva.setReserva(UI.getCurrent().getSession().getAttribute(Reserva.class));

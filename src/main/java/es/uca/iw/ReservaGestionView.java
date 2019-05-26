@@ -9,9 +9,11 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "GestionReservas", layout = MainView.class)
-public class ReservaGestionView extends VerticalLayout {
+@Secured({"Admin", "Gerente"})
+public class ReservaGestionView extends AbstractView {
     private Grid<Reserva> grid = new Grid<>(Reserva.class);
     private TextField filterText = new TextField();
     private ReservaService service;

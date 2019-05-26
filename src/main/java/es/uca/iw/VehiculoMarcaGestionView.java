@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 @Route(value = "GestionMarca", layout = MainView.class)
-@Secured("Admin")
+@Secured({"Admin","Gerente"})
 public class VehiculoMarcaGestionView extends AbstractView {
     private Grid<VehiculoMarca> grid = new Grid<>(VehiculoMarca.class);
     private TextField filterText = new TextField();
@@ -19,9 +19,9 @@ public class VehiculoMarcaGestionView extends AbstractView {
     private VehiculoMarcaForm form;
 
     @Autowired
-    public VehiculoMarcaGestionView(VehiculoMarcaService serviceMarca) {
+    public VehiculoMarcaGestionView(VehiculoMarcaService serviceMarca, VehiculoTipoService tipoService) {
         this.serviceMarca = serviceMarca;
-        this.form = new VehiculoMarcaForm(this, serviceMarca);
+        this.form = new VehiculoMarcaForm(this, serviceMarca, tipoService);
 
         filterText.setPlaceholder("Filtrar por nombre de marca"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar

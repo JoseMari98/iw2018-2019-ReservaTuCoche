@@ -49,7 +49,14 @@ public class PostPagoForm extends FormLayout {
         });
         dialog.add(confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        save.addClickListener(event -> dialog.open());
+        save.addClickListener(event -> {
+            if(reservaService.listarPorCodigo(Long.parseLong(codigo.getValue())) != null)
+                dialog.open();
+            else {
+                codigo.setValue("");
+                Notification.show("Codigo no valido", 3000, Notification.Position.MIDDLE);
+            }
+        });
     }
 
     public void save() {

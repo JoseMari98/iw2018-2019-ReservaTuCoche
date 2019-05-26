@@ -47,6 +47,21 @@ public class Application extends SpringBootServletInitializer {
                     creditoService.guardarTarjeta(tarjetaCredito);
                 }
             }
+            try {
+                boolean valido = usuarioService.loadUserByUsername("gerente").getRole().equals("Gerente");
+            } catch (UsernameNotFoundException e) {
+                Usuario u = new Usuario();
+                u.setNombre("gerente");
+                u.setPassword("gerente");
+                u.setApellido1("gerente");
+                u.setApellido2("gerente");
+                u.setEmail("gerente@gerente.es");
+                u.setUsername("gerente");
+                u.setRole("Gerente");
+                u.setTelefono("9");
+                u.setDni("9");
+                usuarioService.create(u);
+            }
         };
     }
 }
