@@ -9,7 +9,7 @@ import com.vaadin.flow.component.notification.Notification;
 
 
 @Route(value = "Charts", layout = MainView.class)
-@Secured("Admin")
+@Secured("Gerente")
 public class EstadisticaView extends AbstractView {
     private VehiculoService serviceVehiculo;
     private VehiculoMarcaService serviceMarca;

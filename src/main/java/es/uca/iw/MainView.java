@@ -61,7 +61,7 @@ public class MainView extends AbstractAppRouterLayout {
                 appLayoutMenu.addMenuItem(tarjetas, "Mis Tarjetas", "MisTarjetas");
             }
 
-            if(SecurityUtils.hasRole("Admin"))
+            if(SecurityUtils.hasRole("Admin") || SecurityUtils.hasRole("Gerente"))
             {
                 appLayoutMenu.addMenuItem(gestion3, "Gestión Vehículo", "GestionVehiculo");
                 appLayoutMenu.addMenuItem(gestion2, "Gestión Reservas", "GestionReservas");
@@ -69,8 +69,9 @@ public class MainView extends AbstractAppRouterLayout {
                 appLayoutMenu.addMenuItem(gestion, "Gestión Marca", "GestionMarca");
                 appLayoutMenu.addMenuItem(gestion4, "Gestión Tipo", "GestionTipo");
                 appLayoutMenu.addMenuItem(postpago, "Gestión Postpago", "GestionPostpago");
-                appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Estadísticas");
             }
+            if(SecurityUtils.hasRole("Gerente"))
+                    appLayoutMenu.addMenuItem(estadistica, "Estadísticas", "Charts");
             appLayoutMenu.addMenuItem(cerrar, "Cerrar Sesión", e -> signOut());;
         }
     }
