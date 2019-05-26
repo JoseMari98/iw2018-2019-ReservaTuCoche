@@ -10,6 +10,7 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
+import com.vaadin.flow.data.validator.EmailValidator;
 
 
 public class UsuarioForm extends FormLayout {
@@ -74,6 +75,11 @@ public class UsuarioForm extends FormLayout {
         usuario.setTelefono(telefono.getValue());
         usuario.setEmail(email.getValue());
         usuario.setPassword(password.getValue());
+        binder.forField(email)
+                // Explicit validator instance
+                .withValidator(new EmailValidator(
+                        "No es un formato válido. Ejemplo de formato válido: usuario@gmail.com"))
+                .bind(Usuario::getEmail, Usuario::setEmail);
         if(binder.validate().isOk()) {
             if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
                 Long id = UI.getCurrent().getSession().getAttribute(Usuario.class).getId();
