@@ -89,4 +89,5 @@ public class VehiculoService {
         return repoVehiculo.findByCiudad(ciudad);
     }
 
+    public List<Vehiculo> listarPorTipo(VehiculoTipo vehiculoTipo) { return repoVehiculo.findByTipo(vehiculoTipo); }
 }

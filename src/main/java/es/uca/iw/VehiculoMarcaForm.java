@@ -16,11 +16,18 @@ public class VehiculoMarcaForm extends FormLayout {
     private Binder<VehiculoMarca> binder = new Binder<>(VehiculoMarca.class);
     private VehiculoMarcaService serviceMarca;
     private VehiculoTipoService serviceTipo;
+    private ReservaService reservaService;
+    private VehiculoService vehiculoService;
+    private PagoService pagoService;
 
-    public VehiculoMarcaForm(VehiculoMarcaGestionView vehiculoMarcaView, VehiculoMarcaService serviceMarca, VehiculoTipoService serviceTipo) {
+    public VehiculoMarcaForm(VehiculoMarcaGestionView vehiculoMarcaView, VehiculoMarcaService serviceMarca, VehiculoTipoService serviceTipo,
+                             VehiculoService vehiculoService, PagoService pagoService, ReservaService reservaService) {
         this.vehiculoMarcaView = vehiculoMarcaView;
         this.serviceMarca = serviceMarca;
         this.serviceTipo = serviceTipo;
+        this.pagoService = pagoService;
+        this.vehiculoService = vehiculoService;
+        this.reservaService = reservaService;
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -59,6 +66,11 @@ public class VehiculoMarcaForm extends FormLayout {
 
     public void delete() {
         VehiculoMarca marca = binder.getBean();
+        for(Vehiculo v : vehiculoService.listarVehiculoPorMarca(marca.getMarca())) {
+            SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
+            vehiculoService.borrarVehiculo(v);
+        }
+
         for(VehiculoTipo tipo : serviceTipo.listarPorMarca(marca))
             serviceTipo.borrarTipo(tipo);
         serviceMarca.borrarMarca(marca);

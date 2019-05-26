@@ -20,9 +20,9 @@ public class VehiculoTipoGestionView extends AbstractView {
     private VehiculoTipoForm form;
 
     @Autowired
-    public VehiculoTipoGestionView(VehiculoTipoService serviceTipo, VehiculoMarcaService vehiculoMarcaService, ReservaService reservaService) {
+    public VehiculoTipoGestionView(VehiculoTipoService serviceTipo, VehiculoMarcaService vehiculoMarcaService, ReservaService reservaService, PagoService pagoService) {
         this.serviceTipo = serviceTipo;
-        this.form = new VehiculoTipoForm(this, serviceTipo, vehiculoMarcaService, reservaService);
+        this.form = new VehiculoTipoForm(this, serviceTipo, vehiculoMarcaService, reservaService, pagoService);
 
         filterText.setPlaceholder("Filtrar por tipo"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar

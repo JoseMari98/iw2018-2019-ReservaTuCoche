@@ -19,9 +19,9 @@ public class VehiculoMarcaGestionView extends AbstractView {
     private VehiculoMarcaForm form;
 
     @Autowired
-    public VehiculoMarcaGestionView(VehiculoMarcaService serviceMarca, VehiculoTipoService tipoService) {
+    public VehiculoMarcaGestionView(VehiculoMarcaService serviceMarca, VehiculoTipoService tipoService, VehiculoService vehiculoService, PagoService pagoService, ReservaService reservaService) {
         this.serviceMarca = serviceMarca;
-        this.form = new VehiculoMarcaForm(this, serviceMarca, tipoService);
+        this.form = new VehiculoMarcaForm(this, serviceMarca, tipoService, vehiculoService, pagoService, reservaService);
 
         filterText.setPlaceholder("Filtrar por nombre de marca"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar
