@@ -15,10 +15,10 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
     List<Vehiculo> findByMarcaAndCiudad(VehiculoMarca marca, VehiculoCiudad ciudad);
     List<Vehiculo> findByModeloAndCiudad(VehiculoModelo modelo, VehiculoCiudad ciudad);
     List<Vehiculo> findByMarcaAndModeloAndCiudad(VehiculoMarca marca, VehiculoModelo modelo, VehiculoCiudad ciudad);
-    List<Vehiculo> findByPrecioAndCiudad(Double precio, VehiculoCiudad ciudad);
-    List<Vehiculo> findByPrecioAndMarcaAndCiudad(Double precio, VehiculoMarca marca, VehiculoCiudad ciudad);
-    List<Vehiculo> findByPrecioAndModeloAndCiudad(Double precio, VehiculoModelo modelo, VehiculoCiudad ciudad);
-    List<Vehiculo> findByPrecioAndMarcaAndModeloAndCiudad(Double precio, VehiculoMarca marca, VehiculoModelo modelo, VehiculoCiudad ciudad);
+    List<Vehiculo> findByPrecioLessThanAndCiudad(Double precio, VehiculoCiudad ciudad);
+    List<Vehiculo> findByPrecioLessThanAndMarcaAndCiudad(Double precio, VehiculoMarca marca, VehiculoCiudad ciudad);
+    List<Vehiculo> findByPrecioLessThanAndModeloAndCiudad(Double precio, VehiculoModelo modelo, VehiculoCiudad ciudad);
+    List<Vehiculo> findByPrecioLessThanAndMarcaAndModeloAndCiudad(Double precio, VehiculoMarca marca, VehiculoModelo modelo, VehiculoCiudad ciudad);
 
     List<Vehiculo> findByMarca(VehiculoMarca marca);
     List<Vehiculo> findByModelo(VehiculoModelo modelo);
