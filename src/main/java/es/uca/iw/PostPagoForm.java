@@ -53,7 +53,7 @@ public class PostPagoForm extends FormLayout {
             if(reservaService.listarPorCodigo(Long.parseLong(codigo.getValue())) != null)
                 dialog.open();
             else {
-                codigo.setValue("");
+                codigo.clear();
                 Notification.show("Codigo no valido", 3000, Notification.Position.MIDDLE);
             }
         });

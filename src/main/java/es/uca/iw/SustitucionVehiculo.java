@@ -7,9 +7,10 @@ import java.util.List;
 public class SustitucionVehiculo {
     public static void sustituir(ReservaService reservaService, Vehiculo vehiculo, VehiculoService vehiculoService, PagoService pagoService) {
         List<Reserva> reservaList = reservaService.listarReservaPorVehiculo(vehiculo);
+        List<Vehiculo> vehiculoList2 = vehiculoService.buscarPorCiudad(vehiculo.getCiudad());
         for(Reserva r : reservaList) {
             if(r.getReservaEstado() == ReservaEstado.Pendiente) {
-                List<Vehiculo> vehiculoList = ElegirFecha.ChooseDate(reservaService, vehiculoService.buscarPorCiudad(vehiculo.getCiudad()), r.getFechaFin(), r.getFechaFin());
+                List<Vehiculo> vehiculoList = ElegirFecha.ChooseDate(reservaService, vehiculoList2, r.getFechaFin(), r.getFechaFin());
                 if (vehiculoList.isEmpty()) {
                     List<Pago> pagoList = pagoService.listarPorReserva(r);
                     Pago p1 = pagoList.get(0);

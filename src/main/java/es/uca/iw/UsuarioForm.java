@@ -111,11 +111,13 @@ public class UsuarioForm extends FormLayout {
                 service.create(usuario);
                 service.updateId(id, UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
                 Notification.show("Modificado con exito", 3000, Notification.Position.MIDDLE);
+                MailNotificationService.enviaEmail(usuario.getEmail(), "Modificacion realizado con exito",
+                        "Has modificado tus credenciales " + usuario.getUsername());
                 UI.getCurrent().navigate("");
             } else {
                 service.create(usuario);
                 Notification.show("Registrado con exito", 3000, Notification.Position.MIDDLE);
-                MailNotificationService.enviaEmail(UI.getCurrent().getSession().getAttribute(Usuario.class).getEmail(), "Registro realizado con exito",
+                MailNotificationService.enviaEmail(usuario.getEmail(), "Registro realizado con exito",
                         "Te has registrado " + usuario.getUsername());
                 UI.getCurrent().navigate("Login");
             }
