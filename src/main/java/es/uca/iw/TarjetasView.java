@@ -25,47 +25,50 @@ public class TarjetasView extends AbstractView {
 
     @Autowired
     public TarjetasView(TarjetaCreditoService service, UsuarioService usuarioService, ReservaService reservaService) {
-        this.service = service;
-        this.usuarioService = usuarioService;
-        this.reservaService = reservaService;
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
+            this.service = service;
+            this.usuarioService = usuarioService;
+            this.reservaService = reservaService;
 
-        grid.setColumns("numeroTarjeta", "numeroSeguridad","fechaCaducidad");
+            grid.setColumns("numeroTarjeta", "numeroSeguridad", "fechaCaducidad");
 
-        grid.setSizeFull();
+            grid.setSizeFull();
 
-        add(delete, grid);
+            add(delete, grid);
 
-        setSizeFull();
+            setSizeFull();
 
-        updateList();
+            updateList();
 
-        grid.asSingleSelect().addValueChangeListener(event -> setTarjeta(grid.asSingleSelect().getValue()));
+            grid.asSingleSelect().addValueChangeListener(event -> setTarjeta(grid.asSingleSelect().getValue()));
 
-        Dialog dialog = new Dialog();
+            Dialog dialog = new Dialog();
 
-        Button confirmButton = new Button("Confirmar", event -> {
-            boolean valido = true;
-            List<Reserva> reservas = reservaService.listarPorUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
-            int i = 0;
-            while(i < reservas.size() && valido) {
-                if (reservas.get(i).getReservaEstado() == ReservaEstado.Pendiente)
-                    valido = false;
-                i++;
-            }
-            if(valido)
-                delete();
-            else
-                Notification.show("No puedes borrar la tarjeta porque hay un pago pendiente", 4000, Notification.Position.MIDDLE);
-            dialog.close();
-        });
-        confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-        Button cancelButton = new Button("Cancelar", event -> {
-            dialog.close();
-        });
-        dialog.add(confirmButton, cancelButton);
-        cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+            Button confirmButton = new Button("Confirmar", event -> {
+                boolean valido = true;
+                List<Reserva> reservas = reservaService.listarPorUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
+                int i = 0;
+                while (i < reservas.size() && valido) {
+                    if (reservas.get(i).getReservaEstado() == ReservaEstado.Pendiente)
+                        valido = false;
+                    i++;
+                }
+                if (valido)
+                    delete();
+                else
+                    Notification.show("No puedes borrar la tarjeta porque hay un pago pendiente", 4000, Notification.Position.MIDDLE);
+                dialog.close();
+            });
+            confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+            Button cancelButton = new Button("Cancelar", event -> {
+                dialog.close();
+            });
+            dialog.add(confirmButton, cancelButton);
+            cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-        delete.addClickListener(event -> dialog.open());
+            delete.addClickListener(event -> dialog.open());
+        } else
+            UI.getCurrent().navigate("");
     }
 
     public void updateList() {

@@ -17,6 +17,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findById(int id);
     Usuario findByUsername(String user);
+    Usuario findByEmail(String email);
     @Transactional
     @Modifying
     @Query(value = "update Usuario u set u.id = :id where u.username like :username")

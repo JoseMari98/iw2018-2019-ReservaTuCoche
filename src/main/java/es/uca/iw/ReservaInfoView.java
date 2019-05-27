@@ -27,18 +27,21 @@ public class ReservaInfoView extends AbstractView {
 
     @Autowired
     public ReservaInfoView(ReservaService service) {
-        this.service = service;
-        this.reserva = UI.getCurrent().getSession().getAttribute(Reserva.class);
-        this.vehiculo = UI.getCurrent().getSession().getAttribute(Vehiculo.class);
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
+            this.service = service;
+            this.reserva = UI.getCurrent().getSession().getAttribute(Reserva.class);
+            this.vehiculo = UI.getCurrent().getSession().getAttribute(Vehiculo.class);
 
-        Html etiqueta2 = new Html("<h2>Información de la reserva:</h2>");
-        Label marca = new Label("El vehiculo es: " + vehiculo.getMarca().getMarca() + " " + vehiculo.getTipo().getTipo());
-        Label codigo = new Label("El codigo es: " + reserva.getCodigo());
-        Label fechas = new Label("La fecha desde: " + reserva.getFechaInicio() + " hasta " + reserva.getFechaFin());
-        Label precio = new Label("El precio es de: " + reserva.getPrecioTotal() + " €");
-        VerticalLayout layout = new VerticalLayout(etiqueta2, marca, codigo, fechas, precio, volver);
-        add(layout);
-        volver.addClickListener(e -> UI.getCurrent().navigate(""));
+            Html etiqueta2 = new Html("<h2>Información de la reserva:</h2>");
+            Label marca = new Label("El vehiculo es: " + vehiculo.getMarca().getMarca() + " " + vehiculo.getTipo().getTipo());
+            Label codigo = new Label("El codigo es: " + reserva.getCodigo());
+            Label fechas = new Label("La fecha desde: " + reserva.getFechaInicio() + " hasta " + reserva.getFechaFin());
+            Label precio = new Label("El precio es de: " + reserva.getPrecioTotal() + " €");
+            VerticalLayout layout = new VerticalLayout(etiqueta2, marca, codigo, fechas, precio, volver);
+            add(layout);
+            volver.addClickListener(e -> UI.getCurrent().navigate(""));
+        } else
+            UI.getCurrent().navigate("");
     }
 
 }

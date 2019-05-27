@@ -14,10 +14,13 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy= GenerationType.IDENTITY) //esto para que se genere aleatorio
     private Long id;
     @NotEmpty(message = "Este campo es obligatorio")
-    private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", email = "", password = "";
+    private String dni = "", nombre = "", apellido1 = "", apellido2 = "", telefono = "", password = "";
     @NotEmpty(message = "Este campo es obligatorio")
     @Column(unique = true)
     private String username = "";
+    @NotEmpty(message = "Este campo es obligatorio")
+    @Column(unique = true)
+    private String email = "";
     @OneToMany(mappedBy = "usuario") //esto para decir la cardinalidad y a que variable se asocia
     private Set<Reserva> reservaSet = new HashSet<>();
     private String role = "";

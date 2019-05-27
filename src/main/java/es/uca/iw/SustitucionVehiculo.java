@@ -1,5 +1,7 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.UI;
+
 import java.util.List;
 
 public class SustitucionVehiculo {
@@ -23,6 +25,11 @@ public class SustitucionVehiculo {
                         pagoService.guardarPago(p2);
                     }
                     reservaService.delete(r);
+                    Reserva reserva = UI.getCurrent().getSession().getAttribute(Reserva.class);
+                    MailNotificationService.enviaEmail(UI.getCurrent().getSession().getAttribute(Usuario.class).getEmail(), "Reserva " + reserva.getCodigo() + " cancelada",
+                            "Su reserva de fecha " + reserva.getFechaInicio() + " a fecha " + reserva.getFechaFin() +
+                                    " se ha cancelado debido a falta de disponibilidad de vehiculos, si quiere hacer otra reserva entre en nuestra pagina.\n" +
+                                    "Lo sentimos por las molestias.");
                 } else {
                     r.setVehiculo(vehiculoList.get(0));
                     reservaService.save(r);

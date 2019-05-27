@@ -11,6 +11,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.validator.EmailValidator;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 public class UsuarioForm extends FormLayout {
@@ -27,10 +28,11 @@ public class UsuarioForm extends FormLayout {
     private UsuarioView usuarioView;
     private UsuarioService service;
     private Button save = new Button("Continuar");
+    private Usuario usuario = null;
 
     public UsuarioForm(UsuarioView usuarioView, UsuarioService service) {
         if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
-            Usuario usuario = UI.getCurrent().getSession().getAttribute(Usuario.class);
+            usuario = UI.getCurrent().getSession().getAttribute(Usuario.class);
             usuario.setPassword("");
             binder.setBean(usuario);
         }
@@ -43,7 +45,29 @@ public class UsuarioForm extends FormLayout {
         dni.setRequired(true);
         email.setRequiredIndicatorVisible(true);
         password.setRequired(true);
-
+        username.setRequired(true);
+        username.addValueChangeListener(e -> {
+            if(service.listarPorUsername(username.getValue()) != null && usuario == null) {
+                username.clear();
+                Notification.show("Usuario repetido", 3000, Notification.Position.MIDDLE);
+            } else {
+                if(service.listarPorUsername(username.getValue()) != null && usuario != null && !service.listarPorUsername(username.getValue()).getId().equals(usuario.getId())) {
+                    username.clear();
+                    Notification.show("Usuario repetido", 3000, Notification.Position.MIDDLE);
+                }
+            }
+            });
+        email.addValueChangeListener(e -> {
+            if(service.listarPorEmail(email.getValue()) != null && usuario == null) {
+                email.clear();
+                Notification.show("Email repetido", 3000, Notification.Position.MIDDLE);
+            } else {
+                if(service.listarPorEmail(email.getValue()) != null && usuario != null && !service.listarPorEmail(email.getValue()).getId().equals(usuario.getId())) {
+                    email.clear();
+                    Notification.show("Email repetido", 3000, Notification.Position.MIDDLE);
+                }
+            }
+        });
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(username, nombre, apellido1, apellido2, dni, telefono, email, password, save);
 
@@ -91,6 +115,8 @@ public class UsuarioForm extends FormLayout {
             } else {
                 service.create(usuario);
                 Notification.show("Registrado con exito", 3000, Notification.Position.MIDDLE);
+                MailNotificationService.enviaEmail(UI.getCurrent().getSession().getAttribute(Usuario.class).getEmail(), "Registro realizado con exito",
+                        "Te has registrado " + usuario.getUsername());
                 UI.getCurrent().navigate("Login");
             }
         }

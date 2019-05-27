@@ -106,6 +106,11 @@ public class PagoForm extends FormLayout {
                 pagoFianza.setCantidad(500.0);
                 pagoService.guardarPago(pagoFianza);
             }
+            Reserva reserva = UI.getCurrent().getSession().getAttribute(Reserva.class);
+            MailNotificationService.enviaEmail(UI.getCurrent().getSession().getAttribute(Usuario.class).getEmail(), "Reserva realizada con exito",
+                    "Su reserva de fecha " + reserva.getFechaInicio() + " a fecha " + reserva.getFechaFin() + ".\n" +
+                    "Con un precio de " + reserva.getPrecioTotal() + "€.\n" +
+                    "Su codigo es: " + reserva.getCodigo() + ". Guardelo en sitio seguro.");
             UI.getCurrent().navigate("ReservaInfo");
         } else {
             Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);

@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class MailNotificationService {
     public MailNotificationService() {}
-    public void enviaEmail(String destino, String asunto, String cuerpo) {
+    public static void enviaEmail(String destino, String asunto, String cuerpo) {
         Properties props = new Properties();
 
         props.setProperty("mail.smtp.host", "smtp.gmail.com");

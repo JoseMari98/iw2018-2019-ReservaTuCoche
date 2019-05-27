@@ -26,42 +26,45 @@ public class ReservasView extends AbstractView {
 
     @Autowired
     public ReservasView(ReservaService service, UsuarioService usuarioService, PagoService pagoService) {
-        this.service = service;
-        this.usuarioService = usuarioService;
-        this.pagoService = pagoService;
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
+            this.service = service;
+            this.usuarioService = usuarioService;
+            this.pagoService = pagoService;
 
-        grid.setColumns("codigo", "vehiculo.modelo.modelo", "vehiculo.marca.marca","fechaInicio","fechaFin","precioTotal");
+            grid.setColumns("codigo", "vehiculo.modelo.modelo", "vehiculo.marca.marca", "fechaInicio", "fechaFin", "precioTotal");
 
-        grid.setSizeFull();
+            grid.setSizeFull();
 
-        add(delete, grid);
+            add(delete, grid);
 
-        setSizeFull();
+            setSizeFull();
 
-        updateList();
+            updateList();
 
-        grid.asSingleSelect().addValueChangeListener(event -> setReserva(grid.asSingleSelect().getValue()));
+            grid.asSingleSelect().addValueChangeListener(event -> setReserva(grid.asSingleSelect().getValue()));
 
-        Dialog dialog = new Dialog();
+            Dialog dialog = new Dialog();
 
-        Label label = new Label("Si borras la reserva solo se devolvera la fianza");
+            Label label = new Label("Si borras la reserva solo se devolvera la fianza");
 
-        Button confirmButton = new Button("Confirmar", event -> {
-            if(binder.getBean().getFechaFin().isBefore(LocalDate.now()))
-                Notification.show("No puedes borrar una reserva que ya ha pasado");
-            else {
-                delete();
-            }
-            dialog.close();
-        });
-        confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
-        Button cancelButton = new Button("Cancelar", event -> {
-            dialog.close();
-        });
+            Button confirmButton = new Button("Confirmar", event -> {
+                if (binder.getBean().getFechaFin().isBefore(LocalDate.now()))
+                    Notification.show("No puedes borrar una reserva que ya ha pasado");
+                else {
+                    delete();
+                }
+                dialog.close();
+            });
+            confirmButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS);
+            Button cancelButton = new Button("Cancelar", event -> {
+                dialog.close();
+            });
 
-        dialog.add(label, confirmButton, cancelButton);
-        cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        delete.addClickListener(e -> dialog.open());
+            dialog.add(label, confirmButton, cancelButton);
+            cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+            delete.addClickListener(e -> dialog.open());
+        } else
+            UI.getCurrent().navigate("");
     }
 
     public void updateList() {
