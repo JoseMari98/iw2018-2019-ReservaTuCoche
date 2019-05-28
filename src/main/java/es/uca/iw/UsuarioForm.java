@@ -11,8 +11,6 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.validator.EmailValidator;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 
 public class UsuarioForm extends FormLayout {
 
@@ -28,14 +26,15 @@ public class UsuarioForm extends FormLayout {
     private UsuarioView usuarioView;
     private UsuarioService service;
     private Button save = new Button("Continuar");
-    private Usuario usuario = null;
+    private Usuario usuario;
 
     public UsuarioForm(UsuarioView usuarioView, UsuarioService service) {
-        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
-            usuario = UI.getCurrent().getSession().getAttribute(Usuario.class);
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null/* && service.listarPorUsername(UI.getCurrent().getSession().getAttribute(Usuario.class)) != null*/) {
+            usuario = service.listarPorUsername(UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
             usuario.setPassword("");
             binder.setBean(usuario);
-        }
+        } else
+            usuario = new Usuario();
         this.usuarioView = usuarioView;
         this.service = service;
 
@@ -89,33 +88,28 @@ public class UsuarioForm extends FormLayout {
     }
 
     public void save() {
-        Usuario usuario = new Usuario();
-        usuario.setRole("User");
-        usuario.setUsername(username.getValue());
-        usuario.setNombre(nombre.getValue());
-        usuario.setApellido1(apellido1.getValue());
-        usuario.setApellido2(apellido2.getValue());
-        usuario.setDni(dni.getValue());
-        usuario.setTelefono(telefono.getValue());
-        usuario.setEmail(email.getValue());
-        usuario.setPassword(password.getValue());
         binder.forField(email)
                 // Explicit validator instance
                 .withValidator(new EmailValidator(
                         "No es un formato válido. Ejemplo de formato válido: usuario@gmail.com"))
                 .bind(Usuario::getEmail, Usuario::setEmail);
         if(binder.validate().isOk()) {
+            usuario.setRole("User");
+            usuario.setUsername(username.getValue());
+            usuario.setNombre(nombre.getValue());
+            usuario.setApellido1(apellido1.getValue());
+            usuario.setApellido2(apellido2.getValue());
+            usuario.setDni(dni.getValue());
+            usuario.setTelefono(telefono.getValue());
+            usuario.setEmail(email.getValue());
+            usuario.setPassword(password.getValue());
+            service.create(usuario);
             if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
-                Long id = UI.getCurrent().getSession().getAttribute(Usuario.class).getId();
-                service.delete(UI.getCurrent().getSession().getAttribute(Usuario.class));
-                service.create(usuario);
-                service.updateId(id, UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
                 Notification.show("Modificado con exito", 3000, Notification.Position.MIDDLE);
                 MailNotificationService.enviaEmail(usuario.getEmail(), "Modificacion realizado con exito",
                         "Has modificado tus credenciales " + usuario.getUsername());
                 UI.getCurrent().navigate("");
             } else {
-                service.create(usuario);
                 Notification.show("Registrado con exito", 3000, Notification.Position.MIDDLE);
                 MailNotificationService.enviaEmail(usuario.getEmail(), "Registro realizado con exito",
                         "Te has registrado " + usuario.getUsername());

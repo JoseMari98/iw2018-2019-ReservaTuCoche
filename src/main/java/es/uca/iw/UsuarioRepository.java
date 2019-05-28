@@ -17,6 +17,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findById(int id);
     Usuario findByUsername(String user);
+    Usuario findByUsername(Usuario usuario);
     Usuario findByEmail(String email);
     @Transactional
     @Modifying

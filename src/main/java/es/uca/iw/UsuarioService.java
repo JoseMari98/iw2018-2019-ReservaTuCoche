@@ -63,6 +63,8 @@ public class UsuarioService implements UserDetailsService {
 
     public Usuario listarPorEmail(String email) { return repo.findByEmail(email); }
 
+    public Usuario listarPorUsername(Usuario usuario) { return repo.findByUsername(usuario); }
+
     public Usuario listarPorUsername(String usuario) { return repo.findByUsername(usuario); }
 
     public void delete(Usuario usr) {
