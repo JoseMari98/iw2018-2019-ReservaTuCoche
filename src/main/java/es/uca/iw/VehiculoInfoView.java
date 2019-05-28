@@ -17,8 +17,7 @@ import java.io.IOException;
 
 
 @Route(value = "Info", layout = MainView.class)
-@Secured("User")
-public class VehiculoInfoView extends AbstractView {
+public class VehiculoInfoView extends VerticalLayout {
 
     private Long id;
     private VehiculoService service;
@@ -32,7 +31,7 @@ public class VehiculoInfoView extends AbstractView {
         Html nombre = new Html("<h1>" + v.toString() + "</h1>");
         Html etiqueta2 = new Html("<h2>Información:</h2>");
         Label cuerpo = new Label("Precio: " + v.getPrecio() + " €/dia");
-        Label marca = new Label("El vehiculo es: " + v.getMarca() + " " + v.getTipo());
+        Label marca = new Label("El vehiculo es: " + v.getMarca().getMarca() + " " + v.getTipo().getTipo());
         Label cuerpo4 = new Label("Tipo de motor: " + v.getMotor().toString());
         Label cuerpo5 = new Label("Aire acondicionado: " + v.getAc().toString());
         Label cuerpo6 = new Label("Ciudad: " + v.getCiudad().toString());
