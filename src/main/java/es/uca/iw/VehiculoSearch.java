@@ -142,7 +142,7 @@ public class VehiculoSearch extends VerticalLayout {
                 } catch (InterruptedException e1) {
                     Notification.show("Ha ocurrido un error!");
                 }
-                UI.getCurrent().navigate("Login");
+                UI.getCurrent().navigate("UsuarioView");
             }
         });
 
