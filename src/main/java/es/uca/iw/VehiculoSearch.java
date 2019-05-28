@@ -3,6 +3,7 @@ package es.uca.iw;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -13,11 +14,12 @@ import org.springframework.security.access.annotation.Secured;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 import static es.uca.iw.ElegirFecha.ChooseDate;
 
 @Route(value="search", layout = MainView.class)
-@Secured("User")
-public class VehiculoSearch extends AbstractView {
+public class VehiculoSearch extends VerticalLayout {
 
     private Grid<Vehiculo> gVehiculos = new Grid<>(Vehiculo.class);
     private VehiculoService service;
@@ -108,30 +110,40 @@ public class VehiculoSearch extends AbstractView {
         setSizeFull();
 
         reserva.addClickListener(event -> {
-            Reserva r = new Reserva();
-            r.setFechaInicio(fechaInicio);
-            r.setFechaFin(fechaFin);
+            if (SecurityUtils.isUserLoggedIn()) {
+                Reserva r = new Reserva();
+                r.setFechaInicio(fechaInicio);
+                r.setFechaFin(fechaFin);
 
-            r.setVehiculo(gVehiculos.asSingleSelect().getValue());
-            UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
+                r.setVehiculo(gVehiculos.asSingleSelect().getValue());
+                UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
 
-            Random random = new Random();
-            Long num = Math.abs(random.nextLong());
+                Random random = new Random();
+                Long num = Math.abs(random.nextLong());
 
-            while(reservaService.listarPorCodigo(num) != null) {
-                num = Math.abs(random.nextLong());
+                while(reservaService.listarPorCodigo(num) != null) {
+                    num = Math.abs(random.nextLong());
+                }
+
+                Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
+
+                long dias = p.getDays();
+
+                r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
+
+                r.setCodigo(num);
+                r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
+                UI.getCurrent().getSession().setAttribute(Reserva.class, r);
+                UI.getCurrent().navigate("PagoView");
+            } else {
+                Notification.show("¡Debe estar registrado!");
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e1) {
+                    Notification.show("Ha ocurrido un error!");
+                }
+                UI.getCurrent().navigate("Login");
             }
-
-            Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
-
-            long dias = p.getDays();
-
-            r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
-
-            r.setCodigo(num);
-            r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
-            UI.getCurrent().getSession().setAttribute(Reserva.class, r);
-            UI.getCurrent().navigate("PagoView");
         });
 
         info.addClickListener(event -> {

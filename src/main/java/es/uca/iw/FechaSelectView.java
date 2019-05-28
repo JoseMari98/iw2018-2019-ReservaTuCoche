@@ -63,22 +63,12 @@ public class FechaSelectView extends FormLayout {
                     Notification.show("¡Debe introducir una ciudad!");
                 } else{
                     if (!fechaInicio.isEmpty() && !fechaFin.isEmpty()) {
-                        if(SecurityUtils.isUserLoggedIn()) {
-                            Reserva r = new Reserva();
-                            UI.getCurrent().getSession().setAttribute(VehiculoCiudad.class,ciudad.getValue());
-                            r.setFechaInicio(fechaInicio.getValue());
-                            r.setFechaFin(fechaFin.getValue());
-                            UI.getCurrent().getSession().setAttribute(Reserva.class, r);
-                            UI.getCurrent().navigate("search");
-                        } else{
-                            Notification.show("¡Debe estar registrado!");
-                            try {
-                                TimeUnit.SECONDS.sleep(1);
-                            } catch (InterruptedException e1) {
-                                Notification.show("Ha ocurrido un error!");
-                            }
-                            UI.getCurrent().navigate("UsuarioView");
-                        }
+                        Reserva r = new Reserva();
+                        UI.getCurrent().getSession().setAttribute(VehiculoCiudad.class,ciudad.getValue());
+                        r.setFechaInicio(fechaInicio.getValue());
+                        r.setFechaFin(fechaFin.getValue());
+                        UI.getCurrent().getSession().setAttribute(Reserva.class, r);
+                        UI.getCurrent().navigate("search");
                     }
                 }
             }
