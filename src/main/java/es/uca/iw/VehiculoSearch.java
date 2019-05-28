@@ -46,110 +46,115 @@ public class VehiculoSearch extends VerticalLayout {
         buscaMarca.setItemLabelGenerator(VehiculoMarca::getMarca);
         buscaModelo.setItemLabelGenerator(VehiculoModelo::getModelo);
 
-        fechaInicio = UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaInicio();
-        fechaFin = UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaFin();
-        VehiculoCiudad ciudad = UI.getCurrent().getSession().getAttribute(VehiculoCiudad.class);
+        try {
+            fechaInicio = UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaInicio();
+            fechaFin = UI.getCurrent().getSession().getAttribute(Reserva.class).getFechaFin();
+            VehiculoCiudad ciudad = UI.getCurrent().getSession().getAttribute(VehiculoCiudad.class);
 
-        final String[] query = {"", ""};
-        ArrayList<Vehiculo> listaVehiculo = new ArrayList<>();
-        ArrayList<VehiculoMarca> listaMarca = new ArrayList<>();
-        ArrayList<VehiculoModelo> listaModelo = new ArrayList<>();
-        for(Vehiculo vehiculo : ChooseDate(reservaService, service.buscarPorCiudad(ciudad),fechaInicio,fechaFin))
-            listaVehiculo.add(vehiculo);
+            final String[] query = {"", ""};
+            ArrayList<Vehiculo> listaVehiculo = new ArrayList<>();
+            ArrayList<VehiculoMarca> listaMarca = new ArrayList<>();
+            ArrayList<VehiculoModelo> listaModelo = new ArrayList<>();
+            for(Vehiculo vehiculo : ChooseDate(reservaService, service.buscarPorCiudad(ciudad),fechaInicio,fechaFin))
+                listaVehiculo.add(vehiculo);
 
-        for (VehiculoMarca marca : serviceMarca.listarMarca()) {
-            listaMarca.add(marca);
-        }
-
-        for (VehiculoModelo modelo : serviceModelo.listarModelo()) {
-            listaModelo.add(modelo);
-        }
-
-        buscaMarca.setItems(listaMarca);
-
-        buscaMarca.addValueChangeListener(event -> {
-            if(buscaMarca.isEmpty()) {
-                query[0] = "";
-                updateList(query, ciudad, precioMax.getValue());
-            } else {
-                query[0] = buscaMarca.getValue().getMarca();
-                updateList(query, ciudad, precioMax.getValue());
+            for (VehiculoMarca marca : serviceMarca.listarMarca()) {
+                listaMarca.add(marca);
             }
-        });
 
-        buscaModelo.setItems(listaModelo);
-
-        buscaModelo.addValueChangeListener( event -> {
-            if (buscaModelo.isEmpty()) {
-                query[1] = "";
-                updateList(query,ciudad, precioMax.getValue());
-            } else {
-                query[1] = buscaModelo.getValue().getModelo();
-                updateList(query,ciudad, precioMax.getValue());
+            for (VehiculoModelo modelo : serviceModelo.listarModelo()) {
+                listaModelo.add(modelo);
             }
-        });
 
-        precioMax.addValueChangeListener(e -> {
-            updateList(query, ciudad, precioMax.getValue());
-        });
+            buscaMarca.setItems(listaMarca);
 
-        gVehiculos.setColumns("marca.marca", "modelo.modelo", "precio");
-
-        gVehiculos.setItems(listaVehiculo);
-
-        HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo, precioMax);
-
-        HorizontalLayout botones = new HorizontalLayout(reserva,info);
-
-        VerticalLayout reservar = new VerticalLayout(gVehiculos, botones);
-
-        VerticalLayout lista = new VerticalLayout(filters, reservar);
-
-        add(lista);
-
-        setSizeFull();
-
-        reserva.addClickListener(event -> {
-            if (SecurityUtils.isUserLoggedIn()) {
-                Reserva r = new Reserva();
-                r.setFechaInicio(fechaInicio);
-                r.setFechaFin(fechaFin);
-
-                r.setVehiculo(gVehiculos.asSingleSelect().getValue());
-                UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
-
-                Random random = new Random();
-                Long num = Math.abs(random.nextLong());
-
-                while(reservaService.listarPorCodigo(num) != null) {
-                    num = Math.abs(random.nextLong());
+            buscaMarca.addValueChangeListener(event -> {
+                if(buscaMarca.isEmpty()) {
+                    query[0] = "";
+                    updateList(query, ciudad, precioMax.getValue());
+                } else {
+                    query[0] = buscaMarca.getValue().getMarca();
+                    updateList(query, ciudad, precioMax.getValue());
                 }
+            });
 
-                Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
+            buscaModelo.setItems(listaModelo);
 
-                long dias = p.getDays();
-
-                r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
-
-                r.setCodigo(num);
-                r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
-                UI.getCurrent().getSession().setAttribute(Reserva.class, r);
-                UI.getCurrent().navigate("PagoView");
-            } else {
-                Notification.show("¡Debe estar registrado!");
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e1) {
-                    Notification.show("Ha ocurrido un error!");
+            buscaModelo.addValueChangeListener( event -> {
+                if (buscaModelo.isEmpty()) {
+                    query[1] = "";
+                    updateList(query,ciudad, precioMax.getValue());
+                } else {
+                    query[1] = buscaModelo.getValue().getModelo();
+                    updateList(query,ciudad, precioMax.getValue());
                 }
-                UI.getCurrent().navigate("UsuarioView");
-            }
-        });
+            });
 
-        info.addClickListener(event -> {
-            UI.getCurrent().getSession().setAttribute(Long.class, gVehiculos.asSingleSelect().getValue().getId());
-            UI.getCurrent().navigate("Info");
-        });
+            precioMax.addValueChangeListener(e -> {
+                updateList(query, ciudad, precioMax.getValue());
+            });
+
+            gVehiculos.setColumns("marca.marca", "modelo.modelo", "precio");
+
+            gVehiculos.setItems(listaVehiculo);
+
+            HorizontalLayout filters = new HorizontalLayout(buscaMarca, buscaModelo, precioMax);
+
+            HorizontalLayout botones = new HorizontalLayout(reserva,info);
+
+            VerticalLayout reservar = new VerticalLayout(gVehiculos, botones);
+
+            VerticalLayout lista = new VerticalLayout(filters, reservar);
+
+            add(lista);
+
+            setSizeFull();
+
+            reserva.addClickListener(event -> {
+                if (SecurityUtils.isUserLoggedIn()) {
+                    Reserva r = new Reserva();
+                    r.setFechaInicio(fechaInicio);
+                    r.setFechaFin(fechaFin);
+
+                    r.setVehiculo(gVehiculos.asSingleSelect().getValue());
+                    UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
+
+                    Random random = new Random();
+                    Long num = Math.abs(random.nextLong());
+
+                    while(reservaService.listarPorCodigo(num) != null) {
+                        num = Math.abs(random.nextLong());
+                    }
+
+                    Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
+
+                    long dias = p.getDays();
+
+                    r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
+
+                    r.setCodigo(num);
+                    r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
+                    UI.getCurrent().getSession().setAttribute(Reserva.class, r);
+                    UI.getCurrent().navigate("PagoView");
+                } else {
+                    Notification.show("¡Debe estar registrado!");
+                    try {
+                        TimeUnit.SECONDS.sleep(1);
+                    } catch (InterruptedException e1) {
+                        Notification.show("Ha ocurrido un error!");
+                    }
+                    UI.getCurrent().navigate("UsuarioView");
+                }
+            });
+
+            info.addClickListener(event -> {
+                UI.getCurrent().getSession().setAttribute(Long.class, gVehiculos.asSingleSelect().getValue().getId());
+                UI.getCurrent().navigate("Info");
+            });
+        } catch (NullPointerException e) {
+            Notification.show("¡No puede mostrarse ningun coche si no elige fechas o ciudad!");
+            UI.getCurrent().navigate("");
+        }
     }
 
     public void updateList( String[] marca, VehiculoCiudad ciudad, Double precio) {

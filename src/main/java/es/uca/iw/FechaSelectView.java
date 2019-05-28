@@ -27,7 +27,6 @@ public class FechaSelectView extends FormLayout {
         fechaInicio = new DatePicker();
         fechaFin = new DatePicker();
         H1 titulo = new H1("Reserva tu Coche");
-        Label aviso = new Label("*Debes estar registrado para buscar!");
         LocalDate now = LocalDate.now();
         fechaInicio.setMin(now);
         fechaInicio.setRequired(true);
@@ -50,7 +49,7 @@ public class FechaSelectView extends FormLayout {
             fechaInicio.setMax(fechaFin.getValue());
 
         });
-        VerticalLayout layout = new VerticalLayout(titulo, aviso, fechaInicio, fechaFin, ciudad, envia);
+        VerticalLayout layout = new VerticalLayout(titulo, fechaInicio, fechaFin, ciudad, envia);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         layout.setAlignItems(FlexComponent.Alignment.END);
         envia.addClickListener(e -> {
