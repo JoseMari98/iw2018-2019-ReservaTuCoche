@@ -3,6 +3,7 @@ package es.uca.iw;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -27,8 +28,15 @@ public class VehiculoTipoGestionView extends AbstractView {
         filterText.setPlaceholder("Filtrar por tipo"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar
         filterText.setValueChangeMode(ValueChangeMode.EAGER); //que se hagan los cambios cuando se escriba
-        filterText.addValueChangeListener(event -> updateList());
+        filterText.addValueChangeListener(event -> {
+            if(vehiculoService.listarVehiculoPorMatricula(filterText.getValue()) != null)
+                updateList();
+            else {
+                filterText.clear();
+                Notification.show("No hay ningun vehiculo con esa matricula", 2000, Notification.Position.MIDDLE);
+            }
 
+        });
         Button addModeloBtn = new Button ("Añade un tipo");
         addModeloBtn.addClickListener(e -> {
             grid.asSingleSelect().clear(); //clear para que borre si habia algo antes

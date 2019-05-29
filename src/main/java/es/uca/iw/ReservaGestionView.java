@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
@@ -12,28 +13,46 @@ import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 @Route(value = "GestionReservas", layout = MainView.class)
 @Secured({"Admin", "Gerente"})
 public class ReservaGestionView extends AbstractView {
     private Grid<Reserva> grid = new Grid<>(Reserva.class);
     private TextField filterText = new TextField();
     private ReservaService service;
+    private Button buscar = new Button("Buscar");
     private Button delete = new Button("Borrar");
     private Binder<Reserva> binder = new Binder<>(Reserva.class);
     private PagoService pagoService;
+    private UsuarioService usuarioService;
 
     @Autowired
-    public ReservaGestionView(ReservaService service, PagoService pagoService) {
+    public ReservaGestionView(ReservaService service, PagoService pagoService, UsuarioService usuarioService) {
         this.service = service;
+        this.usuarioService = usuarioService;
 
-        filterText.setPlaceholder("Filtrar por nombre de marca"); //poner el campo
+        filterText.setPlaceholder("Filtrar por nombre de usuario"); //poner el campo
         filterText.setClearButtonVisible(true); //poner la cruz para borrar
         filterText.setValueChangeMode(ValueChangeMode.EAGER); //que se hagan los cambios cuando se escriba
-        filterText.addValueChangeListener(event -> updateList());
+        buscar.addClickListener(event -> {
+            Usuario usuario = usuarioService.listarPorUsername(filterText.getValue());
+            if(usuario != null && !service.listarPorUsuario(usuario).isEmpty())
+                updateList();
+            else {
+                filterText.clear();
+                Notification.show("No hay ningun vehiculo con esa matricula", 2000, Notification.Position.MIDDLE);
+            }
+        });
+        filterText.addValueChangeListener(e -> {
+            if(filterText.isEmpty())
+                updateList();
+        });
+        buscar.addClickShortcut(Key.ENTER);
+        HorizontalLayout toolbar = new HorizontalLayout(filterText, buscar, delete);
 
-        HorizontalLayout toolbar = new HorizontalLayout(filterText,delete);
-
-        grid.setColumns("vehiculo.matricula", "usuario.username","fechaInicio","fechaFin","precioTotal");
+        grid.setColumns("codigo", "vehiculo.matricula", "usuario.username","fechaInicio","fechaFin","precioTotal");
 
         grid.setSizeFull();
 
@@ -53,7 +72,7 @@ public class ReservaGestionView extends AbstractView {
         if(filterText.isEmpty())
             grid.setItems(service.findAll());
         else
-            grid.setItems(service.listarReservaPorMatricula(filterText.getValue()));
+            grid.setItems(service.listarPorUsuario(usuarioService.listarPorUsername(filterText.getValue())));
 
     }
 
