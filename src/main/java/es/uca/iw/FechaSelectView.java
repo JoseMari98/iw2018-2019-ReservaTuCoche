@@ -54,12 +54,14 @@ public class FechaSelectView extends FormLayout {
         layout.setAlignItems(FlexComponent.Alignment.END);
         envia.addClickListener(e -> {
             if(fechaInicio.isInvalid() || fechaFin.isInvalid() || fechaInicio.isEmpty() || fechaFin.isEmpty()) {
-                Notification.show("¡Algo anda mal con la fecha!");
                 fechaInicio.clear();
                 fechaFin.clear();
+                UI.getCurrent().getPage().reload();
+                Notification.show("¡Algo anda mal con la fecha!");
             } else {
                 if(ciudad.isEmpty()) {
                     Notification.show("¡Debe introducir una ciudad!");
+                    UI.getCurrent().getPage().reload();
                 } else{
                     if (!fechaInicio.isEmpty() && !fechaFin.isEmpty()) {
                         Reserva r = new Reserva();
