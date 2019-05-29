@@ -11,7 +11,7 @@ public class VehiculoModelo {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
+    @NotEmpty(message = "El modelo no puede ser vacio")
     @Column(unique = true)
     private String modelo = "";
 

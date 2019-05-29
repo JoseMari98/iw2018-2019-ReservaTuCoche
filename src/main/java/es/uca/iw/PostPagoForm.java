@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -49,12 +50,17 @@ public class PostPagoForm extends FormLayout {
         });
         dialog.add(confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        save.addClickShortcut(Key.ENTER);
+        confirmButton.addClickShortcut(Key.ENTER);
+
         save.addClickListener(event -> {
-            if(reservaService.listarPorCodigo(Long.parseLong(codigo.getValue())) != null)
-                dialog.open();
-            else {
-                codigo.clear();
-                Notification.show("Codigo no valido", 3000, Notification.Position.MIDDLE);
+            if(codigo.getValue() != "" && !estadoCoche.isInvalid()) {
+                if (reservaService.listarPorCodigo(Long.parseLong(codigo.getValue())) != null)
+                    dialog.open();
+                else {
+                    codigo.clear();
+                    Notification.show("Codigo no valido", 3000, Notification.Position.MIDDLE);
+                }
             }
         });
     }

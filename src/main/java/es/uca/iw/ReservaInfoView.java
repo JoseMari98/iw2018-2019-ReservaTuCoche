@@ -1,6 +1,7 @@
 package es.uca.iw;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
@@ -40,6 +41,8 @@ public class ReservaInfoView extends AbstractView {
             VerticalLayout layout = new VerticalLayout(etiqueta2, marca, codigo, fechas, precio, volver);
             add(layout);
             volver.addClickListener(e -> UI.getCurrent().navigate(""));
+            volver.addClickShortcut(Key.ENTER);
+
         } else
             UI.getCurrent().navigate("");
     }

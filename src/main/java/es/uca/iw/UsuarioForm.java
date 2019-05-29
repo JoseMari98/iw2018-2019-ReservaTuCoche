@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -69,6 +70,7 @@ public class UsuarioForm extends FormLayout {
         });
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(username, nombre, apellido1, apellido2, dni, telefono, email, password, save);
+        save.addClickShortcut(Key.ENTER);
 
         binder.bindInstanceFields(this);
 
@@ -85,6 +87,7 @@ public class UsuarioForm extends FormLayout {
         dialog.add(confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
         save.addClickListener(event -> dialog.open());
+        confirmButton.addClickShortcut(Key.ENTER);
     }
 
     public void save() {

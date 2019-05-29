@@ -1,20 +1,17 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.formlayout.FormLayout;
-
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 @Route(value = "", layout = MainView.class)
 public class FechaSelectView extends FormLayout {
@@ -36,6 +33,7 @@ public class FechaSelectView extends FormLayout {
         fechaInicio.setLabel("Fecha de inicio");
         fechaFin.setLabel("Fecha final");
         ciudad.setRequired(true);
+        envia.addClickShortcut(Key.ENTER);
 
         fechaFin.addValueChangeListener(e -> {
             if(fechaInicio.isEmpty()) {
@@ -56,12 +54,10 @@ public class FechaSelectView extends FormLayout {
             if(fechaInicio.isInvalid() || fechaFin.isInvalid() || fechaInicio.isEmpty() || fechaFin.isEmpty()) {
                 fechaInicio.clear();
                 fechaFin.clear();
-                UI.getCurrent().getPage().reload();
-                Notification.show("¡Algo anda mal con la fecha!");
+                Notification.show("¡Algo anda mal con la fecha!", 3000, Notification.Position.MIDDLE);
             } else {
                 if(ciudad.isEmpty()) {
-                    Notification.show("¡Debe introducir una ciudad!");
-                    UI.getCurrent().getPage().reload();
+                    Notification.show("¡Debe introducir una ciudad!", 3000, Notification.Position.MIDDLE);
                 } else{
                     if (!fechaInicio.isEmpty() && !fechaFin.isEmpty()) {
                         Reserva r = new Reserva();

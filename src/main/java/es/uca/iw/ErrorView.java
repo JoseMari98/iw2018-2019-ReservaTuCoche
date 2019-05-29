@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
@@ -15,6 +16,8 @@ public class ErrorView extends VerticalLayout {
         Button buttonInside = new Button("Cerrar");
         Notification notification = new Notification(content, buttonInside);
         notification.open();
+        buttonInside.addClickShortcut(Key.ENTER);
+
         buttonInside.addClickListener(event -> {
             UI.getCurrent().navigate("");
             notification.close();

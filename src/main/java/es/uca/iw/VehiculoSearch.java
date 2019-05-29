@@ -58,6 +58,8 @@ public class VehiculoSearch extends VerticalLayout {
             for(Vehiculo vehiculo : ChooseDate(reservaService, service.buscarPorCiudad(ciudad),fechaInicio,fechaFin))
                 listaVehiculo.add(vehiculo);
 
+            precioMax.setStep(0.01  );
+
             for (VehiculoMarca marca : serviceMarca.listarMarca()) {
                 listaMarca.add(marca);
             }
@@ -130,7 +132,8 @@ public class VehiculoSearch extends VerticalLayout {
 
                     long dias = p.getDays();
 
-                    r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
+                    if(gVehiculos.asSingleSelect().getValue() != null)
+                        r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
 
                     r.setCodigo(num);
                     r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
@@ -148,8 +151,10 @@ public class VehiculoSearch extends VerticalLayout {
             });
 
             info.addClickListener(event -> {
-                UI.getCurrent().getSession().setAttribute(Long.class, gVehiculos.asSingleSelect().getValue().getId());
-                UI.getCurrent().navigate("Info");
+                if(gVehiculos.asSingleSelect().getValue() != null) {
+                    UI.getCurrent().getSession().setAttribute(Long.class, gVehiculos.asSingleSelect().getValue().getId());
+                    UI.getCurrent().navigate("Info");
+                }
             });
         } catch (NullPointerException e) {
             Notification.show("¡No puede mostrarse ningun coche si no elige fechas o ciudad!");

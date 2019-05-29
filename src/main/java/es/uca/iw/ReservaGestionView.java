@@ -2,6 +2,7 @@ package es.uca.iw;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -44,8 +45,9 @@ public class ReservaGestionView extends AbstractView {
 
         grid.asSingleSelect().addValueChangeListener(event -> setReserva(grid.asSingleSelect().getValue()));
 
-        delete.addClickListener(event -> delete());
-    }
+        delete.addClickListener(event -> {
+            if(binder.getBean() != null)
+                delete();});    }
 
     public void updateList() {
         if(filterText.isEmpty())
@@ -61,8 +63,12 @@ public class ReservaGestionView extends AbstractView {
 
     public void delete() {
         Reserva reserva = binder.getBean();
-        DevolverFianza.devolver(pagoService, reserva);
-        service.delete(reserva);
-        updateList();
+        if(binder.validate().isOk()) {
+            DevolverFianza.devolver(pagoService, reserva);
+            service.delete(reserva);
+            updateList();
+        }
+        else
+            Notification.show("Borrado invalido", 5000, Notification.Position.MIDDLE);
     }
 }

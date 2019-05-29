@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -44,6 +45,12 @@ public class VehiculoForm extends FormLayout {
         this.serviceModelo = serviceModelo;
         this.serviceTipo = serviceTipo;
         precio.setSuffixComponent(new Span("€"));
+        precio.setMin(0);
+        precio.setMax(10000);
+        puertas.setMin(0);
+        puertas.setMax(5);
+        plazas.setMin(0);
+        plazas.setMax(7);
         precio.setStep(0.01);
         matricula.setRequired(true);
         tipo.setRequired(true);
@@ -66,6 +73,8 @@ public class VehiculoForm extends FormLayout {
         ac.setItems(VehiculoAC.values());
         motor.setItems(VehiculoMotor.values());
         ciudad.setItems(VehiculoCiudad.values());
+        save.addClickShortcut(Key.ENTER);
+
 
         HorizontalLayout buttons = new HorizontalLayout(save, delete);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -73,8 +82,12 @@ public class VehiculoForm extends FormLayout {
 
         binder.bindInstanceFields(this);
 
-        save.addClickListener(event -> save());
-        delete.addClickListener(event -> delete());
+        save.addClickListener(event -> {
+            if(binder.getBean() != null)
+                save();});
+        delete.addClickListener(event -> {
+            if(binder.getBean() != null)
+                delete();});
     }
 
     public void setVehiculo(Vehiculo vehiculo) {
@@ -103,9 +116,12 @@ public class VehiculoForm extends FormLayout {
 
     public void delete() {
         Vehiculo vehiculo = binder.getBean();
-        SustitucionVehiculo.sustituir(reservaService, vehiculo, serviceVehiculo, pagoService);
-        serviceVehiculo.borrarVehiculo(vehiculo);
-        this.vehiculoView.updateList();
-        setVehiculo(null);
+        if(binder.validate().isOk()) {
+            SustitucionVehiculo.sustituir(reservaService, vehiculo, serviceVehiculo, pagoService);
+            serviceVehiculo.borrarVehiculo(vehiculo);
+            this.vehiculoView.updateList();
+            setVehiculo(null);
+        } else
+            Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
     }
 }

@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -39,11 +40,16 @@ public class VehiculoTipoForm extends FormLayout {
         marca.setRequired(true);
         marca.setItems(vehiculoMarcaService.listarMarca());
         marca.setItemLabelGenerator(VehiculoMarca::getMarca);
+        save.addClickShortcut(Key.ENTER);
 
         binder.bindInstanceFields(this);
 
-        save.addClickListener(event -> save());
-        delete.addClickListener(event -> delete());
+        save.addClickListener(event -> {
+            if(binder.getBean() != null)
+                save();});
+        delete.addClickListener(event -> {
+            if(binder.getBean() != null)
+                delete();});
     }
 
     public void setTipo(VehiculoTipo tipo) {
@@ -60,7 +66,7 @@ public class VehiculoTipoForm extends FormLayout {
 
     public void save() {
         VehiculoTipo tipo = binder.getBean();
-        if(binder.isValid()) {
+        if(binder.validate().isOk() && !binder.getBean().getTipo().equals("") && binder.getBean().getMarca() != null) {
             serviceTipo.guardarTipo(tipo);
             this.vehiculoTipoView.updateList();
             setTipo(null);
@@ -72,12 +78,16 @@ public class VehiculoTipoForm extends FormLayout {
 
     public void delete() {
         VehiculoTipo tipo = binder.getBean();
-        for(Vehiculo v : vehiculoService.listarPorTipo(tipo)) {
-            SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
-            vehiculoService.borrarVehiculo(v);
-        }
-        serviceTipo.borrarTipo(tipo);
-        this.vehiculoTipoView.updateList();
-        setTipo(null);
+        if(binder.validate().isOk() && !binder.getBean().getTipo().equals("") && binder.getBean().getMarca() != null) {
+            for (Vehiculo v : vehiculoService.listarPorTipo(tipo)) {
+                SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
+                vehiculoService.borrarVehiculo(v);
+            }
+            serviceTipo.borrarTipo(tipo);
+            this.vehiculoTipoView.updateList();
+            setTipo(null);
+        } else
+            Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
+
     }
 }

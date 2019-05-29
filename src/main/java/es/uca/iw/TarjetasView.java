@@ -66,7 +66,9 @@ public class TarjetasView extends AbstractView {
             dialog.add(confirmButton, cancelButton);
             cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
-            delete.addClickListener(event -> dialog.open());
+            delete.addClickListener(event -> {
+                if(binder.getBean() != null)
+                    dialog.open(); });
         } else
             UI.getCurrent().navigate("");
     }

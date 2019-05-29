@@ -1,6 +1,7 @@
 package es.uca.iw;
 
 import com.vaadin.flow.component.Html;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
@@ -47,6 +48,8 @@ public class VehiculoInfoView extends VerticalLayout {
             UI.getCurrent().navigate("");
         }
         volver.addClickListener(e -> UI.getCurrent().navigate("search"));
+        volver.addClickShortcut(Key.ENTER);
+
     }
 
 }

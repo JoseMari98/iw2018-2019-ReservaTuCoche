@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -30,11 +31,16 @@ public class VehiculoModeloForm extends FormLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(modelo, buttons);
         modelo.setRequired(true);
+        save.addClickShortcut(Key.ENTER);
 
         binder.bindInstanceFields(this);
 
-        save.addClickListener(event -> save());
-        delete.addClickListener(event -> delete());
+        save.addClickListener(event -> {
+            if(binder.getBean() != null)
+                save();});
+        delete.addClickListener(event -> {
+            if(binder.getBean() != null)
+                delete();});
     }
 
     public void setModelo(VehiculoModelo modelo) {
@@ -45,13 +51,13 @@ public class VehiculoModeloForm extends FormLayout {
         }
         else {
             setVisible(true);
-            this.modelo.focus();
+            //this.modelo.focus();
         }
     }
 
     public void save() {
         VehiculoModelo modelo = binder.getBean();
-        if(binder.isValid()) {
+        if(binder.validate().isOk() && !binder.getBean().getModelo().equals("")) {
             serviceModelo.guardarModelo(modelo);
             this.vehiculoModeloView.updateList();
             setModelo(null);
@@ -63,12 +69,16 @@ public class VehiculoModeloForm extends FormLayout {
 
     public void delete() {
         VehiculoModelo modelo = binder.getBean();
-        for(Vehiculo v : vehiculoService.listarVehiculoPorModelo(modelo.getModelo())) {
-            SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
-            vehiculoService.borrarVehiculo(v);
-        }
-        serviceModelo.borrarModelo(modelo);
-        this.vehiculoModeloView.updateList();
-        setModelo(null);
+        if(binder.validate().isOk() && !binder.getBean().getModelo().equals("")) {
+            for (Vehiculo v : vehiculoService.listarVehiculoPorModelo(modelo.getModelo())) {
+                SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
+                vehiculoService.borrarVehiculo(v);
+            }
+            serviceModelo.borrarModelo(modelo);
+            this.vehiculoModeloView.updateList();
+            setModelo(null);
+        } else
+            Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
+
     }
 }

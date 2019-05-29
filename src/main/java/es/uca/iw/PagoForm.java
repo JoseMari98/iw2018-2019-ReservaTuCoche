@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -81,6 +82,8 @@ public class PagoForm extends FormLayout {
         });
         dialog.add(label, confirmButton, cancelButton);
         cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        save.addClickShortcut(Key.ENTER);
+        confirmButton.addClickShortcut(Key.ENTER);
         save.addClickListener(event -> dialog.open());
     }
 

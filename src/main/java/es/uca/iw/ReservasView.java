@@ -62,7 +62,9 @@ public class ReservasView extends AbstractView {
 
             dialog.add(label, confirmButton, cancelButton);
             cancelButton.addThemeVariants(ButtonVariant.LUMO_ERROR);
-            delete.addClickListener(e -> dialog.open());
+            delete.addClickListener(e -> {
+                if(binder.getBean() != null)
+                    dialog.open(); });
         } else
             UI.getCurrent().navigate("");
     }

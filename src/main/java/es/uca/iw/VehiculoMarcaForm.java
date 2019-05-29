@@ -1,5 +1,6 @@
 package es.uca.iw;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -33,14 +34,21 @@ public class VehiculoMarcaForm extends FormLayout {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(marca, buttons);
         marca.setRequired(true);
+        save.addClickShortcut(Key.ENTER);
 
         binder.bindInstanceFields(this);
 
-        save.addClickListener(event -> save());
-        delete.addClickListener(event -> delete());
+        save.addClickListener(event -> {
+            if (binder.getBean() != null)
+                this.save();
+        });
+        delete.addClickListener(event -> {
+            if (binder.getBean() != null)
+                delete();
+        });
     }
 
-    public void setMarca(VehiculoMarca marca) {
+        public void setMarca(VehiculoMarca marca) {
         binder.setBean(marca);
 
         if(marca == null) {
@@ -54,7 +62,7 @@ public class VehiculoMarcaForm extends FormLayout {
 
     public void save() {
         VehiculoMarca marca = binder.getBean();
-        if(binder.isValid()) {
+        if(binder.validate().isOk() && !binder.getBean().getMarca().equals("")) {
             serviceMarca.guardarMarca(marca);
             this.vehiculoMarcaView.updateList();
             setMarca(null);
@@ -66,15 +74,19 @@ public class VehiculoMarcaForm extends FormLayout {
 
     public void delete() {
         VehiculoMarca marca = binder.getBean();
-        for(Vehiculo v : vehiculoService.listarVehiculoPorMarca(marca.getMarca())) {
-            SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
-            vehiculoService.borrarVehiculo(v);
-        }
+        if(binder.validate().isOk() && !binder.getBean().getMarca().equals("")) {
+            for(Vehiculo v : vehiculoService.listarVehiculoPorMarca(marca.getMarca())) {
+                SustitucionVehiculo.sustituir(reservaService, v, vehiculoService, pagoService);
+                vehiculoService.borrarVehiculo(v);
+            }
 
-        for(VehiculoTipo tipo : serviceTipo.listarPorMarca(marca))
-            serviceTipo.borrarTipo(tipo);
-        serviceMarca.borrarMarca(marca);
-        this.vehiculoMarcaView.updateList();
-        setMarca(null);
+            for(VehiculoTipo tipo : serviceTipo.listarPorMarca(marca))
+                serviceTipo.borrarTipo(tipo);
+            serviceMarca.borrarMarca(marca);
+            this.vehiculoMarcaView.updateList();
+            setMarca(null);
+        } else
+            Notification.show("Rellene los campos", 5000, Notification.Position.MIDDLE);
+
     }
 }
