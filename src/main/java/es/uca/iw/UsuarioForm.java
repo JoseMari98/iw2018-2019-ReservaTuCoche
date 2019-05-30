@@ -30,7 +30,7 @@ public class UsuarioForm extends FormLayout {
     private Usuario usuario;
 
     public UsuarioForm(UsuarioView usuarioView, UsuarioService service) {
-        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null/* && service.listarPorUsername(UI.getCurrent().getSession().getAttribute(Usuario.class)) != null*/) {
+        if(UI.getCurrent().getSession().getAttribute(Usuario.class) != null) {
             usuario = service.listarPorUsername(UI.getCurrent().getSession().getAttribute(Usuario.class).getUsername());
             usuario.setPassword("");
             binder.setBean(usuario);
@@ -111,6 +111,7 @@ public class UsuarioForm extends FormLayout {
                 Notification.show("Modificado con exito", 3000, Notification.Position.MIDDLE);
                 MailNotificationService.enviaEmail(usuario.getEmail(), "Modificacion realizado con exito",
                         "Has modificado tus credenciales " + usuario.getUsername());
+                UI.getCurrent().getSession().setAttribute(Usuario.class, usuario);
                 UI.getCurrent().navigate("");
             } else {
                 Notification.show("Registrado con exito", 3000, Notification.Position.MIDDLE);

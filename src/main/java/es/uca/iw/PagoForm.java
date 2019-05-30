@@ -61,7 +61,11 @@ public class PagoForm extends FormLayout {
         seguro.setLabel("Seguro para el vehiculo, 150 euros mas");
         seguro.setRequired(true);
         seguro.setItems(ReservaSeguro.values());
-        seguro.setValue(ReservaSeguro.No);
+        if(UI.getCurrent().getSession().getAttribute(Reserva.class).getSeguro() == null) {
+            seguro.setValue(ReservaSeguro.No);
+        } else {
+            seguro.setValue(UI.getCurrent().getSession().getAttribute(Reserva.class).getSeguro());
+        }
         seguro.addValueChangeListener(e -> cambioPrecio(seguro.getValue()));
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(numeroTarjeta, numeroSeguridad, fechaCaducidad, seguro, precio, save);
