@@ -113,41 +113,46 @@ public class VehiculoSearch extends VerticalLayout {
             setSizeFull();
 
             reserva.addClickListener(event -> {
-                if (SecurityUtils.isUserLoggedIn()) {
-                    Reserva r = new Reserva();
-                    r.setFechaInicio(fechaInicio);
-                    r.setFechaFin(fechaFin);
+                if(gVehiculos.asSingleSelect().getValue() != null) {
+                    if (SecurityUtils.isUserLoggedIn()) {
+                        Reserva r = new Reserva();
+                        r.setFechaInicio(fechaInicio);
+                        r.setFechaFin(fechaFin);
 
-                    r.setVehiculo(gVehiculos.asSingleSelect().getValue());
-                    UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
+                        r.setVehiculo(gVehiculos.asSingleSelect().getValue());
+                        UI.getCurrent().getSession().setAttribute(Vehiculo.class, gVehiculos.asSingleSelect().getValue());
 
-                    Random random = new Random();
-                    Long num = Math.abs(random.nextLong());
+                        Random random = new Random();
+                        Long num = Math.abs(random.nextLong());
 
-                    while(reservaService.listarPorCodigo(num) != null) {
-                        num = Math.abs(random.nextLong());
-                    }
+                        while(reservaService.listarPorCodigo(num) != null) {
+                            num = Math.abs(random.nextLong());
+                        }
 
-                    Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
+                        Period p = Period.between(r.getFechaInicio(),r.getFechaFin());
 
-                    long dias = p.getDays();
+                        long dias = p.getDays();
 
-                    if(gVehiculos.asSingleSelect().getValue() != null)
+
                         r.setPrecioTotal(gVehiculos.asSingleSelect().getValue().getPrecio() * ((dias) + (p.getMonths() * 30) + (p.getYears() *365)));
 
-                    r.setCodigo(num);
-                    r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
-                    UI.getCurrent().getSession().setAttribute(Reserva.class, r);
-                    UI.getCurrent().navigate("PagoView");
-                } else {
-                    Notification.show("¡Debe estar registrado!");
-                    try {
-                        TimeUnit.SECONDS.sleep(1);
-                    } catch (InterruptedException e1) {
-                        Notification.show("Ha ocurrido un error!");
+                        r.setCodigo(num);
+                        r.setUsuario(UI.getCurrent().getSession().getAttribute(Usuario.class));
+                        UI.getCurrent().getSession().setAttribute(Reserva.class, r);
+                        UI.getCurrent().navigate("PagoView");
+                    } else {
+                        Notification.show("¡Debe estar registrado!");
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException e1) {
+                            Notification.show("Ha ocurrido un error!");
+                        }
+                        UI.getCurrent().navigate("UsuarioView");
                     }
-                    UI.getCurrent().navigate("UsuarioView");
+                } else {
+                    Notification.show("¡Debe seleccionar un vehiculo!");
                 }
+
             });
 
             info.addClickListener(event -> {
