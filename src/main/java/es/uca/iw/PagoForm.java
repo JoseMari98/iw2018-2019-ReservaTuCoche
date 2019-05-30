@@ -26,6 +26,7 @@ public class PagoForm extends FormLayout {
     private ReservaService reservaService;
     private TarjetaCreditoService tarjetaService;
     H1 precio = new H1(Double.toString(UI.getCurrent().getSession().getAttribute(Reserva.class).getPrecioTotal()) + "€");
+    private Double precioTotal;
 
 
     public PagoForm(PagoView pagoView, PagoService pagoService, TarjetaCreditoService tarjetaService, ReservaService reservaService) {
@@ -64,7 +65,10 @@ public class PagoForm extends FormLayout {
         if(UI.getCurrent().getSession().getAttribute(Reserva.class).getSeguro() == null) {
             seguro.setValue(ReservaSeguro.No);
         } else {
-            seguro.setValue(UI.getCurrent().getSession().getAttribute(Reserva.class).getSeguro());
+            if(UI.getCurrent().getSession().getAttribute(Reserva.class).getSeguro() == ReservaSeguro.No)
+                seguro.setValue(ReservaSeguro.No);
+            else
+                seguro.setValue(ReservaSeguro.Si);
         }
         seguro.addValueChangeListener(e -> cambioPrecio(seguro.getValue()));
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -128,11 +132,13 @@ public class PagoForm extends FormLayout {
         if(ReservaSeguro.Si == reservaSeguro) {
             this.remove(precio, save);
             UI.getCurrent().getSession().getAttribute(Reserva.class).setPrecioTotal(UI.getCurrent().getSession().getAttribute(Reserva.class).getPrecioTotal() + 150.0);
+            UI.getCurrent().getSession().getAttribute(Reserva.class).setSeguro(ReservaSeguro.Si);
             precio = new H1(Double.toString(UI.getCurrent().getSession().getAttribute(Reserva.class).getPrecioTotal()) + "€");
             this.add(precio, save);
         } else {
             this.remove(precio, save);
             UI.getCurrent().getSession().getAttribute(Reserva.class).setPrecioTotal(UI.getCurrent().getSession().getAttribute(Reserva.class).getPrecioTotal() - 150.0);
+            UI.getCurrent().getSession().getAttribute(Reserva.class).setSeguro(ReservaSeguro.No);
             precio = new H1(Double.toString(UI.getCurrent().getSession().getAttribute(Reserva.class).getPrecioTotal()) + "€");
             this.add(precio, save);
         }
